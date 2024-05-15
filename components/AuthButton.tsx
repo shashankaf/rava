@@ -1,6 +1,9 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import localFont from "next/font/local";
+
+const shasenem = localFont({ src: "/../app/shasenem.ttf" });
 
 export default async function AuthButton() {
   const supabase = createClient();
@@ -18,20 +21,20 @@ export default async function AuthButton() {
   };
 
   return user ? (
-    <div className="flex items-center gap-4">
+    <div className={`${shasenem.className} flex items-center gap-4`}>
       Hey, {user.email}!
       <form action={signOut}>
-        <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
-          Logout
+        <button className="px-4 py-[2px] rounded-lg bg-indigo-400 hover:bg-indigo-600 transition duration-500 ease-in-out text-white text-lg">
+          دەرچوون لە ئەکاونت
         </button>
       </form>
     </div>
   ) : (
     <Link
       href="/login"
-      className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
+      className="px-4 py-[2px] rounded-lg bg-indigo-400 hover:bg-indigo-600 transition duration-500 ease-in-out text-white"
     >
-      Login
+      چوونە ناوەوە
     </Link>
   );
 }

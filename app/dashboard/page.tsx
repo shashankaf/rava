@@ -1,9 +1,9 @@
-import AuthButton from "@/components/AuthButton";
-import { createClient } from "@/utils/supabase/server";
-import Header from "@/components/Header";
 import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import AuthButton from "@/components/AuthButton";
+import Header from "@/components/Header";
 
-export default async function ProtectedPage() {
+async function Home() {
   const supabase = createClient();
 
   const {
@@ -48,6 +48,8 @@ export default async function ProtectedPage() {
           </a>
         </p>
       </footer>
-    </div>
-  );
+      </div>
+      )
 }
+
+      export default Home;

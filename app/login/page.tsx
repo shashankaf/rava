@@ -25,7 +25,7 @@ export default function Login({
       return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect("/protected");
+    return redirect("/dashboard");
   };
 
   const signUp = async (formData: FormData) => {
@@ -52,11 +52,12 @@ export default function Login({
   };
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
+    <div dir="rtl" className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
       <Link
         href="/"
-        className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
+        className="absolute left-8 top-8 py-2 px-4 rounded-md no-underlin flex text-gray-900 items-center group text-sm"
       >
+        گەڕانەوە
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -71,24 +72,23 @@ export default function Login({
         >
           <polyline points="15 18 9 12 15 6" />
         </svg>{" "}
-        Back
       </Link>
 
-      <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
+      <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-gray-900">
         <label className="text-md" htmlFor="email">
-          Email
+          ئیمەیل
         </label>
         <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
+          className="rounded-md px-4 py-2 border mb-6 input"
           name="email"
           placeholder="you@example.com"
           required
         />
-        <label className="text-md" htmlFor="password">
-          Password
+        <label className="text-md text-gray-900" htmlFor="password">
+          وشەی نهێنی
         </label>
         <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
+          className="rounded-md px-4 py-2 border mb-6 input"
           type="password"
           name="password"
           placeholder="••••••••"
@@ -96,20 +96,20 @@ export default function Login({
         />
         <SubmitButton
           formAction={signIn}
-          className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2"
+          className="rounded-md px-4 py-2 mb-2 btn btn-primary text-white"
           pendingText="Signing In..."
         >
-          Sign In
+          چوونە ژوورەوە
         </SubmitButton>
-        <SubmitButton
+        {/* <SubmitButton
           formAction={signUp}
           className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"
           pendingText="Signing Up..."
         >
           Sign Up
-        </SubmitButton>
+        </SubmitButton> */}
         {searchParams?.message && (
-          <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
+          <p className="mt-4 p-4  text-center">
             {searchParams.message}
           </p>
         )}
