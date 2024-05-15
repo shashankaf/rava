@@ -5,7 +5,7 @@ import localFont from "next/font/local";
 
 const rudaw = localFont({ src: "/../../app/rudaw.ttf" });
 const ErrorModal = () => {
-  const [errors, setErrors] = useAtom<string[]>(errorsAtom);
+  const [errors, setErrors] = useAtom(errorsAtom);
   const offError = () => {
     setErrors([])
   }
