@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${goran.className} w-full bg-white`}>
-      <body dir="rtl" className="bg-white ">
+      <body dir="rtl" className="bg-white">
         <div className="max-w-[1200px] mx-auto">
         <Navbar />
         <main dir="rtl" className="min-h-screen flex flex-col items-center">
