@@ -1,11 +1,12 @@
-import { errorsAtom } from "@/lib/store";
-import { useAtom } from "jotai";
 import React from "react";
 import localFont from "next/font/local";
 
 const rudaw = localFont({ src: "/../../app/rudaw.ttf" });
-const ErrorModal = () => {
-  const [errors, setErrors] = useAtom(errorsAtom);
+interface errorsProps {
+  errors: string[],
+  setErrors: React.Dispatch<React.SetStateAction<string[]>>
+} 
+const ErrorModal = ({errors, setErrors}: errorsProps) => {
   const offError = () => {
     setErrors([])
   }

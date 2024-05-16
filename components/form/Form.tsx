@@ -4,10 +4,9 @@ import React, { useEffect, useState } from "react";
 import Heading from "../Heading";
 import Input from "./Input";
 import Select from "./Select";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import {
   addressAtom,
-  errorsAtom,
   healthAtom,
   nameAtom,
   phoneAtom,
@@ -58,7 +57,7 @@ const Form = () => {
     null,
   );
   const [teacher] = useAtom(teacherAtom);
-  const [errors, setErrors] = useAtom<string[] | any[]>(errorsAtom);
+  const [errors, setErrors] = useState<string[]>([]);
 
   const fetch_ragaz_data = async () => {
     const data = await ragaz_fetcher();
@@ -111,10 +110,11 @@ const Form = () => {
   }, []);
 
   const handleError = (errorMessage: string) => {
-    setErrors((prevErrors) => [...prevErrors, errorMessage]);
+    setErrors((prev) => [...prev, errorMessage]);
   };
 
   const handleSave = async () => {
+    console.log(clas, course)
     const info = {
       name,
       class: clas?.id,
@@ -139,6 +139,10 @@ const Form = () => {
     }
     if (course === null) {
       const msg = "تکایە خولێک هەڵبژێرە";
+      handleError(msg);
+    }
+    if (teacher.length === 0) {
+      const msg = "تکایە مامۆستایەک یان زیاتر هەڵبژێرە";
       handleError(msg);
     }
     if (errors.length > 0) {
@@ -224,7 +228,7 @@ const Form = () => {
         </div>
       </div>
       <div className="m-2">
-      <ErrorModal />
+        <ErrorModal errors={errors} setErrors={setErrors} />
       </div>
       <div className="flex justify-center my-4">
         <button
