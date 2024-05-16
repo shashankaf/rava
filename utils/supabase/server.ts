@@ -34,5 +34,3 @@ export const createClient = () => {
     },
   );
 };
-
-export const supabase = createClient();
