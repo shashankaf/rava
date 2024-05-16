@@ -18,7 +18,7 @@ async function TeachersPage() {
       <div className="flex flex-row justify-center flex-wrap gap-4">
         {teachers.map((item) => {
           return (
-            <div>
+            <div key={item.id}>
               <SingleTeacher
                 title={item.name}
                 alt={item.name}
