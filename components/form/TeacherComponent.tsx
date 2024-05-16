@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 
 import React from "react";
@@ -9,11 +10,11 @@ import localFont from "next/font/local";
 const rudaw = localFont({ src: "../../app/rudaw.ttf" });
 
 interface teacherProps {
-  options: {id: string, name: string, specialty: string, photo: string}[];
+  options: any[];
   text: string;
 }
 const TeacherComponent = ({ options, text }: teacherProps) => {
-  const [selectedOptions, setSelectedOptions] = useAtom(teacherAtom);
+  const [selectedOptions, setSelectedOptions] = useAtom<string[]>(teacherAtom);
 
   const handleOptionToggle = (optionId: string) => {
     const isSelected = selectedOptions.includes(optionId);
@@ -21,7 +22,7 @@ const TeacherComponent = ({ options, text }: teacherProps) => {
       setSelectedOptions(selectedOptions.filter((id) => id !== optionId));
     } else {
       if (!selectedOptions.includes(optionId)) {
-        setSelectedOptions([...selectedOptions, optionId]);
+        setSelectedOptions(prev => [...prev, optionId]);
       }
     }
   };

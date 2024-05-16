@@ -1,18 +1,19 @@
 import React from "react";
 
 interface teacherProps {
-  image: string,
-  specialty: string,
-  name: string,
-  onClick: () => void
+  image: string;
+  specialty: string;
+  name: string;
+  onClick: () => void;
 }
-const TeacherUI = ({image, specialty, name, onClick}:teacherProps) => {
+const TeacherUI = ({ image, specialty, name, onClick }: teacherProps) => {
   const handleClick = () => {
-    onClick()
-  }
+    onClick();
+  };
   return (
     <>
-      <div  className="relative grid h-[20rem] w-full 
+      <div
+        className="relative grid h-[20rem] w-full 
                        max-w-[16rem] flex-col items-end 
                        justify-center overflow-hidden rounded-xl 
                        bg-white text-center
@@ -23,8 +24,7 @@ const TeacherUI = ({image, specialty, name, onClick}:teacherProps) => {
         <div
           className="absolute inset-0 m-0 h-full w-full overflow-hidden rounded-none bg-transparent bg-cover"
           style={{
-            backgroundImage:
-              `url(${image})`,
+            backgroundImage: `url(${image})`,
           }}
         >
           <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-black/20 via-black/30"></div>
