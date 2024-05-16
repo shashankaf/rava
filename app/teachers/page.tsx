@@ -1,17 +1,23 @@
-import React from "react";
+"use client"
+
+import React, { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase/server";
 import SingleTeacher from "@/components/teachers/SingleTeacher";
 import Heading from "@/components/Heading";
 
-const fetchTeachers = async () => {
-  const { error, data } = await supabase.from("teacher").select();
-  if (error) {
-    throw Error;
-  }
-  return data;
-};
-async function TeachersPage() {
-  const teachers = await fetchTeachers();
+function TeachersPage() {
+  const [teachers, setTeachers] = useState<any[]>([]);
+  const fetchTeachers = async () => {
+    const { error, data } = await supabase.from("teacher").select();
+    if (error) {
+      throw Error;
+    }
+    setTeachers(data);
+  };
+
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
   return (
     <div className="mt-24">
       <Heading text="مامۆستایانی راڤە" />
