@@ -1,10 +1,11 @@
+"use client";
+
 import React from "react";
-import Nav from "@/components/Navbar";
 import Image from "next/image";
 import Title from "@/components/Title";
 import Form from "@/components/form/Form";
 
-export default async function Index() {
+export default function Index() {
   const logo = "https://grocviikgcjxaxnkdvrv.supabase.co/storage/v1/object/public/general/logo2.png?t=2024-05-12T00%3A26%3A34.309Z"
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center z-2">
