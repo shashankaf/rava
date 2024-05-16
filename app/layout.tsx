@@ -1,9 +1,9 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
+import Footer from "../components/Footer";
 import localFont from "next/font/local";
 
 const goran = localFont({ src: "./goran.ttf" });
-const shasenem = localFont({ src: "./shasenem.ttf" });
 
 const defaultUrl = process.env.RAVA_URL
   ? `${process.env.RAVA_URL}`
@@ -23,11 +23,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${goran.className} w-full bg-white`}>
-      <body dir="rtl" className="bg-white max-w-[1200px] mx-auto">
+      <body dir="rtl" className="bg-white ">
+        <div className="max-w-[1200px] mx-auto">
         <Navbar />
         <main dir="rtl" className="min-h-screen flex flex-col items-center">
           {children}
         </main>
+        </div>
+        <Footer />
       </body>
     </html>
   );
