@@ -9,13 +9,13 @@ import localFont from "next/font/local";
 const rudaw = localFont({ src: "../../app/rudaw.ttf" });
 
 interface teacherProps {
-  options: any[];
+  options: {id: string, name: string, specialty: string, photo: string}[];
   text: string;
 }
 const TeacherComponent = ({ options, text }: teacherProps) => {
   const [selectedOptions, setSelectedOptions] = useAtom(teacherAtom);
 
-  const handleOptionToggle = (optionId) => {
+  const handleOptionToggle = (optionId: string) => {
     const isSelected = selectedOptions.includes(optionId);
     if (isSelected) {
       setSelectedOptions(selectedOptions.filter((id) => id !== optionId));
@@ -26,7 +26,7 @@ const TeacherComponent = ({ options, text }: teacherProps) => {
     }
   };
 
-  const handleTeacherClick = (optionId) => {
+  const handleTeacherClick = (optionId: string) => {
     handleOptionToggle(optionId);
   };
 
@@ -34,7 +34,7 @@ const TeacherComponent = ({ options, text }: teacherProps) => {
     <div dir="rtl" className={`${rudaw.className} text-xl relative my-4`}>
       <h3 className="text-xl font-bold text-center text-gray-900">{text}</h3>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 justify-center">
-        {options?.map((option, index) => (
+        {options?.map((option) => (
           <div key={option.id} className="flex items-center">
             <label className="checkbox-container">
               <input

@@ -39,23 +39,10 @@ const Form = () => {
   const [ragazakan, setRagazakan] = useState<{ id: string; title: string }[]>(
     [],
   );
-  const [ragaz, setRagaz] = useState<{ id: string; title: string } | null>(
-    null,
-  );
   const [classes, setClasses] = useState<{ id: string; title: string }[]>([]);
-  const [clas, setClas] = useState<{ id: string; title: string } | null>(null);
   const [bloods, setBloods] = useState<{ id: string; title: string }[]>([]);
-  const [blood, setBlood] = useState<{ id: string; title: string } | null>(
-    null,
-  );
   const [travels, setTravels] = useState<{ id: string; title: string }[]>([]);
-  const [travel, setTravel] = useState<{ id: string; title: string } | null>(
-    null,
-  );
   const [courses, setCourses] = useState<{ id: string; title: string }[]>([]);
-  const [course, setCourse] = useState<{ id: string; title: string } | null>(
-    null,
-  );
   const [teacher] = useAtom(teacherAtom);
   const [errors, setErrors] = useState<string[]>([]);
 
@@ -114,30 +101,29 @@ const Form = () => {
   };
 
   const handleSave = async () => {
-    console.log(clas, course)
     const info = {
       name,
-      class: clas?.id,
+      class: selectedClas,
       school,
-      blood: blood?.id,
+      blood: selectedBlood,
       phone,
       second_phone: secondPhone,
-      course,
+      course: selectedCourse,
       address,
-      travel: travel?.id,
+      travel: selectedTravel,
       health,
-      ragaz: ragaz?.id,
+      ragaz: selectedRagaz,
       teacher: teacher,
     };
     if (name.length < 2) {
       const msg = "تکایە ناوێکی گونجاو هەڵبژێرە";
       handleError(msg);
     }
-    if (clas === null) {
+    if (selectedClas === null) {
       const msg = "تکایە دیاریبکە لە چ پۆلێکیت";
       handleError(msg);
     }
-    if (course === null) {
+    if (selectedCourse === null) {
       const msg = "تکایە خولێک هەڵبژێرە";
       handleError(msg);
     }
@@ -153,6 +139,28 @@ const Form = () => {
     if (error) {
       console.log(error);
     }
+  };
+
+  const [selectedRagaz, setSelectedRagaz] = useState<string>("");
+  const [selectedClas, setSelectedClas] = useState<string>("");
+  const [selectedBlood, setSelectedBlood] = useState<string>("");
+  const [selectedTravel, setSelectedTravel] = useState<string>("");
+  const [selectedCourse, setSelectedCourse] = useState<string>("");
+
+  const handleRagazChange = (value: string) => {
+    setSelectedRagaz(value);
+  };
+  const handleClasChange = (value: string) => {
+    setSelectedClas(value);
+  };
+  const handleBloodChange = (value: string) => {
+    setSelectedBlood(value);
+  };
+  const handleTravelChange = (value: string) => {
+    setSelectedTravel(value);
+  };
+  const handleCourseChange = (value: string) => {
+    setSelectedCourse(value);
   };
 
   return (
@@ -201,27 +209,27 @@ const Form = () => {
         <Select
           text="رەگەز"
           options={ragazakan}
-          item={ragaz}
-          setItem={setRagaz}
+          onSelectChange={handleRagazChange}
         />
-        <Select text="پۆل" options={classes} item={clas} setItem={setClas} />
+        <Select
+          text="پۆل"
+          options={classes}
+          onSelectChange={handleClasChange}
+        />
         <Select
           text="جۆری خوێن"
           options={bloods}
-          item={blood}
-          setItem={setBlood}
+          onSelectChange={handleBloodChange}
         />
         <Select
           text="هاتووچۆ"
           options={travels}
-          item={travel}
-          setItem={setTravel}
+          onSelectChange={handleTravelChange}
         />
         <Select
           text="خول"
           options={courses}
-          item={course}
-          setItem={setCourse}
+          onSelectChange={handleCourseChange}
         />
         <div className="m-auto">
           <AllTeachers />
