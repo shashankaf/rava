@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
-import { supabase } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/client";
 import SingleTeacher from "@/components/teachers/SingleTeacher";
 import Heading from "@/components/Heading";
 
