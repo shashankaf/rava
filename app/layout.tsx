@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${goran.className} w-full bg-white`}>
+    <html lang="en" className={`${goran.className} w-full`}>
       <body dir="rtl" className="bg-white">
         <div className="max-w-[1200px] mx-auto">
         <Navbar />

@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 
 const rudaw = localFont({ src: "/../../app/rudaw.ttf" });
 const goran = localFont({ src: "/../../app/goran.ttf" });
+const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
 interface InputProps {
   text: string;
@@ -21,7 +22,7 @@ const Select = ({ text, options, onSelectChange }: InputProps) => {
   return (
     <>
       <select
-        className={`${rudaw.className} select w-full max-w-xs input-lg text-white`}
+        className={`${bbc.className} select w-full max-w-xs input-lg text-white`}
         onChange={handleSelectChange}
       >
         <option disabled value="">

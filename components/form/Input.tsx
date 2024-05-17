@@ -6,6 +6,7 @@ import { SetStateAction } from "jotai";
 
 const rudaw = localFont({ src: "/../../app/rudaw.ttf" });
 const goran = localFont({ src: "/../../app/goran.ttf" });
+const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
 type SetAtom<Args extends any[], Result> = (...args: Args) => Result;
 
@@ -20,7 +21,7 @@ const Input = ({ label, placeholder, state, setState}: InputProps) => {
   return (
     <>
       <label
-        className={`${rudaw.className} input input-bordered input-lg 
+        className={`${bbc.className} input input-bordered input-lg 
                         w-full max-w-xs flex items-center gap-2 font-bold 
                         text-lg font-bold text-white`}
       >

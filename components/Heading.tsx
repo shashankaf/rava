@@ -1,9 +1,8 @@
 import React from "react";
 import localFont from "next/font/local";
 
-const sarchia = localFont({ src: "/../app/sarchia.ttf" });
+const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });
 const rudaw = localFont({ src: "/../app/rudaw.ttf" });
-const shasenem = localFont({ src: "/../app/shasenem.ttf" });
 
 type TextProp = {
   text: string

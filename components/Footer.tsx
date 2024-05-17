@@ -11,7 +11,7 @@ const Footer = () => {
   return (
     <footer
       dir="rtl"
-      className={`${rudaw.className} footer items-center p-4 bg-neutral text-neutral-content`}
+      className={`${rudaw.className} footer items-center p-2 bg-neutral text-neutral-content content`}
     >
       <aside className="items-center grid-flow-col">
         <Image src={rava} width={50} height={50} alt="Rava Institute Logo" />
