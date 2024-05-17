@@ -1,21 +1,33 @@
-import { createClient } from "@/utils/supabase/server";
-import React from "react";
+"use client"
+import React, {useState, useEffect} from "react";
 import Image from "next/image";
 import localFont from "next/font/local";
+import { supabase } from "@/utils/supabase/client";
 
 const shasenem = localFont({ src: "../../shasenem.ttf" });
 
-async function Teacher({ params }) {
-  const supabase = createClient();
-  const id = params.id;
-  const { error, data: teacher } = await supabase
-    .from("teacher")
-    .select()
-    .eq("id", id)
-    .single();
-  if (error) {
-    throw Error;
+const Teacher = ({params}) => {
+  const [teacher, setTeacher] = useState(null);
+
+  const id = params.id
+
+  const fetcher = async () => {
+    const { data, error } = await supabase
+      .from("teacher")
+      .select()
+      .eq("id", id);
+    if (error) throw Error;
+    setTeacher(data[0]);
+  };
+
+  useEffect(() => {
+    fetcher();
+  }, [id]);
+
+  if (teacher === null) {
+    return <p>Loading...</p>;
   }
+
   return (
     <>
       <section dir="rtl" className="pt-10 overflow-hidden text-right mt-24">
@@ -28,12 +40,12 @@ async function Teacher({ params }) {
                 <br className="block sm:hidden" />
                 👋 سڵاو، من
                 <br className="block sm:hidden" />
-                {` ${teacher.name}م`}{" "}
+                {` ${teacher?.name}م`}{" "}
               </h2>
               <p
                 className={`${shasenem.className} text-2xl my-2 py-2 font-bold text-black`}
               >
-                مامۆستای {teacher.specialty}
+                مامۆستای {teacher?.specialty}
               </p>
               <p className="mt-4 text-xl text-gray-600 md:mt-8">
                 <span className="relative inline-block">
@@ -57,7 +69,7 @@ async function Teacher({ params }) {
               <Image
                 className="relative h-full rounded-lg"
                 src={teacher?.photo}
-                alt={teacher.name}
+                alt={teacher?.name}
                 width={1000}
                 height={1000}
               />
