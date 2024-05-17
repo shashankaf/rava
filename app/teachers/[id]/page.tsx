@@ -1,28 +1,29 @@
-"use client"
-import React, {useState, useEffect} from "react";
+import React from "react";
 import Image from "next/image";
 import localFont from "next/font/local";
 import { supabase } from "@/utils/supabase/client";
 
 const shasenem = localFont({ src: "../../shasenem.ttf" });
 
-const Teacher = ({params}) => {
-  const [teacher, setTeacher] = useState(null);
-
-  const id = params.id
-
-  const fetcher = async () => {
-    const { data, error } = await supabase
+const fetcher = async (id: string) => {
+  try {
+    const { error, data } = await supabase
       .from("teacher")
       .select()
-      .eq("id", id);
-    if (error) throw Error;
-    setTeacher(data[0]);
-  };
+      .eq("id", id)
+      .single();
+    if (error) {
+      throw Error;
+    }
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+const Teacher = async({params}) => {
+  const { id } = params;
+  const teacher = await fetcher(id)
 
-  useEffect(() => {
-    fetcher();
-  }, [id]);
 
   if (teacher === null) {
     return <p>Loading...</p>;
