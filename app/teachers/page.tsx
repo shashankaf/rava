@@ -30,6 +30,7 @@ function TeachersPage() {
                 alt={item.name}
                 image={item.photo}
                 specialty={item.specialty}
+                id={item.id}
               />
             </div>
           );
