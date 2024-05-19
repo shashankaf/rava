@@ -1,16 +1,15 @@
 import React from "react";
 import Image from "next/image";
 import localFont from "next/font/local";
-import { single_teacher_fetcher } from "@/lib/fetchers";
+import { supabase } from "@/utils/supabase/client";
 
 const shasenem = localFont({ src: "../../shasenem.ttf" });
 
 const Teacher = async({params}:any) => {
   const { id } = params;
-  const teacher = await single_teacher_fetcher(id)
-
-  if (teacher === null) {
-    return <p>Loading...</p>;
+  const {error, data:teacher} = await supabase.from("teacher").select().eq("id", id).single()
+  if(error) {
+    console.log(error)
   }
 
   return (

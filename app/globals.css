@@ -89,3 +89,8 @@
   border-width: 0 0.15em 0.15em 0;
   transform: rotate(45deg);
 }
+
+.active {
+  background-color: rgba(255, 255, 255, 0.1);
+
+}

@@ -7,6 +7,7 @@ const shasenem = localFont({ src: "/../app/shasenem.ttf" });
 function Navbar() {
   const rava =
     "https://grocviikgcjxaxnkdvrv.supabase.co/storage/v1/object/public/general/rava-removebg-preview.png";
+
   return (
     <div
       className={`${shasenem.className} fixed max-w-[1200px] flex flex-row justify-between w-full nav border-b-[2px] border-gray-100`}
