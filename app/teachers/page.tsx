@@ -18,11 +18,11 @@ async function TeachersPage() {
           return (
             <div key={item.id}>
               <SingleTeacher
-                title={item.name}
-                alt={item.name}
-                image={item.photo}
-                specialty={item.specialty}
-                id={item.id}
+                title={item?.name || ""}
+                alt={item?.name || "Teacher Photo"}
+                image={item?.photo || ""}
+                specialty={item?.specialty || ""}
+                id={item?.id}
               />
             </div>
           );
