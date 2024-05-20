@@ -5,9 +5,7 @@ import Footer from "@/components/Footer";
 
 const goran = localFont({ src: "./goran.ttf" });
 
-const defaultUrl = process.env.RAVA_URL
-  ? `${process.env.RAVA_URL}`
-  : "http://localhost:3000";
+const defaultUrl = process.env.RAVA_URL || "https://ravainstitute.netlify.app"
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
