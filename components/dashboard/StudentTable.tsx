@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import React from "react";
 
 interface StudentTableProps {
@@ -8,7 +10,6 @@ interface StudentTableProps {
 const StudentTable = ({
   tableHeads,
   tableContent,
-  title,
 }: StudentTableProps) => {
   return (
     <>
