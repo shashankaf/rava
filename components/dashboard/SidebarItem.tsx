@@ -11,7 +11,7 @@ interface SidebarProps {
 const SidebarItem = ({text, path, link, children}: SidebarProps) => {
   const pathname = usePathname()
   return (
-    <div className={`${pathname === path  ? 'active' : ''} flex flex-row items-center py-2 px-4 block rounded transition duration-300 hover:bg-gray-700 gap-2 m-2 cursor-pointer`}>
+    <div className={`${pathname === path  ? 'active' : ''} flex flex-row items-center py-2 px-4 block rounded transition duration-300 m-1 gap-2 hover:bg-gray-700 cursor-pointer`}>
       {children}
       <Link
         href={link}

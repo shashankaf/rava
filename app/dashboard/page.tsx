@@ -5,9 +5,9 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 import localFont from "next/font/local";
 import { supabase } from "@/utils/supabase/client";
 import StudentTable from "@/components/dashboard/StudentTable";
-import Image from "next/image";
 import TopTeachers from "@/components/dashboard/TopTeachers";
 import Divider from "@/components/Divider";
+import NumberBox from "@/components/dashboard/NumberBox";
 
 const bbc = localFont({ src: "../sarkar_bbc.ttf" });
 const rudaw = localFont({ src: "../rudaw.ttf" });
@@ -50,6 +50,15 @@ async function Home() {
         <div className="w-full lg:w-1/3 p-4">
           <Divider text="خوازراوترین مامۆستاکان" />
           <TopTeachers />
+        </div>
+      </div>
+      <div>
+        <Divider text="ئامارەکان" />
+        <div className="flex justify-around flex-wrap gap-4 my-4">
+          <NumberBox title="ژمارەی خوێندکاران" number={13} />
+          <NumberBox title="ژمارەی مامۆستایان" number={11} />
+          <NumberBox title="ژمارەی خولەکان" number={9} />
+          <NumberBox title="پاسی پەیمانگا" number={8} />
         </div>
       </div>
     </div>
