@@ -52,8 +52,8 @@ const Teacher = async({params}:any) => {
             <div className="relative">
               <Image
                 className="relative h-full rounded-lg"
-                src={teacher?.photo}
-                alt={teacher?.name}
+                src={teacher?.photo || ""}
+                alt={teacher?.name || "Teacher Photo"}
                 width={1000}
                 height={1000}
               />
