@@ -5,7 +5,7 @@ interface TopTeacherProps {
   name: string;
   image: string;
   specialty: string;
-  popularity_count: string;
+  popularity_count: number;
 }
 const TopTeacher = ({
   name,
