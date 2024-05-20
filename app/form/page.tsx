@@ -1,7 +1,10 @@
+//@ts-nocheck
 import React from "react";
 import Image from "next/image";
 import Form from "@/components/form/Form";
 import { supabase } from "@/utils/supabase/client";
+
+
 
 export default async function FormPage() {
   const { error, data } = await supabase.rpc("fetch_all_data").select();

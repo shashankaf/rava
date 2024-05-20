@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import Heading from "../Heading";
 import Input from "./Input";
 import Select from "./Select";
@@ -22,13 +22,26 @@ import ErrorModal from "./ErrorModal";
 
 const rudaw = localFont({ src: "/../../app/rudaw.ttf" });
 
-const Form = ({ragazakan,classes, bloods, travels, courses}:any) => {
-  const [name, setName] = useAtom(nameAtom);
-  const [school, setSchool] = useAtom(schoolAtom);
-  const [phone, setPhone] = useAtom(phoneAtom);
-  const [secondPhone, setSecondPhone] = useAtom(secondPhoneAtom);
-  const [address, setAddress] = useAtom(addressAtom);
-  const [health, setHealth] = useAtom(healthAtom);
+interface GenericType {
+  id: string,
+  title: string,
+}
+
+interface DataType {
+  ragazakan: GenericType[],
+  bloods:GenericType[],
+  classes:GenericType[],
+  travels: GenericType[],
+  courses: GenericType[]
+}
+
+const Form = ({ragazakan,classes, bloods, travels, courses}:DataType) => {
+  const [name, setName] = useAtom<string>(nameAtom);
+  const [school, setSchool] = useAtom<string>(schoolAtom);
+  const [phone, setPhone] = useAtom<string>(phoneAtom);
+  const [secondPhone, setSecondPhone] = useAtom<string>(secondPhoneAtom);
+  const [address, setAddress] = useAtom<string>(addressAtom);
+  const [health, setHealth] = useAtom<string>(healthAtom);
 
   const [teacher] = useAtom(teacherAtom);
   const [errors, setErrors] = useState<string[]>([]);
