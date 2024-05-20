@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 import Footer from "@/components/Footer";
 
 const goran = localFont({ src: "./goran.ttf" });
-
+// see what this is for
 const defaultUrl = process.env.RAVA_URL || "https://ravainstitute.netlify.app"
 
 export const metadata = {
