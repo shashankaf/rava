@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import { FaBookOpenReader } from "react-icons/fa6";
@@ -11,10 +10,33 @@ import LoadNumber from "@/components/LoadNumber";
 import Search from "@/components/Search";
 import DashboardTitle from "@/components/DashboardTitle";
 import localFont from "next/font/local";
+import { useAtom } from "jotai";
+import { pageLimitAtom } from "@/lib/store";
+import { supabase } from "@/utils/supabase/client";
+import { formatDate } from "@/lib/formatDate";
 
 const bbc = localFont({ src: "/../../../app/sarkar_bbc.ttf" });
 
 export default function ExpenseTable() {
+  const [expense, setExpense] = useState<any[]>([]);
+  const [pageLimit] = useAtom(pageLimitAtom);
+
+  const expenseFetcher = async () => {
+    try {
+      const { data, error } = await supabase.from("expense").select();
+      if (error) {
+        console.log(error);
+      }
+      setExpense(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    expenseFetcher();
+  }, [pageLimit]);
+
   const modalRef = useRef(null);
 
   const openModal = () => {
@@ -41,33 +63,41 @@ export default function ExpenseTable() {
           </tr>
         </thead>
         <tbody className="text-md border-b-2 border-gray-100">
-          <tr className="text-md border-b-2 border-gray-100">
-            <td>200$</td>
-            <td>گۆڤەند ئەبوبەکر</td>
-            <td>%50</td>
-            <td className="flex gap-x-6 justify-center text-2xl">
-              <div
-                className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
-                data-tip="خوێندنەوە"
-              >
-                <FaBookOpenReader />
-              </div>
-              <div
-                className="tooltip tooltip-warning text-indigo-500 cursor-pointer hover:text-indigo-900 transition-all duration-400"
-                data-tip="نوێکردنەوە"
-              >
-                <FaEdit />
-              </div>
-              <div
-                className="tooltip tooltip-warning text-red-500 cursor-pointer hover:text-red-900 transition-all duration-400"
-                data-tip="سڕینەوە"
-                onClick={openModal}
-              >
-                <RiDeleteBin5Fill />
-              </div>
-              <QuestionModal text="خەرجی" modalRef={modalRef} handleClick={() => console.log("hello")} />
-            </td>
-          </tr>
+          {expense.map((item) => {
+            return (
+              <tr className="text-md border-b-2 border-gray-100">
+                <td>${item.amount}</td>
+                <td>${item.expense_type}</td>
+                <td>{formatDate(item.created_at)}</td>
+                <td className="flex gap-x-6 justify-center text-2xl">
+                  <div
+                    className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
+                    data-tip="خوێندنەوە"
+                  >
+                    <FaBookOpenReader />
+                  </div>
+                  <div
+                    className="tooltip tooltip-warning text-indigo-500 cursor-pointer hover:text-indigo-900 transition-all duration-400"
+                    data-tip="نوێکردنەوە"
+                  >
+                    <FaEdit />
+                  </div>
+                  <div
+                    className="tooltip tooltip-warning text-red-500 cursor-pointer hover:text-red-900 transition-all duration-400"
+                    data-tip="سڕینەوە"
+                    onClick={openModal}
+                  >
+                    <RiDeleteBin5Fill />
+                  </div>
+                  <QuestionModal
+                    text="خەرجی"
+                    modalRef={modalRef}
+                    handleClick={() => console.log("hello")}
+                  />
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <Pagination />

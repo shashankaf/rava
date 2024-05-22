@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import { FaBookOpenReader } from "react-icons/fa6";
@@ -11,10 +10,38 @@ import LoadNumber from "@/components/LoadNumber";
 import Search from "@/components/Search";
 import DashboardTitle from "@/components/DashboardTitle";
 import localFont from "next/font/local";
+import { supabase } from "@/utils/supabase/client";
+import {formatDate} from "@/lib/formatDate";
+import { useAtom } from "jotai";
+import { pageLimitAtom } from "@/lib/store";
 
 const bbc = localFont({ src: "/../../../app/sarkar_bbc.ttf" });
 
+interface CourseProps {
+  created_at: string;
+  title: string;
+  end: string;
+  start: string;
+}
 export default function CoursesTable() {
+
+  const [courses, setCourses] = useState<CourseProps[]>([]);
+  const [pageLimit] = useAtom(pageLimitAtom)
+
+  const fetcher = async () => {
+    try {
+      const { data, error } = await supabase.from("course").select();
+      if (error) throw Error;
+      setCourses(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    fetcher();
+  }, [pageLimit]);
+
   const modalRef = useRef(null);
 
   const openModal = () => {
@@ -41,33 +68,41 @@ export default function CoursesTable() {
           </tr>
         </thead>
         <tbody className="text-md border-b-2 border-gray-100">
-          <tr className="text-md border-b-2 border-gray-100">
-            <td>خولی هاوینە	</td>
-            <td>2024 حوزەیران 2024</td>
-            <td>2024 ئەیلوول 2</td>
-            <td className="flex gap-x-6 justify-center text-2xl">
-              <div
-                className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
-                data-tip="خوێندنەوە"
-              >
-                <FaBookOpenReader />
-              </div>
-              <div
-                className="tooltip tooltip-warning text-indigo-500 cursor-pointer hover:text-indigo-900 transition-all duration-400"
-                data-tip="نوێکردنەوە"
-              >
-                <FaEdit />
-              </div>
-              <div
-                className="tooltip tooltip-warning text-red-500 cursor-pointer hover:text-red-900 transition-all duration-400"
-                data-tip="سڕینەوە"
-                onClick={openModal}
-              >
-                <RiDeleteBin5Fill />
-              </div>
-              <QuestionModal text="خول" modalRef={modalRef} handleClick={() => console.log("hello")} />
-            </td>
-          </tr>
+          {courses.map((course) => {
+            return (
+              <tr className="text-md border-b-2 border-gray-100">
+                <td>{course.title}</td>
+                <td>{formatDate(course.start)}</td>
+                <td>{formatDate(course.end)}</td>
+                <td className="flex gap-x-6 justify-center text-2xl">
+                  <div
+                    className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
+                    data-tip="خوێندنەوە"
+                  >
+                    <FaBookOpenReader />
+                  </div>
+                  <div
+                    className="tooltip tooltip-warning text-indigo-500 cursor-pointer hover:text-indigo-900 transition-all duration-400"
+                    data-tip="نوێکردنەوە"
+                  >
+                    <FaEdit />
+                  </div>
+                  <div
+                    className="tooltip tooltip-warning text-red-500 cursor-pointer hover:text-red-900 transition-all duration-400"
+                    data-tip="سڕینەوە"
+                    onClick={openModal}
+                  >
+                    <RiDeleteBin5Fill />
+                  </div>
+                  <QuestionModal
+                    text="خول"
+                    modalRef={modalRef}
+                    handleClick={() => console.log("hello")}
+                  />
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <Pagination />
