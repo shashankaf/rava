@@ -1,8 +1,6 @@
 import React from "react";
 import localFont from "next/font/local";
 
-const sarchia = localFont({ src: "/../app/sarchia.ttf" });
-const rudaw = localFont({ src: "/../app/rudaw.ttf" });
 const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });
 
 const Title = () => {
