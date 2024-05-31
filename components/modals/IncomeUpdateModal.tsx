@@ -11,7 +11,7 @@ import {
 import SelectName from "../SelectName";
 import SelectTitle from "../SelectTitle";
 import { supabase } from "@/utils/supabase/client";
-import { Course, Student, Teacher } from "@/lib/types";
+import { Course, StudentRaw, Teacher } from "@/lib/types";
 
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
@@ -26,7 +26,7 @@ export default function IncomeUpdateModal({ modalRef, id }: QuestionModalProps) 
   const [teacher, setTeacher] = useState<any>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [course, setCourse] = useState<string | null>(null);
-  const [students, setStudents] = useState<Student[]>([]);
+  const [students, setStudents] = useState<StudentRaw[]>([]);
   const [student, setStudent] = useState<string | null>(null);
 
   useEffect(() => {

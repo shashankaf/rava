@@ -36,6 +36,26 @@ export interface Student {
   course: (string & Course) | null;
 }
 
+export interface StudentRaw {
+  blood: number | null;
+  class: number | null;
+  created_at: string;
+  id: string;
+  health: string | null;
+  name: string | null;
+  school: string | null;
+  phone: string | null;
+  address: string | null;
+  travel: number | null;
+  ragaz: number | null;
+  publish: boolean | null;
+  teacher: any;
+  second_phone: string | null;
+  pay: string | null;
+  secondpay: string | null;
+  course: string | null;
+}
+
 export interface Share {
   created_at: string;
   id: string;

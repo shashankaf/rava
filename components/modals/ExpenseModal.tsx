@@ -1,4 +1,3 @@
-//@ts-nocheck
 "use client";
 
 import { LegacyRef, useEffect, useState } from "react";
@@ -11,7 +10,7 @@ import {
 import SelectName from "../SelectName";
 import SelectTitle from "../SelectTitle";
 import { supabase } from "@/utils/supabase/client";
-import { Course, Student, Teacher } from "@/lib/types";
+import { Course, Student, StudentRaw, Teacher } from "@/lib/types";
 
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
@@ -25,7 +24,7 @@ export default function ExpenseModal({ modalRef }: QuestionModalProps) {
   const [teacher, setTeacher] = useState<string | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
   const [course, setCourse] = useState<string | null>(null);
-  const [students, setStudents] = useState<Student[]>([]);
+  const [students, setStudents] = useState<StudentRaw[]>([]);
   const [student, setStudent] = useState<string | null>(null);
 
   useEffect(() => {

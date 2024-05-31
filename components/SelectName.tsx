@@ -1,11 +1,11 @@
- import { Course, Student, Teacher } from "@/lib/types";
+ import { Course, Student, StudentRaw, Teacher } from "@/lib/types";
 import localFont from "next/font/local";
 
 const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });
 
 interface SelectNameProps {
   text: string;
-  options: Teacher[] | Student[];
+  options: Teacher[] | StudentRaw[];
   onSelectChange: (value: string) => void; 
 }
 export default function SelectName({text, options, onSelectChange}: SelectNameProps) {
