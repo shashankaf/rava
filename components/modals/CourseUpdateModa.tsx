@@ -20,8 +20,8 @@ export default function CourseUpdateModal({
 }: QuestionModalProps) {
   const [, setCourse] = useState<Course | null>(null);
   const [title, setTitle] = useState<string | null>("");
-  const [start, setStart] = useState<Date | null>(null);
-  const [end, setEnd] = useState<Date | null>(null);
+  const [start, setStart] = useState<Date>(new Date());
+  const [end, setEnd] = useState<Date>(new Date());
 
   useEffect(() => {
     const fetchCourse = async () => {

@@ -10,7 +10,7 @@ const bbc = localFont({ src: "../app/sarkar_bbc.ttf" });
 interface Dates {
   label: string;
   selectedDate: Date | null;  
-  setSelectedDate: Dispatch<SetStateAction<Date | null>>;
+  setSelectedDate: Dispatch<SetStateAction<Date>>;
 }
 
 const DatePickerComponent: React.FC<Dates> = ({ label, selectedDate, setSelectedDate }) => {
