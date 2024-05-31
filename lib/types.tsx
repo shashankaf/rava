@@ -101,3 +101,11 @@ export interface UtilityTable {
   title: string | null;
 }
 
+export interface Reklam {
+  id: string;
+  created_at: string;
+  title: string | null;
+  content: string | null;
+  link: string | null;
+  media: string | null;
+}

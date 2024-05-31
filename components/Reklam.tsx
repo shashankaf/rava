@@ -1,32 +1,26 @@
-"use client"
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-import 'swiper/css';
-import 'swiper/css/pagination';
-
-import { Pagination } from 'swiper/modules';
+//@ts-nocheck
+"use client";
+import HomeSwiper from "./HomeSwiper";
+import { useEffect, useState } from "react";
+import { Reklam } from "@/lib/types";
+import { reklam_fetcher } from "@/lib/fetchers";
 
 export default function Reklam() {
+  const [options, setOptions] = useState<Reklam[]>([])
+  useEffect(() => {
+    const fetchReklam = async () => {
+      const data = await reklam_fetcher();
+      if (data) {
+        setOptions(data)
+      }
+    };
+
+    fetchReklam();
+  }, []);
+
   return (
     <>
-      <Swiper
-        pagination={{
-          dynamicBullets: true,
-        }}
-        modules={[Pagination]}
-        className="reklamSwiper"
-      >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
-      </Swiper>
+      <HomeSwiper options={options} />
     </>
   );
 }
