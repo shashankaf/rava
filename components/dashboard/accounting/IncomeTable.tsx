@@ -46,9 +46,9 @@ export default function IncomeTable() {
     incomeFetcher();
   }, [pageLimit]);
 
-  const modalRef = useRef(null);
-  const incomeRef = useRef(null);
-  const updateRef = useRef(null);
+  const modalRef = useRef<HTMLDialogElement>(null);
+  const incomeRef = useRef<HTMLDialogElement>(null);
+  const updateRef = useRef<HTMLDialogElement>(null);
 
   const openModal = (id: string) => {
     setIncomeToDelete(id);

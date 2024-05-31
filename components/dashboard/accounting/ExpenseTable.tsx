@@ -47,9 +47,9 @@ export default function ExpenseTable() {
     expenseFetcher();
   }, [pageLimit]);
 
-  const modalRef = useRef(null);
-  const expenseRef = useRef(null);
-  const updateRef = useRef(null);
+  const modalRef = useRef<HTMLDialogElement>(null);
+  const expenseRef = useRef<HTMLDialogElement>(null);
+  const updateRef = useRef<HTMLDialogElement>(null);
 
   const openModal = (id: string) => {
     setExpenseToDelete(id);

@@ -43,8 +43,8 @@ export default function StudentsTable() {
     fetcher();
   }, [pageLimit]);
 
-  const modalRef = useRef(null);
-  const updateRef = useRef(null)
+  const modalRef = useRef<HTMLDialogElement>(null);
+  const updateRef = useRef<HTMLDialogElement>(null)
 
   const openModal = () => {
     if (modalRef.current) {

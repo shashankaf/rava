@@ -54,7 +54,7 @@ export default function CoursesTable() {
 
   const modalRef = useRef<HTMLDialogElement>(null);
   const [courseToDelete, setCourseToDelete] = useState<string | null>(null);
-  const updateRef = useRef(null);
+  const updateRef = useRef<HTMLDialogElement>(null);
 
   const [courseToUpdate, setCourseToUpdate] = useState<string | null>(null);
 
