@@ -161,11 +161,11 @@
 
 .reklamSwiper {
   width: 100vw !important;
-  margin: 12 !important;
-  margin-top: 77px !important;
+  margin: 12px;
+  margin-top: 78px !important;
   z-index: 4 !important;
   border-radius: 0 !important;
-  min-height: 500px !important;
+  min-height: 70vh !important;
 }
 .reklamSwiper .swiper-slide {
   border-radius: 0 !important;
