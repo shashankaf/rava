@@ -13,7 +13,7 @@ export default function CreateTeacher() {
     bio: "",
     order: ""
   });
-  const [values, formAction] = useFormState(createTeacher, state);
+  const [value, formAction] = useFormState(createTeacher, state);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

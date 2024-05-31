@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -23,18 +24,20 @@ const bbc = localFont({ src: "/../../../app/sarkar_bbc.ttf" });
 export default function ExpenseTable() {
   const [expense, setExpense] = useState<Expense[]>([]);
   const [pageLimit] = useAtom(pageLimitAtom);
-  const [expenseToUpdate, setExpenseToUpdate] = useState<string>("")
+  const [expenseToUpdate, setExpenseToUpdate] = useState<string>("");
   const [filteredExpense, setFilteredExpense] = useState<Expense[]>([]);
-  const [expenseToDelete, setExpenseToDelete] = useState<string>("")
+  const [expenseToDelete, setExpenseToDelete] = useState<string>("");
 
   const expenseFetcher = async () => {
     try {
-      const { data, error } = await supabase.from("expense").select(`*, teacher(*), student(*), course(*), items(*)`);
+      const { data, error } = await supabase
+        .from("expense")
+        .select(`*, teacher(*), student(*), course(*), items(*)`);
       if (error) {
         console.log(error);
       }
-      setExpense(data);
-      setFilteredExpense(data)
+        setExpense(data);
+        setFilteredExpense(data);
     } catch (e) {
       console.log(e);
     }
@@ -46,7 +49,7 @@ export default function ExpenseTable() {
 
   const modalRef = useRef(null);
   const expenseRef = useRef(null);
-  const updateRef = useRef(null)
+  const updateRef = useRef(null);
 
   const openModal = (id: string) => {
     setExpenseToDelete(id);
@@ -56,23 +59,21 @@ export default function ExpenseTable() {
   };
 
   const openUpdateModal = (id: string) => {
-    setExpenseToUpdate(id)
-    if(updateRef.current) {
-      updateRef.current.showModal()
+    setExpenseToUpdate(id);
+    if (updateRef.current) {
+      updateRef.current.showModal();
     }
-  }
+  };
   const [text, setText] = useState("");
 
   const handleSearch = (searchText: string) => {
-    const filtered = expense.filter(
-      (item) => {
-        const textAmount = item?.amount?.toString()
-        textAmount?.includes(searchText.toLowerCase()) ||
+    const filtered = expense.filter((item) => {
+      const textAmount = item?.amount?.toString();
+      textAmount?.includes(searchText.toLowerCase()) ||
         item.student?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
         item.teacher?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.course?.title?.toLowerCase().includes(searchText.toLowerCase())
-      }
-    );
+        item.course?.title?.toLowerCase().includes(searchText.toLowerCase());
+    });
     setFilteredExpense(filtered);
   };
 
@@ -82,23 +83,24 @@ export default function ExpenseTable() {
     }
   };
 
-
   const handleDelete = async () => {
     if (expenseToDelete) {
       try {
-        const { error } = await supabase.from("expense").delete().eq("id", expenseToDelete);
+        const { error } = await supabase
+          .from("expense")
+          .delete()
+          .eq("id", expenseToDelete);
 
         if (error) {
           console.log(error);
         }
         setExpenseToDelete(null);
-        expenseFetcher(); 
+        expenseFetcher();
       } catch (error: any) {
         console.error("Error deleting income:", error.message);
       }
     }
   };
-
 
   return (
     <div dir="rtl" className="w-full text-black ">

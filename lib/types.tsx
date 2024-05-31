@@ -37,10 +37,10 @@ export interface Student {
 }
 
 export interface Share {
-  create_at: string;
+  created_at: string;
   id: string;
-  course: string | null;
-  teacher: string | null;
+  course: string & Course | null;
+  teacher: string & Teacher | null;
   percentage: number | null;
 }
 
@@ -64,9 +64,20 @@ export interface Expense {
   id: string;
   created_at: string;
   amount: number | null;
-  course: string & Course | null;
-  student: string & Student | null;
-  teacher: string & Teacher | null;
+  course: (string & Course) | null;
+  student: (string & Student) | null;
+  teacher: (string & Teacher) | null;
   expense_type: "course" | "others";
-  items: string & Item | null;
+  items: (string & Item) | null;
 }
+
+export interface Blood {
+  id: number;
+  title: string | null;
+}
+
+export interface UtilityTable {
+  id: number;
+  title: string | null;
+}
+

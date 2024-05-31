@@ -2,7 +2,6 @@ import localFont from "next/font/local";
 
 const rudaw = localFont({ src: "/../app/rudaw.ttf" });
 
-
 interface SearchProps {
   text: string;
   setText: (value: string) => void;

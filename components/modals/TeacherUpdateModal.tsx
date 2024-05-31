@@ -18,10 +18,10 @@ export default function TeacherUpdateModal({
   modalRef,
   id,
 }: QuestionModalProps) {
-  const [teacher, setTeacher] = useState<Teacher>("");
+  const [, setTeacher] = useState<Teacher | null>(null);
   const [name, setName] = useState<string | null>("");
   const [specialty, setSpecialty] = useState<string | null>("");
-  const [photo, setPhoto] = useState<string | null>("");
+  const [, setPhoto] = useState<string | null>("");
 
   useEffect(() => {
     const fetchTeacher = async () => {

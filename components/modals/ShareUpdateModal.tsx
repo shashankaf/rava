@@ -1,25 +1,15 @@
 "use client";
 
-import { LegacyRef, useEffect, useState } from "react";
+import { ChangeEvent, LegacyRef, useEffect, useState } from "react";
 import localFont from "next/font/local";
-import { course_fetcher, student_fetcher, teacher_fetcher } from "@/lib/fetchers";
+import { course_fetcher, teacher_fetcher } from "@/lib/fetchers";
 import { supabase } from "@/utils/supabase/client";
-
+import {Teacher, Course} from "@/lib/types";
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
 interface QuestionModalProps {
   modalRef: LegacyRef<HTMLDialogElement>;
   id: string | null;
-}
-
-interface Teacher {
-  id: string;
-  name: string;
-}
-
-interface Course {
-  id: string;
-  title: string;
 }
 
 export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
@@ -66,7 +56,7 @@ export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
   async function handleUpdate() {
     if (id !== null) {
       try {
-      const { error, data } = await supabase
+      const { error } = await supabase
         .from("share")
         .update({
           percentage: percent,

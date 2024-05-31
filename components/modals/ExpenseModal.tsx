@@ -72,8 +72,9 @@ export default function ExpenseModal({ modalRef }: QuestionModalProps) {
   }
 
   async function handleExpense() {
+    const numAmount = Number(amount)
     const { error } = await supabase.from("expense").insert({
-      amount,
+      amount: numAmount,
       teacher,
       expense_type: "course",
       student,

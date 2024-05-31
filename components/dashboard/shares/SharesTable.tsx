@@ -49,7 +49,7 @@ export default function SharesTable() {
     }
   };
 
-const [shareToUpdate, setShareToUpdate] = useState(null)
+const [shareToUpdate, setShareToUpdate] = useState<string | null>(null)
   const handleUpdate = (id: string) => {
     setShareToUpdate(id)
     if(updateRef.current) {
@@ -60,13 +60,13 @@ const [shareToUpdate, setShareToUpdate] = useState(null)
 
 
   const [text, setText] = useState("");
-  const [filteredShares, setFilteredShares] = useState<ShareProps[]>([]);
+  const [filteredShares, setFilteredShares] = useState<Share[]>([]);
 
   const handleSearch = (searchText: string) => {
     const filtered = shares.filter(
       (share) =>
-        share.teacher.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        share.course.title.toLowerCase().includes(searchText.toLowerCase()),
+        share?.teacher?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+        share?.course?.title?.toLowerCase().includes(searchText.toLowerCase()),
     );
     setFilteredShares(filtered);
   };

@@ -18,10 +18,10 @@ export default function CourseUpdateModal({
   modalRef,
   id,
 }: QuestionModalProps) {
-  const [course, setCourse] = useState<Course | null>(null);
+  const [, setCourse] = useState<Course | null>(null);
   const [title, setTitle] = useState<string | null>("");
-  const [start, setStart] = useState<string | null>(null);
-  const [end, setEnd] = useState<string | null>(null);
+  const [start, setStart] = useState<Date | null>(null);
+  const [end, setEnd] = useState<Date | null>(null);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -29,8 +29,8 @@ export default function CourseUpdateModal({
       if (data) {
         setCourse(data);
         setTitle(data.title);
-        setStart(data.start);
-        setEnd(data.end);
+        setStart(start);
+        setEnd(end);
       }
     };
 
@@ -39,14 +39,16 @@ export default function CourseUpdateModal({
 
   async function handleUpdate(e: SyntheticEvent) {
     e.preventDefault();
+    const starting = start?.toISOString()
+    const ending = end?.toISOString()
     if (id !== null) {
       try {
         const { error } = await supabase
           .from("course")
           .update({
             title,
-            start,
-            end,
+            start: starting,
+            end: ending,
           })
           .eq("id", id);
         if (error) {
@@ -76,13 +78,11 @@ export default function CourseUpdateModal({
             placeholder={"ناونیشان"}
           />
           <DatePickerComponent
-            date={start}
             label="رۆژی دەستپێک"
             selectedDate={start}
             setSelectedDate={setStart}
           />
           <DatePickerComponent
-            date={end}
             label="کۆتایی خول"
             selectedDate={end}
             setSelectedDate={setEnd}

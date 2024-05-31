@@ -1,3 +1,4 @@
+//@ts-nocheck
 import AccountingBox from "@/components/dashboard/AccountingBox";
 import { FaMoneyBill1Wave } from "react-icons/fa6";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";

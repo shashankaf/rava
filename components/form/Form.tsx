@@ -1,4 +1,3 @@
-//@ts-nocheck
 "use client";
 
 import React, {  useState } from "react";
@@ -23,17 +22,17 @@ import ErrorModal from "./ErrorModal";
 
 const rudaw = localFont({ src: "/../../app/rudaw.ttf" });
 
-interface GenericType {
-  id: string,
-  title: string,
+interface GeneralType {
+  id: string;
+  title: string;
 }
 
 interface DataType {
-  ragazakan: GenericType[],
-  bloods:GenericType[],
-  classes:GenericType[],
-  travels: GenericType[],
-  courses: GenericType[]
+  ragazakan: GeneralType[],
+  bloods:GeneralType[],
+  classes:GeneralType[],
+  travels: GeneralType[],
+  courses: GeneralType[]
 }
 
 const Form = ({ragazakan,classes, bloods, travels, courses}:DataType) => {
@@ -53,18 +52,22 @@ const Form = ({ragazakan,classes, bloods, travels, courses}:DataType) => {
   };
 
   const handleSave = async () => {
+    const clas = Number(selectedClas)
+    const blud = Number(selectedBlood)
+    const travul = Number(selectedTravel)
+    const ragoz = Number(selectedRagaz)
     const info = {
       name,
-      class: selectedClas,
+      class: clas,
       school,
-      blood: selectedBlood,
+      blood: blud,
       phone,
       second_phone: secondPhone,
       course: selectedCourse,
       address,
-      travel: selectedTravel,
+      travel: travul,
       health,
-      ragaz: selectedRagaz,
+      ragaz: ragoz,
       teacher: teacher,
     };
     if (name.length < 2) {

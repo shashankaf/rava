@@ -69,8 +69,9 @@ export default function IncomeModal({ modalRef }: QuestionModalProps) {
   }
 
   async function handleIncome() {
+    const numAmount = Number(amount)
     const {error} = await supabase.from("income").insert({
-      amount,
+      amount: numAmount,
       teacher,
       student,
       course

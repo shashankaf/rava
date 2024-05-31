@@ -12,12 +12,10 @@ export default function CreateCourse() {
 
   const submitCourse = async (e: SyntheticEvent) => {
     e.preventDefault()
+    const starting = start.toISOString()
+    const ending = end.toISOString()
     try {
-      const { error } = await supabase.from("course").insert({
-        title,
-        start,
-        end,
-      });
+      const { error } = await supabase.from("course").insert({title, start: starting, end: ending});
       if (error) throw Error;
     } catch (e) {
       console.log(e);
@@ -40,13 +38,11 @@ export default function CreateCourse() {
           onChange={(e) => setTitle(e.target.value)}
         />
         <DatePickerComponent
-          date={start}
           label="رۆژی دەستپێک"
           selectedDate={start}
           setSelectedDate={setStart}
         />
         <DatePickerComponent
-          date={end}
           label="کۆتایی خول"
           selectedDate={end}
           setSelectedDate={setEnd}

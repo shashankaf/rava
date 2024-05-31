@@ -23,7 +23,7 @@ interface QuestionModalProps {
 export default function IncomeUpdateModal({ modalRef, id }: QuestionModalProps) {
   const [amount, setAmount] = useState<number | null>(0);
   const [teachers, setTeachers] = useState<Teacher[]>([]);
-  const [teacher, setTeacher] = useState<string[]>([]);
+  const [teacher, setTeacher] = useState<any>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [course, setCourse] = useState<string | null>(null);
   const [students, setStudents] = useState<Student[]>([]);

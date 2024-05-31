@@ -62,7 +62,7 @@ export default function TeachersTable() {
   const router = useRouter();
   const [teacherToUpdate, setTeacherToUpdate] = useState(null)
 
-  const handleUpdate = (id: string) => {
+  const handleUpdate = (id: any) => {
     setTeacherToUpdate(id)
     if(updateRef.current) {
       updateRef.current.showModal()
@@ -76,8 +76,8 @@ export default function TeachersTable() {
   const handleSearch = (searchText: string) => {
     const filtered = teachers.filter(
       (teacher) =>
-        teacher.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        teacher?.specialty.toLowerCase().includes(searchText.toLowerCase()),
+        teacher?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+        teacher?.specialty?.toLowerCase().includes(searchText.toLowerCase()),
     );
     setFilteredTeachers(filtered);
   };

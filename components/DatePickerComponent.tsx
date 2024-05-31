@@ -1,14 +1,20 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatDate } from "@/lib/formatDate";
 import localFont from "next/font/local";
+import { SetStateAction } from "jotai";
 
 const bbc = localFont({ src: "../app/sarkar_bbc.ttf" });
 
-const DatePickerComponent = ({ date, label, selectedDate, setSelectedDate }) => {
+interface Dates {
+  label: string;
+  selectedDate: Date | null;  
+  setSelectedDate: Dispatch<SetStateAction<Date | null>>;
+}
 
-  const handleDateChange = (date) => {
+const DatePickerComponent: React.FC<Dates> = ({ label, selectedDate, setSelectedDate }) => {
+  const handleDateChange = (date: any) => {
     setSelectedDate(date);
   };
 
@@ -32,4 +38,3 @@ const DatePickerComponent = ({ date, label, selectedDate, setSelectedDate }) => 
 };
 
 export default DatePickerComponent;
-

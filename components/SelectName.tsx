@@ -6,12 +6,12 @@ const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });
 interface SelectNameProps {
   text: string;
   options: Teacher[] | Student[];
-  onSelectChange: (value: string) => void; // Callback function to handle selected value
+  onSelectChange: (value: string) => void; 
 }
 export default function SelectName({text, options, onSelectChange}: SelectNameProps) {
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
-    onSelectChange(selectedValue); // Call the callback function with selected value
+    onSelectChange(selectedValue); 
   };
 
 

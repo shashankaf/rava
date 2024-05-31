@@ -4,15 +4,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { teacher_fetcher } from "@/lib/fetchers";
 import Image from "next/image";
 
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import 'swiper/css/effect-cards';
 
 import { EffectCards } from "swiper/modules";
+import { Teacher } from "@/lib/types";
 
 export default function Carousel() {
-  const [teachers, setTeachers] = useState([]);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
   useEffect(() => {
     const fetchTeachers = async () => {
       const data = await teacher_fetcher();
@@ -36,8 +36,8 @@ export default function Carousel() {
           return (
             <SwiperSlide key={item.id} className="flex justify-center items-center teacher-swiper">
               <Image
-                src={item.photo}
-                alt={item.name}
+                src={item.photo ?? ""}
+                alt={item.name ?? ""}
                 height={1200}
                 width={1000}
                 className="h-full w-auto object-cover"
