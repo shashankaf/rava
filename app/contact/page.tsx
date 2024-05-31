@@ -2,12 +2,13 @@ import React from "react";
 import SocialMedia from "@/components/SocialMedia";
 import Heading from "@/components/Heading";
 import localFont from "next/font/local";
+import InfoSection from "@/components/InfoSection";
 
 const rudaw = localFont({ src: "../rudaw.ttf" });
 
 const Contact = () => {
-  const insta_link = "https://google.com"
-    "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2Frava_institute%3Figsh%3DNXpkaGQweGZvZDZ4%26fbclid%3DIwZXh0bgNhZW0CMTAAAR28UQlXb9yY0o6k0XW68O5jB4vbltzNexlVzw00lmTPjGsfoMjGnGAsiZM_aem_Ad5HpPTMNk15DVDMBT_5C9iOqNcvEKra5wXL2xa1GwdL8b_vo-kJEmGpOzsxs9sC1Lih0TSsYooUx_rqCA1Hz873&h=AT2cXvq6WzE4YaqI1ss8nb_SWFx3WstFERAOsjXrh795tpYZUyiZfzXIKHRvlFu1mmnfNVhQbyZ6q9Frg4TRqbQh8kEnfhM1hUGshuVJBq_6krfbKVfy8vz7fBTMOhv9p9Zrz6q9";
+  const insta_link = "https://google.com";
+  ("https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2Frava_institute%3Figsh%3DNXpkaGQweGZvZDZ4%26fbclid%3DIwZXh0bgNhZW0CMTAAAR28UQlXb9yY0o6k0XW68O5jB4vbltzNexlVzw00lmTPjGsfoMjGnGAsiZM_aem_Ad5HpPTMNk15DVDMBT_5C9iOqNcvEKra5wXL2xa1GwdL8b_vo-kJEmGpOzsxs9sC1Lih0TSsYooUx_rqCA1Hz873&h=AT2cXvq6WzE4YaqI1ss8nb_SWFx3WstFERAOsjXrh795tpYZUyiZfzXIKHRvlFu1mmnfNVhQbyZ6q9Frg4TRqbQh8kEnfhM1hUGshuVJBq_6krfbKVfy8vz7fBTMOhv9p9Zrz6q9");
   const rava_map =
     "https://maps.google.com/maps?q=rava+institute&t=&z=13&ie=UTF8&iwloc=&output=embed";
   const face_link = "https://www.facebook.com/rava.institute";
@@ -17,11 +18,14 @@ const Contact = () => {
         <section className="mb-32 text-center">
           <div className="py-12 md:px-12">
             <Heading text="پەیوەندی بکە بە راڤەوە" />
+            <InfoSection />
             <div className="container xl:px-32">
               <div className="grid items-center lg:grid-cols-2">
                 <div className="mb-12 md:mt-12 lg:mt-0 lg:mb-0">
                   <div className="relative z-[1] block rounded-lg bg-[hsla(0,0%,100%,0.55)] px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] backdrop-blur-[30px] dark:bg-[hsla(0,0%,5%,0.7)] dark:shadow-black/20 md:px-12 lg:-mr-14">
-                    <h2 className="mb-12 text-3xl font-bold text-gray-900">نامە ناردن</h2>
+                    <h2 className="mb-12 text-3xl font-bold text-gray-900">
+                      نامە ناردن
+                    </h2>
                     <form>
                       <div className="relative mb-6" data-te-input-wrapper-init>
                         <input

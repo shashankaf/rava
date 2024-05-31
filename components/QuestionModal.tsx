@@ -1,6 +1,10 @@
 "use client"
 
 import { LegacyRef } from "react";
+import localFont from "next/font/local";
+
+const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });
+
 
 interface QuestionModalProps {
   text: string,
@@ -9,7 +13,7 @@ interface QuestionModalProps {
 }
 export default function QuestionModal({modalRef, text, handleClick}: QuestionModalProps) {
   return (
-    <dialog ref={modalRef} className="modal">
+    <dialog ref={modalRef} className={`${bbc.className} modal`}>
       <div className="modal-box">
         <h3 className="font-bold text-sm text-white">
           دڵنیایت دەتەوێت ئەم {text}ە بسڕیتەوە؟

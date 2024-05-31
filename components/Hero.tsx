@@ -7,7 +7,7 @@ const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });
 
 const Hero = () => {
   return (
-    <div dir="rtl" className="hero min-h-screen w-full bg-transparent">
+    <div dir="rtl" className="hero bg-transparent">
       <div className="hero-content text-center">
         <div className="max-w-md">
           <Title />

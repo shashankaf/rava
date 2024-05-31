@@ -1,12 +1,30 @@
-export default function Search() {
+import localFont from "next/font/local";
+
+const rudaw = localFont({ src: "/../app/rudaw.ttf" });
+
+
+interface SearchProps {
+  text: string;
+  setText: (value: string) => void;
+  handleSearch: (value: string) => void;
+}
+
+export default function Search({ text, setText, handleSearch }: SearchProps) {
   return (
-    <label className="input input-bordered flex items-center gap-2 bg-transparent">
-      <input type="text" className="grow bg-transparent" placeholder="Search" />
+    <label className={`${rudaw.className} input input-bordered flex items-center gap-2 bg-transparent`}>
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        type="text"
+        className="grow bg-transparent"
+        placeholder="گەڕان"
+      />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 16 16"
         fill="currentColor"
-        className="w-4 h-4 opacity-70"
+        className="w-8 h-8 opacity-80 text-indigo-400 hover:text-indigo-800 transition-all duration-400 cursor-pointer"
+        onClick={() => handleSearch(text)}
       >
         <path
           fillRule="evenodd"

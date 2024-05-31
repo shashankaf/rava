@@ -9,7 +9,7 @@ function Navbar() {
     "https://grocviikgcjxaxnkdvrv.supabase.co/storage/v1/object/public/general/rava-removebg-preview.png";
   return (
     <div
-      className={`${shasenem.className} fixed max-w-[1200px] flex flex-row justify-between w-full nav border-b-[2px] border-gray-100`}
+      className={`${shasenem.className} fixed flex flex-row bg-white justify-between w-full nav border-b-[2px] border-gray-100`}
     >
       <div className="flex flex-row items-center gap-x-2 text-lg text-gray-800 mx-6">
         <MenuItem text="ماڵەوە" link="/" />

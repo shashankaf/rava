@@ -11,6 +11,7 @@ const StudentTable = ({
   tableHeads,
   tableContent,
 }: StudentTableProps) => {
+
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

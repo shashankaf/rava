@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
-import { FaBookOpenReader } from "react-icons/fa6";
 import QuestionModal from "@/components/QuestionModal";
 import Pagination from "@/components/Pagination";
 import LoadNumber from "@/components/LoadNumber";
@@ -13,19 +12,14 @@ import localFont from "next/font/local";
 import { useAtom } from "jotai";
 import { pageLimitAtom } from "@/lib/store";
 import { supabase } from "@/utils/supabase/client";
+import AddBtn from "@/components/AddBtn";
+import { useRouter } from "next/navigation";
+import ShareUpdateModal from "@/components/modals/ShareUpdateModal";
+import { Share } from "@/lib/types";
 
 const bbc = localFont({ src: "/../../../app/sarkar_bbc.ttf" });
-
-interface ShareProps {
-  create_at: string,
-  id: string,
-  course: (string & {created_at: string, title: string}),
-  teacher: (string & {created_at: string, name: string}),
-  percentage: number,
-}
-
 export default function SharesTable() {
-  const [shares, setShares] = useState<ShareProps[]>([]);
+  const [shares, setShares] = useState<Share[]>([]);
   const [pageLimit] = useAtom(pageLimitAtom);
 
   const shareFetcher = async () => {
@@ -35,28 +29,79 @@ export default function SharesTable() {
         .select(`*, teacher(*), course(*)`);
       if (error) throw Error;
       setShares(data);
+      setFilteredShares(data);
     } catch (e) {
       console.log(e);
     }
   };
+
 
   useEffect(() => {
     shareFetcher();
   }, [pageLimit]);
 
   const modalRef = useRef(null);
+  const updateRef = useRef(null)
 
   const openModal = () => {
     if (modalRef.current) {
       modalRef.current.showModal();
     }
   };
+
+const [shareToUpdate, setShareToUpdate] = useState(null)
+  const handleUpdate = (id: string) => {
+    setShareToUpdate(id)
+    if(updateRef.current) {
+      updateRef.current.showModal()
+    }
+  }
+
+
+
+  const [text, setText] = useState("");
+  const [filteredShares, setFilteredShares] = useState<ShareProps[]>([]);
+
+  const handleSearch = (searchText: string) => {
+    const filtered = shares.filter(
+      (share) =>
+        share.teacher.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        share.course.title.toLowerCase().includes(searchText.toLowerCase()),
+    );
+    setFilteredShares(filtered);
+  };
+
+  const [isDeleted, setIsDeleted] = useState(false)
+
+  const handleDelete = async (id: string) => {
+    try {
+      const { error } = await supabase.from("share").delete().eq("id", id);
+
+      if (error) {
+        throw error;
+      }
+      setIsDeleted(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isDeleted) {
+      setIsDeleted(false); // Reset state
+      window.location.reload(); // Refresh the page
+    }
+  }, [isDeleted]);
+
+  const router = useRouter()
+
   return (
     <div dir="rtl" className="w-full mt-24 text-black ">
       <div className="flex flex-wrap justify-between">
         <DashboardTitle text=" بەڕێوەبردنی پشکەکان" />
+        <AddBtn handleAdd={() => router.push("/dashboard/shares/create")} />
         <div className="flex flex-wrap flex-row items-center justify-center gap-2">
-          <Search />
+          <Search text={text} setText={setText} handleSearch={handleSearch} />
           <LoadNumber />
         </div>
       </div>
@@ -70,7 +115,7 @@ export default function SharesTable() {
           </tr>
         </thead>
         <tbody className="text-md border-b-2 border-gray-100">
-          {shares.map((share) => {
+          {filteredShares.map((share) => {
             return (
               <tr className="text-md border-b-2 border-gray-100">
                 <td>{share.teacher.name}</td>
@@ -78,14 +123,9 @@ export default function SharesTable() {
                 <td>%{share.percentage}</td>
                 <td className="flex gap-x-6 justify-center text-2xl">
                   <div
-                    className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
-                    data-tip="خوێندنەوە"
-                  >
-                    <FaBookOpenReader />
-                  </div>
-                  <div
                     className="tooltip tooltip-warning text-indigo-500 cursor-pointer hover:text-indigo-900 transition-all duration-400"
                     data-tip="نوێکردنەوە"
+                    onClick={() => handleUpdate(share.id)}
                   >
                     <FaEdit />
                   </div>
@@ -99,7 +139,7 @@ export default function SharesTable() {
                   <QuestionModal
                     text="پشک"
                     modalRef={modalRef}
-                    handleClick={() => console.log("hello")}
+                    handleClick={() => handleDelete(share.id)}
                   />
                 </td>
               </tr>
@@ -107,6 +147,7 @@ export default function SharesTable() {
           })}
         </tbody>
       </table>
+      <ShareUpdateModal id={shareToUpdate} modalRef={updateRef} />
       <Pagination />
     </div>
   );

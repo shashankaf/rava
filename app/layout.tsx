@@ -1,9 +1,9 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
-import localFont from "next/font/local";
 import Footer from "@/components/Footer";
+import localFont from "next/font/local";
 
-const goran = localFont({ src: "./goran.ttf" });
+const bbc = localFont({ src: "./sarkar_bbc.ttf" });
 
 export const metadata = {
   title: "Rava Institute",
@@ -18,9 +18,9 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <html lang="en" className={`${goran.className} w-full`}>
+      <html lang="en" className={`${bbc.className} w-full`}>
         <body dir="rtl" className="bg-white">
-          <div className="max-w-[1200px] mx-auto">
+          <div className="mx-auto">
             <div>
               <Navbar />
             </div>

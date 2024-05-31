@@ -3,7 +3,6 @@
 import React from "react";
 import localFont from "next/font/local";
 
-const rudaw = localFont({ src: "/../../app/rudaw.ttf" });
 const goran = localFont({ src: "/../../app/goran.ttf" });
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
