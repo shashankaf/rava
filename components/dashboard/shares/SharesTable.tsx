@@ -118,9 +118,9 @@ const [shareToUpdate, setShareToUpdate] = useState<string | null>(null)
           {filteredShares.map((share) => {
             return (
               <tr className="text-md border-b-2 border-gray-100">
-                <td>{share.teacher.name}</td>
-                <td>{share.course.title}</td>
-                <td>%{share.percentage}</td>
+                <td>{share?.teacher?.name}</td>
+                <td>{share?.course?.title}</td>
+                <td>%{share?.percentage}</td>
                 <td className="flex gap-x-6 justify-center text-2xl">
                   <div
                     className="tooltip tooltip-warning text-indigo-500 cursor-pointer hover:text-indigo-900 transition-all duration-400"
