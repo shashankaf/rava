@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use server";
 
 import { supabase } from "@/utils/supabase/client";
@@ -23,6 +24,7 @@ const uploadPhoto = async (photo: any) => {
 export async function createTeacher(prevState: any, formData: FormData) {
   const file = formData.get("photo") as File;
   const photo = await uploadPhoto(file);
+  const orderly = Number(formData.get("order"))
   const remaining =
     "https://grocviikgcjxaxnkdvrv.supabase.co/storage/v1/object/public/";
   const fullURL = `${remaining}${photo}`;
@@ -30,7 +32,7 @@ export async function createTeacher(prevState: any, formData: FormData) {
     name: formData.get("name"),
     specialty: formData.get("specialty"),
     bio: formData.get("bio"),
-    order: formData.get("order"),
+    order: orderly,
     photo: fullURL,
   };
   const {error, data} = await supabase.from('teacher').insert(rawFormData)
