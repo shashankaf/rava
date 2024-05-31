@@ -28,7 +28,7 @@ export default function StudentsTable() {
     try {
       const { data, error } = await supabase
         .from("student")
-        .select(`*, class(*), blood(*), travel(*), ragaz(*)`)
+        .select(`*, class(*), blood(*), travel(*), ragaz(*), course(*)`)
         .order("created_at", { ascending: false })
         .limit(pageLimit);
       if (error) throw Error;

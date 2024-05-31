@@ -17,8 +17,8 @@ export interface Teacher {
 }
 
 export interface Student {
-  blood: number | null;
-  class: number | null;
+  blood: (number & Blood) | null;
+  class: (number & UtilityTable) | null;
   created_at: string;
   id: string;
   health: string | null;
@@ -26,14 +26,14 @@ export interface Student {
   school: string | null;
   phone: string | null;
   address: string | null;
-  travel: number | null;
-  ragaz: number | null;
+  travel: (number & UtilityTable) | null;
+  ragaz: (number & UtilityTable) | null;
   publish: boolean | null;
   teacher: any;
   second_phone: string | null;
   pay: string | null;
   secondpay: string | null;
-  course: string | null;
+  course: (string & Course) | null;
 }
 
 export interface Share {
