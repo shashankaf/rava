@@ -2,12 +2,9 @@
 
 import React from "react";
 import localFont from "next/font/local";
-import { SetStateAction } from "jotai";
 
 const goran = localFont({ src: "/../../app/goran.ttf" });
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
-
-type SetAtom<Args extends any[], Result> = (...args: Args) => Result;
 
 interface InputProps {
   label: string;

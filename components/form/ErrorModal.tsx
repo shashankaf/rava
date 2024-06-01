@@ -30,8 +30,8 @@ const ErrorModal = ({errors, setErrors}: errorsProps) => {
           </svg>
           </div>
           <div className="flex flex-col">
-            {errors.map((item) => (
-              <p className="">{item}</p>
+            {errors.map((item, index) => (
+              <p key={index} className="">{item}</p>
             ))}
           </div>
         </div>

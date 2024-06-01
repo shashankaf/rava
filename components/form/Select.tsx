@@ -23,6 +23,7 @@ const Select = ({ text, options, onSelectChange }: InputProps) => {
       <select
         className={`${bbc.className} select w-full max-w-xs input-lg text-white bg-gray-800`}
         onChange={handleSelectChange}
+        defaultValue=""
       >
         <option disabled value="">
           {text}

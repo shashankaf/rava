@@ -1,6 +1,6 @@
 "use client";
 
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Heading from "../Heading";
 import Input from "./Input";
 import Select from "./Select";
@@ -28,14 +28,14 @@ interface GeneralType {
 }
 
 interface DataType {
-  ragazakan: GeneralType[],
-  bloods:GeneralType[],
-  classes:GeneralType[],
-  travels: GeneralType[],
-  courses: GeneralType[]
+  ragazakan: GeneralType[];
+  bloods: GeneralType[];
+  classes: GeneralType[];
+  travels: GeneralType[];
+  courses: GeneralType[];
 }
 
-const Form = ({ragazakan,classes, bloods, travels, courses}:DataType) => {
+const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
   const [name, setName] = useAtom<string>(nameAtom);
   const [school, setSchool] = useAtom<string>(schoolAtom);
   const [phone, setPhone] = useAtom<string>(phoneAtom);
@@ -46,30 +46,35 @@ const Form = ({ragazakan,classes, bloods, travels, courses}:DataType) => {
   const [teacher] = useAtom(teacherAtom);
   const [errors, setErrors] = useState<string[]>([]);
 
-
   const handleError = (errorMessage: string) => {
     setErrors((prev) => [...prev, errorMessage]);
   };
 
-  const handleSave = async () => {
-    const clas = Number(selectedClas)
-    const blud = Number(selectedBlood)
-    const travul = Number(selectedTravel)
-    const ragoz = Number(selectedRagaz)
-    const info = {
-      name,
-      class: clas,
-      school,
-      blood: blud,
-      phone,
-      second_phone: secondPhone,
-      course: selectedCourse,
-      address,
-      travel: travul,
-      health,
-      ragaz: ragoz,
-      teacher: teacher,
-    };
+  const [selectedRagaz, setSelectedRagaz] = useState<string | null>(null);
+  const [selectedClas, setSelectedClas] = useState<string | null>(null);
+  const [selectedBlood, setSelectedBlood] = useState<string | null>(null);
+  const [selectedTravel, setSelectedTravel] = useState<string | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+
+  const handleRagazChange = (value: string) => {
+    setSelectedRagaz(value);
+  };
+  const handleClasChange = (value: string) => {
+    setSelectedClas(value);
+  };
+  const handleBloodChange = (value: string) => {
+    setSelectedBlood(value);
+  };
+  const handleTravelChange = (value: string) => {
+    setSelectedTravel(value);
+  };
+  const handleCourseChange = (value: string) => {
+    setSelectedCourse(value);
+  };
+
+  const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    // Ensure these validations are done before the Number() conversions
     if (name.length < 2) {
       const msg = "تکایە ناوێکی گونجاو هەڵبژێرە";
       handleError(msg);
@@ -86,36 +91,39 @@ const Form = ({ragazakan,classes, bloods, travels, courses}:DataType) => {
       const msg = "تکایە مامۆستایەک یان زیاتر هەڵبژێرە";
       handleError(msg);
     }
+    // Assuming errors is an array
     if (errors.length > 0) {
       return;
     }
+    
+    // Convert inputs after validation
+    const clas = Number(selectedClas);
+    const blud = Number(selectedBlood);
+    const travul = Number(selectedTravel);
+    const ragoz = Number(selectedRagaz);
+
+    // Prepare the info object
+    const info = {
+      name,
+      class: clas,
+      school,
+      blood: blud,
+      phone,
+      second_phone: secondPhone,
+      course: selectedCourse,
+      address,
+      travel: travul,
+      health,
+      ragaz: ragoz,
+      teacher,
+    };
+
+    // Insert the data
     const { error } = await supabase.from("student").insert(info);
 
     if (error) {
       console.log(error);
     }
-  };
-
-  const [selectedRagaz, setSelectedRagaz] = useState<string>("");
-  const [selectedClas, setSelectedClas] = useState<string>("");
-  const [selectedBlood, setSelectedBlood] = useState<string>("");
-  const [selectedTravel, setSelectedTravel] = useState<string>("");
-  const [selectedCourse, setSelectedCourse] = useState<string>("");
-
-  const handleRagazChange = (value: string) => {
-    setSelectedRagaz(value);
-  };
-  const handleClasChange = (value: string) => {
-    setSelectedClas(value);
-  };
-  const handleBloodChange = (value: string) => {
-    setSelectedBlood(value);
-  };
-  const handleTravelChange = (value: string) => {
-    setSelectedTravel(value);
-  };
-  const handleCourseChange = (value: string) => {
-    setSelectedCourse(value);
   };
 
   return (
@@ -197,8 +205,8 @@ const Form = ({ragazakan,classes, bloods, travels, courses}:DataType) => {
         <button
           onClick={handleSave}
           className={`${rudaw.className} m-auto bg-blue-500 
-                     hover:bg-blue-700 text-white font-bold py-2 
-                     px-6 border border-blue-700 rounded text-2xl`}
+                     hover:bg-blue-800 text-white font-bold py-2 
+                     px-6 border border-blue-800 rounded text-2xl`}
         >
           تۆمارکردن
         </button>
