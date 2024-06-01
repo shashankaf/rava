@@ -22,12 +22,12 @@ const Input = ({ label, placeholder, state, setState}: InputProps) => {
       <label
         className={`${bbc.className} input input-bordered input-lg 
                         w-full max-w-xs flex items-center gap-2 font-bold 
-                        text-lg font-bold text-white`}
+                        text-lg font-bold text-white bg-gray-800`}
       >
         {label}
         <input
           type="text"
-          className={`${goran.className} text-sm`}
+          className={`${goran.className} text-sm bg-gray-800 px-0`}
           placeholder={placeholder}
           value={state}
           onChange={(e) => setState(e.target.value)}
