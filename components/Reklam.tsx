@@ -19,8 +19,8 @@ export default function Reklam() {
   }, []);
 
   return (
-    <>
+    <div className="m-auto">
       <HomeSwiper options={options} />
-    </>
+    </div>
   );
 }

@@ -30,7 +30,7 @@ export default function Carousel() {
         effect={"cards"}
         grabCursor={true}
         modules={[EffectCards]}
-        className="mySwiper"
+        className="firstSwiper"
       >
         {teachers.map((item) => {
           return (

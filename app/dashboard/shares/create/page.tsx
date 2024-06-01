@@ -1,8 +1,7 @@
-//@ts-nocheck
 "use client";
 
 import SubmitButton from "@/components/SubmitBtn";
-import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import { teacher_fetcher, course_fetcher } from "@/lib/fetchers";
 import { supabase } from "@/utils/supabase/client";
 
