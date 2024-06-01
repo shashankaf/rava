@@ -31,7 +31,7 @@ export default async function FormPage() {
         width={900}
         height={1200}
         alt="Rava Institute Logo"
-        className="absolute top-32 z-0 blur-2xl logo rotate-45"
+        className="absolute top-32 z-0 blur-2xl logo"
       />
       <footer className="w-full p-8 flex justify-center text-center text-xs ">
         <p>
