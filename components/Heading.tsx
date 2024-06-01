@@ -9,7 +9,7 @@ type TextProp = {
 }
 const Title = ({text, color="text-gray-800"}: TextProp) => {
   return (
-      <h2 className={`${bbc.className} text-2xl text-center ${color} my-4 drop-shadow-xl`}>{text}</h2>
+      <h2 className={`${bbc.className} text-3xl text-center ${color} my-4 drop-shadow-xl`}>{text}</h2>
   );
 };
 

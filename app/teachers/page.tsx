@@ -11,7 +11,7 @@ async function TeachersPage() {
     }
 
   return (
-    <div className="mt-24">
+    <div className="my-24">
       <Heading text="مامۆستایانی راڤە" />
       <div className="flex flex-row justify-center flex-wrap gap-4">
         {data?.map((item) => {
