@@ -13,7 +13,7 @@ interface InputProps {
   label: string;
   placeholder: string;
   state: string;
-  setState: SetAtom<[SetStateAction<string>], void>;
+  setState: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Input = ({ label, placeholder, state, setState}: InputProps) => {
