@@ -11,11 +11,11 @@ const Footer = () => {
   return (
     <footer
       dir="rtl"
-      className={`${rudaw.className} footer items-center p-2 bg-neutral text-neutral-content content`}
+      className={`${rudaw.className} footer items-center p-2 bg-neutral text-neutral-content content flex flex-row justify-between`}
     >
       <aside className="items-center grid-flow-col">
         <Image src={rava} width={50} height={50} alt="Rava Institute Logo" />
-        <p>پەیمانگای راڤە بۆ فێرکاری و پەروەردە</p>
+        <p className="">پەیمانگای راڤە بۆ فێرکاری و پەروەردە</p>
       </aside>
       <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
         <a>

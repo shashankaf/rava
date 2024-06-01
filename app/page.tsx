@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Hero from "@/components/Hero";
-import Carousel from "@/components/Swiper";
+import Carousel from "@/components/Carousel";
 import Heading from "@/components/Heading";
 import Reklam from "@/components/Reklam";
 

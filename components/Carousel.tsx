@@ -40,9 +40,9 @@ export default function Carousel() {
                 alt={item.name ?? ""}
                 height={1200}
                 width={1000}
-                className="h-full w-auto object-cover"
+                className="object-cover rounded-b-2xl"
               />
-              <div className="absolute bottom-0 bg-inherit py-2 rounded-tl-3xl shadow-md shadow-black">
+              <div className="absolute bottom-0 bg-inherit py-2">
               <p className="text-md px-6  nav">{item.name}</p>
               <p className="text-sm text-center px-6 nav">{item.specialty}</p>
               </div>

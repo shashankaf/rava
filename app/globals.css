@@ -108,6 +108,8 @@
 .firstSwiper {
   width: 480px;
   height: 700px;
+  margin: 0 auto; /* Centering the swiper */
+  padding: 0; /* Initial padding */
 }
 
 .firstSwiper .swiper-slide {
@@ -158,6 +160,16 @@
 
 .firstSwiper .swiper-slide:nth-child(10n) {
   background-color: rgb(54, 94, 77);
+}
+
+/* Media query for mobile screens */
+@media (max-width: 768px) {
+  .firstSwiper {
+    width: 240px; /* Half the original width */
+    height: 350px; /* Half the original height */
+    margin: 16px auto; /* Add margin */
+    padding: 16px; /* Add padding */
+  }
 }
 .anotherSwiper {
   max-width: 1200px;
