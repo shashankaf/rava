@@ -42,7 +42,7 @@ export default function Carousel() {
                 width={1000}
                 className="object-cover rounded-b-2xl"
               />
-              <div className="absolute bottom-0 bg-inherit py-2">
+              <div className="absolute bottom-0 bg-inherit py-2 rounded-t-xl">
               <p className="text-md px-6  nav">{item.name}</p>
               <p className="text-sm text-center px-6 nav">{item.specialty}</p>
               </div>
