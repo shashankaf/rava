@@ -4,16 +4,17 @@ import localFont from "next/font/local";
 const rudaw = localFont({ src: "/../../app/rudaw.ttf" });
 interface errorsProps {
   errors: string[],
+  success?: boolean,
   setErrors: React.Dispatch<React.SetStateAction<string[]>>
 } 
-const ErrorModal = ({errors, setErrors}: errorsProps) => {
+const ErrorModal = ({errors, setErrors, success}: errorsProps) => {
   const offError = () => {
     setErrors([])
   }
   return (
     <div className={`${rudaw.className}`}>
       {errors.length > 0 && (
-        <div dir="rtl" role="alert" className="alert alert-error w-auto">
+        <div dir="rtl" role="alert" className={`${success ? "alert alert-success" : "alert alert-error w-auto"}`}>
           <div onClick={offError}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

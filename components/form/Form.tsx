@@ -36,6 +36,7 @@ interface DataType {
 }
 
 const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useAtom<string>(nameAtom);
   const [school, setSchool] = useAtom<string | null>(schoolAtom);
   const [phone, setPhone] = useAtom<string | null>(phoneAtom);
@@ -45,31 +46,40 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
 
   const [teacher] = useAtom(teacherAtom);
   const [errors, setErrors] = useState<string[]>([]);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const handleError = (errorMessage: string) => {
     setErrors((prev) => [...prev, errorMessage]);
   };
 
-  const [selectedRagaz, setSelectedRagaz] = useState<number | null | undefined>(null);
-  const [selectedClas, setSelectedClas] = useState<number | null | undefined>(null);
-  const [selectedBlood, setSelectedBlood] = useState<number | null | undefined>(null);
-  const [selectedTravel, setSelectedTravel] = useState<number | null | undefined>(null);
+  const [selectedRagaz, setSelectedRagaz] = useState<number | null | undefined>(
+    null,
+  );
+  const [selectedClas, setSelectedClas] = useState<number | null | undefined>(
+    null,
+  );
+  const [selectedBlood, setSelectedBlood] = useState<number | null | undefined>(
+    null,
+  );
+  const [selectedTravel, setSelectedTravel] = useState<
+    number | null | undefined
+  >(null);
   const [selectedCourse, setSelectedCourse] = useState<string>("");
 
   const handleRagazChange = (value: string) => {
-    const numRagaz = Number(value)
+    const numRagaz = Number(value);
     setSelectedRagaz(numRagaz);
   };
   const handleClasChange = (value: string) => {
-    const numClas = Number(value)
+    const numClas = Number(value);
     setSelectedClas(numClas);
   };
   const handleBloodChange = (value: string) => {
-    const numBlood = Number(value)
+    const numBlood = Number(value);
     setSelectedBlood(numBlood);
   };
   const handleTravelChange = (value: string) => {
-    const numTravel = Number(value)
+    const numTravel = Number(value);
     setSelectedTravel(numTravel);
   };
   const handleCourseChange = (value: string) => {
@@ -77,7 +87,8 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
   };
 
   const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+    setLoading(true);
+    e.preventDefault();
     if (name.length < 2) {
       const msg = "تکایە ناوێکی گونجاو هەڵبژێرە";
       handleError(msg);
@@ -96,9 +107,9 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
     }
     // Assuming errors is an array
     if (errors.length > 0) {
+      setLoading(false);
       return;
     }
-    
 
     // Prepare the info object
     const info = {
@@ -117,10 +128,23 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
     };
 
     // Insert the data
-    const { error } = await supabase.from("student").insert(info);
+    const { error, data } = await supabase
+      .from("student")
+      .insert(info)
+      .select()
+      .single();
 
     if (error) {
+      setLoading(false);
       console.log(error);
+      return;
+    }
+    if (data) {
+      setLoading(false);
+      setSuccess(true)
+      const msg = `سوپاس بۆ خۆتۆمارکردنت ${data.name}`;
+      handleError(msg);
+      return;
     }
   };
 
@@ -197,7 +221,7 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
         </div>
       </div>
       <div className="m-2">
-        <ErrorModal errors={errors} setErrors={setErrors} />
+        <ErrorModal success={success} errors={errors} setErrors={setErrors} />
       </div>
       <div className="flex justify-center my-4">
         <button
@@ -206,7 +230,10 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
                      hover:bg-blue-800 text-white font-bold py-2 
                      px-6 border border-blue-800 rounded text-2xl`}
         >
-          تۆمارکردن
+          <span>تۆمارکردن</span>
+          {loading ? (
+            <span className="loading loading-spinner loading-md"></span>
+          ) : null}
         </button>
       </div>
     </div>
