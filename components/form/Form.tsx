@@ -18,7 +18,7 @@ import AllTeachers from "./AllTeachers";
 import { supabase } from "@/utils/supabase/client";
 
 import localFont from "next/font/local";
-import ErrorModal from "./ErrorModal";
+import MessageModal from "./MessageModal";
 
 const rudaw = localFont({ src: "/../../app/rudaw.ttf" });
 
@@ -35,7 +35,7 @@ interface DataType {
   courses: GeneralType[];
 }
 
-const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
+export default function Form({ ragazakan, classes, bloods, travels, courses }: DataType) {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useAtom<string>(nameAtom);
   const [school, setSchool] = useAtom<string | null>(schoolAtom);
@@ -221,7 +221,7 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
         </div>
       </div>
       <div className="m-2">
-        <ErrorModal success={success} errors={errors} setErrors={setErrors} />
+        <MessageModal success={success} errors={errors} setErrors={setErrors} />
       </div>
       <div className="flex justify-center my-4">
         <button
@@ -239,5 +239,3 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
     </div>
   );
 };
-
-export default Form;

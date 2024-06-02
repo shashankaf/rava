@@ -7,7 +7,7 @@ interface errorsProps {
   success?: boolean,
   setErrors: React.Dispatch<React.SetStateAction<string[]>>
 } 
-const ErrorModal = ({errors, setErrors, success}: errorsProps) => {
+export default function MessageModal({errors, setErrors, success}: errorsProps) {
   const offError = () => {
     setErrors([])
   }
@@ -40,5 +40,3 @@ const ErrorModal = ({errors, setErrors, success}: errorsProps) => {
     </div>
   );
 };
-
-export default ErrorModal;
