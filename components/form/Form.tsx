@@ -37,11 +37,11 @@ interface DataType {
 
 const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
   const [name, setName] = useAtom<string>(nameAtom);
-  const [school, setSchool] = useAtom<string>(schoolAtom);
-  const [phone, setPhone] = useAtom<string>(phoneAtom);
-  const [secondPhone, setSecondPhone] = useAtom<string>(secondPhoneAtom);
-  const [address, setAddress] = useAtom<string>(addressAtom);
-  const [health, setHealth] = useAtom<string>(healthAtom);
+  const [school, setSchool] = useAtom<string | null>(schoolAtom);
+  const [phone, setPhone] = useAtom<string | null>(phoneAtom);
+  const [secondPhone, setSecondPhone] = useAtom<string | null>(secondPhoneAtom);
+  const [address, setAddress] = useAtom<string | null>(addressAtom);
+  const [health, setHealth] = useAtom<string | null>(healthAtom);
 
   const [teacher] = useAtom(teacherAtom);
   const [errors, setErrors] = useState<string[]>([]);
@@ -50,23 +50,27 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
     setErrors((prev) => [...prev, errorMessage]);
   };
 
-  const [selectedRagaz, setSelectedRagaz] = useState<string | null>(null);
-  const [selectedClas, setSelectedClas] = useState<string | null>(null);
-  const [selectedBlood, setSelectedBlood] = useState<string | null>(null);
-  const [selectedTravel, setSelectedTravel] = useState<string | null>(null);
-  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+  const [selectedRagaz, setSelectedRagaz] = useState<number | null | undefined>(null);
+  const [selectedClas, setSelectedClas] = useState<number | null | undefined>(null);
+  const [selectedBlood, setSelectedBlood] = useState<number | null | undefined>(null);
+  const [selectedTravel, setSelectedTravel] = useState<number | null | undefined>(null);
+  const [selectedCourse, setSelectedCourse] = useState<string>("");
 
   const handleRagazChange = (value: string) => {
-    setSelectedRagaz(value);
+    const numRagaz = Number(value)
+    setSelectedRagaz(numRagaz);
   };
   const handleClasChange = (value: string) => {
-    setSelectedClas(value);
+    const numClas = Number(value)
+    setSelectedClas(numClas);
   };
   const handleBloodChange = (value: string) => {
-    setSelectedBlood(value);
+    const numBlood = Number(value)
+    setSelectedBlood(numBlood);
   };
   const handleTravelChange = (value: string) => {
-    setSelectedTravel(value);
+    const numTravel = Number(value)
+    setSelectedTravel(numTravel);
   };
   const handleCourseChange = (value: string) => {
     setSelectedCourse(value);
@@ -74,7 +78,6 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
 
   const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    // Ensure these validations are done before the Number() conversions
     if (name.length < 2) {
       const msg = "تکایە ناوێکی گونجاو هەڵبژێرە";
       handleError(msg);
@@ -96,25 +99,20 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
       return;
     }
     
-    // Convert inputs after validation
-    const clas = Number(selectedClas);
-    const blud = Number(selectedBlood);
-    const travul = Number(selectedTravel);
-    const ragoz = Number(selectedRagaz);
 
     // Prepare the info object
     const info = {
       name,
-      class: clas,
+      class: selectedClas,
       school,
-      blood: blud,
+      blood: selectedBlood,
       phone,
       second_phone: secondPhone,
       course: selectedCourse,
       address,
-      travel: travul,
+      travel: selectedTravel,
       health,
-      ragaz: ragoz,
+      ragaz: selectedRagaz,
       teacher,
     };
 
@@ -134,37 +132,37 @@ const Form = ({ ragazakan, classes, bloods, travels, courses }: DataType) => {
       <Heading text="فۆرمی خۆتۆمارکردن" />
       <div className="flex  flex-wrap gap-2 justify-center pb-8">
         <Input
-          state={name}
+          state={name ?? ""}
           setState={setName}
           placeholder="ناوی سیانییت چیە؟"
           label="ناو:"
         />
         <Input
-          state={school}
+          state={school ?? ""}
           setState={setSchool}
           placeholder="ناوی خوێندنگەکەت چیە؟"
           label="خوێندنگە:"
         />
         <Input
-          state={phone}
+          state={phone ?? ""}
           setState={setPhone}
           placeholder="ژمارەیەک بۆ پەیوەندیکردن"
           label="ژمارەی مۆبایل:"
         />
         <Input
-          state={secondPhone}
+          state={secondPhone ?? ""}
           setState={setSecondPhone}
           placeholder="ژمارەی تەلەفۆنی ماڵەوە"
           label="ژمارەی ماڵەوە:"
         />
         <Input
-          state={address}
+          state={address ?? ""}
           setState={setAddress}
           placeholder="ناونیشانی نیشتەجێبوون"
           label="ناونیشان:"
         />
         <Input
-          state={health}
+          state={health ?? ""}
           setState={setHealth}
           placeholder="هەر کێشەیەکی تەندروستی"
           label=" تەندروستی:"
