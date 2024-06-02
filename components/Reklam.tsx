@@ -1,5 +1,6 @@
 //@ts-nocheck
 "use client";
+
 import HomeSwiper from "./HomeSwiper";
 import { useEffect, useState } from "react";
 import { Reklam } from "@/lib/types";

@@ -1,4 +1,3 @@
-//@ts-nocheck
 "use client";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,7 +7,17 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 
-export default function HomeSwiper({ options }: any) {
+interface Option {
+  id: string;
+  media: string;
+  title?: string;
+}
+
+interface HomeSwiperProps {
+  options: Option[];
+}
+
+export default function HomeSwiper({ options }: HomeSwiperProps) {
   return (
     <>
       <Swiper

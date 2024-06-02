@@ -104,8 +104,8 @@ export interface UtilityTable {
 export interface Reklam {
   id: string;
   created_at: string;
-  title: string | null;
+  title: string | undefined;
   content: string | null;
   link: string | null;
-  media: string | null;
+  media: string;
 }

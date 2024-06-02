@@ -34,7 +34,7 @@ const TeacherComponent = ({ options, text }: teacherProps) => {
   return (
     <div dir="rtl" className={`${bbc.className} text-xl relative my-4`}>
       <h3 className="text-xl font-bold text-center text-gray-900">{text}</h3>
-      <div className="grid sm:grid-cols-3 grid-cols-1 gap-2 justify-center">
+      <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 justify-center">
         {options?.map((option) => (
           <div key={option.id} className="flex items-center">
             <label className="checkbox-container">
