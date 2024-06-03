@@ -1,17 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import localFont from "next/font/local";
 import IncomeTable from "./IncomeTable";
 import ExpenseTable from "./ExpenseTable";
-
-const rudaw = localFont({ src: "/../../../app/rudaw.ttf" });
+import AccountingTableWrapper from "./AccountingTableWrapper";
 
 export default function AccountingTable() {
   const [active, setActive] = useState(false)
   return (
     <>
-      <div role="tablist" className={`${rudaw.className} tabs tabs-lifted w-full mt-24`}>
+      <AccountingTableWrapper>
+      <div role="tablist" className={`tabs tabs-lifted w-full mt-8`}>
         <input
           type="radio"
           name="my_tabs_2"
@@ -44,6 +43,7 @@ export default function AccountingTable() {
           <ExpenseTable />
         </div>
       </div>
+      </AccountingTableWrapper>
     </>
   )
 }
