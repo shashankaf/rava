@@ -14,8 +14,12 @@ export default async function DefaultLayout({children}: {children: React.ReactNo
 
   return (
     <>
+      <div className="">
       <Sidebar />
+      </div>
+      <div>
       {children}
+      </div>
     </>
   );
 }

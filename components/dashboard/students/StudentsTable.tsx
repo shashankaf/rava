@@ -99,10 +99,10 @@ const [studentToUpdate, setStudentToUpdate] = useState<string>("")
   const router = useRouter()
 
   return (
-    <div dir="rtl" className="w-full mt-24 text-black ">
+    <div dir="rtl" className="text-black ">
       <div className="flex flex-wrap justify-between items-center">
         <DashboardTitle text=" بەڕێوەبردنی خوێندکاران" />
-        <AddBtn handleAdd={() => console.log('hi')} />
+        <AddBtn handleAdd={() => router.push("../form")} />
         <div className="flex flex-wrap flex-row items-center justify-center gap-2">
           <Search text={text} setText={setText} handleSearch={handleSearch} />
           <LoadNumber />

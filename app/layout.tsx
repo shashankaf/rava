@@ -24,7 +24,7 @@ export default function RootLayout({
             <div>
               <Navbar />
             </div>
-            <main dir="rtl" className="min-h-screen flex flex-col items-center">
+            <main dir="rtl" className="min-h-screen max-w-[1200px] mx-auto">
               {children}
             </main>
           </div>

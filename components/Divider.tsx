@@ -7,7 +7,7 @@ type DividerProps = {
 }
 export default function Divider({ text }:DividerProps) {
   return (
-    <div className={`${rudaw.className} divider text-xl text-gray-500 my-8`}>
+    <div className={`${rudaw.className} divider text-xl text-gray-500 py-8`}>
       {text}
     </div>
   );

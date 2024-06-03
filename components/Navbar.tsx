@@ -15,7 +15,7 @@ function Navbar() {
 
   return (
     <div
-      className={`${shasenem.className} fixed flex flex-row bg-white justify-between w-full nav border-b-[2px] border-gray-100`}
+      className={`${shasenem.className} fixed flex flex-row bg-white justify-between lg:w-full nav border-b-[2px] border-gray-100`}
     >
       <div className="hidden md:flex flex-row items-center gap-x-2 text-lg text-gray-800 mx-6">
         <MenuItem text="ماڵەوە" link="/" />

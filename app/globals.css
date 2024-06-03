@@ -11,8 +11,21 @@
   z-index: 2;
 }
 .nav {
-  z-index: 5;
+  z-index: 3;
 }
+
+.sidebar {
+  z-index: 4;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.divider {
+  margin-top: 0 !important;
+}
+
 .logo {
   z-index: 1;
 }

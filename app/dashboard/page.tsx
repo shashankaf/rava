@@ -33,9 +33,9 @@ async function Home() {
   }
 
   return (
-    <div dir="rtl" className={`${bbc.className} w-full mt-16`}>
+    <div dir="rtl" className={`${bbc.className} pt-20`}>
       <Divider text="داهات و خەرجی" />
-      <div className="flex justify-between w-full flex-wrap">
+      <div className="flex lg:justify-between w-full flex-wrap lg:flex-row flex-col items-center">
         <AccountingBox text="داهات" money={finance?.income} color="bg-purple-700">
           <FaMoneyBill1Wave />
         </AccountingBox>
@@ -48,9 +48,9 @@ async function Home() {
       </div>
 
       <div className="flex flex-wrap">
-        <div className="w-full lg:w-2/3 p-4">
+        <div className="lg:w-2/3">
           <Divider text="دوایین خوێندکاران" />
-          <div className="overflow-x-auto">
+          <div className="overflow-x-scroll">
             <StudentTable
               title="دوایین خوێندکاران"
               tableHeads={["ناو", "پۆل", "خول"]}

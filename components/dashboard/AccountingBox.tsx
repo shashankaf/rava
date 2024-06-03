@@ -12,7 +12,7 @@ interface AccountingProps {
 const AccountingBox = ({ text, money, children, color }: AccountingProps) => {
   return (
     <div
-      className={`flex flex-col items-center bg-opacity-75	 gap-4 rounded-sm border border-stroke py-4 px-32 ${color} text-white text-3xl`}
+      className={`flex flex-col items-center bg-opacity-75	 gap-4 rounded-sm border border-stroke py-4 px-32 ${color} text-white text-3xl max-w-[300px]`}
     >
       {children}
       <div className="text-center">

@@ -25,8 +25,12 @@ export default async function ReadStudent({
   }
 
   return (
-    <div className={`${bbc.className} max-w-5xl mx-auto p-8 bg-white shadow-lg rounded-lg text-black mt-24`}>
-      <h1 className={`${rudaw.className} text-2xl font-bold mb-6`}>پرۆفایلی خوێندکار</h1>
+    <div
+      className={`${bbc.className} max-w-full mx-auto p-8 bg-white shadow-lg rounded-lg text-black`}
+    >
+      <h1 className={`${rudaw.className} text-2xl font-bold mb-6`}>
+        پرۆفایلی خوێندکار
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="flex flex-col">
           <span className="font-semibold">ناو:</span>

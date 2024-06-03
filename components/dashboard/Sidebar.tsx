@@ -22,9 +22,9 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={`${bbc.className} flex `}>
+    <div className={`${bbc.className} flex sidebar`}>
       <div
-        className={`fixed inset-y-0 right-0 bg-gray-800 text-white transform ${isCollapsed ? "w-16" : "w-64"} transition-width duration-300 ease-in-out`}
+        className={`inset-y-24 rounded-bl-3xl rounded-tl-3xl right-0 bg-gray-800 text-white transform ${isCollapsed ? "w-16" : "w-64"} transition-width duration-300 ease-in-out`}
       >
         <div className="flex items-center justify-between p-4">
           <h1
@@ -86,7 +86,6 @@ const Sidebar = () => {
           </SidebarItem>
         </nav>
       </div>
-      <div className={`ml-auto ${isCollapsed ? "w-16" : "w-64"}`}></div>
     </div>
   );
 };
