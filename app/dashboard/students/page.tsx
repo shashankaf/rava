@@ -3,9 +3,9 @@ import React from "react"
 
 const Students = () => {
   return (
-  <>
+  <div className="overflow-x-auto">
       <StudentsTable />
-  </>
+  </div>
   )
 }
 

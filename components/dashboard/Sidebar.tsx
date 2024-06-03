@@ -24,7 +24,7 @@ const Sidebar = () => {
   return (
     <div className={`${bbc.className} flex sidebar`}>
       <div
-        className={`inset-y-24 rounded-bl-3xl rounded-tl-3xl right-0 bg-gray-800 text-white transform ${isCollapsed ? "w-16" : "w-64"} transition-all origin-center duration-400 ease-in-out`}
+        className={`inset-y-24 rounded-bl-3xl rounded-tl-3xl right-0 bg-gray-800 text-white transform ${isCollapsed ? "w-16" : "w-64"} transition-all origin-center duration-600 ease-in-out`}
       >
         <div className="flex items-center justify-between p-4">
           <h1

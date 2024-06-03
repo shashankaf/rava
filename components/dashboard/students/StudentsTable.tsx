@@ -6,17 +6,14 @@ import { FaEdit } from "react-icons/fa";
 import { FaBookOpenReader } from "react-icons/fa6";
 import QuestionModal from "@/components/QuestionModal";
 import Pagination from "@/components/Pagination";
-import LoadNumber from "@/components/LoadNumber";
-import Search from "@/components/Search";
-import DashboardTitle from "@/components/DashboardTitle";
 import localFont from "next/font/local";
 import { supabase } from "@/utils/supabase/client";
 import { useAtom } from "jotai";
 import { pageLimitAtom } from "@/lib/store";
 import { useRouter } from "next/navigation";
-import AddBtn from "@/components/AddBtn";
 import StudentUpdateModal from "@/components/modals/StudentUpdateModal";
 import { Student } from "@/lib/types";
+import StudentTableWrapper from "./StudentTableWrapper";
 
 const bbc = localFont({ src: "/../../../app/sarkar_bbc.ttf" });
 
@@ -33,7 +30,7 @@ export default function StudentsTable() {
         .limit(pageLimit);
       if (error) throw Error;
       setStudents(data);
-      setFilteredStudents(data)
+      setFilteredStudents(data);
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +41,7 @@ export default function StudentsTable() {
   }, [pageLimit]);
 
   const modalRef = useRef<HTMLDialogElement>(null);
-  const updateRef = useRef<HTMLDialogElement>(null)
+  const updateRef = useRef<HTMLDialogElement>(null);
 
   const openModal = () => {
     if (modalRef.current) {
@@ -52,31 +49,19 @@ export default function StudentsTable() {
     }
   };
 
-const [studentToUpdate, setStudentToUpdate] = useState<string>("")
+  const [studentToUpdate, setStudentToUpdate] = useState<string>("");
   const handleUpdate = (id: string) => {
-    setStudentToUpdate(id)
-    if(updateRef.current) {
-      updateRef.current.showModal()
+    setStudentToUpdate(id);
+    if (updateRef.current) {
+      updateRef.current.showModal();
     }
-  }
-
-
-  const [text, setText] = useState("");
-  const [filteredStudents, setFilteredStudents] = useState<Student[]>([]);
-
-  const handleSearch = (searchText: string) => {
-    const filtered = students.filter(
-      (student) =>
-        student.name?.toLowerCase().includes(searchText.toLowerCase()) ||
-        student.address?.toLowerCase().includes(searchText.toLowerCase()) ||
-        student.school?.toLowerCase().includes(searchText.toLowerCase()),
-    );
-    setFilteredStudents(filtered);
   };
+
+  const [filteredStudents, setFilteredStudents] = useState<Student[]>([]);
 
   const [isDeleted, setIsDeleted] = useState(false);
 
-  const handleDelete = async (id:string) => {
+  const handleDelete = async (id: string) => {
     try {
       const { error } = await supabase.from("student").delete().eq("id", id);
 
@@ -96,19 +81,15 @@ const [studentToUpdate, setStudentToUpdate] = useState<string>("")
     }
   }, [isDeleted]);
 
-  const router = useRouter()
+  const router = useRouter();
 
   return (
-    <div dir="rtl" className="text-black pt-20 overflow-x-hidden">
-      <div className="flex flex-wrap justify-between items-center">
-        <DashboardTitle text=" بەڕێوەبردنی خوێندکاران" />
-        <AddBtn handleAdd={() => router.push("../form")} />
-        <div className="flex flex-wrap flex-row items-center justify-center gap-2">
-          <Search text={text} setText={setText} handleSearch={handleSearch} />
-          <LoadNumber />
-        </div>
-      </div>
-      <table dir="rtl" className={`${bbc.className} overflow-x-scroll table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400`}>
+    <StudentTableWrapper students={students}>
+      <div className="overflow-x-auto">
+      <table
+        dir="rtl"
+        className={`${bbc.className} table text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400`}
+      >
         <thead className="text-black text-md bg-gray-100">
           <tr>
             <th>ناو</th>
@@ -132,7 +113,9 @@ const [studentToUpdate, setStudentToUpdate] = useState<string>("")
                   <div
                     className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
                     data-tip="خوێندنەوە"
-                    onClick={() => router.push(`/dashboard/students/read/${student.id}`)}
+                    onClick={() =>
+                      router.push(`/dashboard/students/read/${student.id}`)
+                    }
                   >
                     <FaBookOpenReader />
                   </div>
@@ -161,8 +144,9 @@ const [studentToUpdate, setStudentToUpdate] = useState<string>("")
           })}
         </tbody>
       </table>
+      </div>
       <StudentUpdateModal modalRef={updateRef} id={studentToUpdate} />
       <Pagination />
-    </div>
+    </StudentTableWrapper>
   );
 }
