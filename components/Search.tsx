@@ -10,7 +10,7 @@ interface SearchProps {
 
 export default function Search({ text, setText, handleSearch }: SearchProps) {
   return (
-    <label className={`${rudaw.className} input input-bordered flex items-center gap-2 bg-transparent`}>
+    <label className={`${rudaw.className} input input-bordered flex items-center gap-2 bg-transparent m-2`}>
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
