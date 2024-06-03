@@ -99,7 +99,7 @@ const [studentToUpdate, setStudentToUpdate] = useState<string>("")
   const router = useRouter()
 
   return (
-    <div dir="rtl" className="text-black ">
+    <div dir="rtl" className="text-black pt-20 overflow-x-hidden">
       <div className="flex flex-wrap justify-between items-center">
         <DashboardTitle text=" بەڕێوەبردنی خوێندکاران" />
         <AddBtn handleAdd={() => router.push("../form")} />
@@ -108,7 +108,7 @@ const [studentToUpdate, setStudentToUpdate] = useState<string>("")
           <LoadNumber />
         </div>
       </div>
-      <table dir="rtl" className={`${bbc.className} table`}>
+      <table dir="rtl" className={`${bbc.className} overflow-x-scroll table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400`}>
         <thead className="text-black text-md bg-gray-100">
           <tr>
             <th>ناو</th>
