@@ -9,6 +9,7 @@ import TopTeachers from "@/components/dashboard/TopTeachers";
 import Divider from "@/components/Divider";
 import NumberBox from "@/components/dashboard/NumberBox";
 import localFont from "next/font/local";
+import GeneralWrapper from "@/components/dashboard/GeneralWrapper";
 
 const bbc = localFont({ src: "../sarkar_bbc.ttf" });
 
@@ -33,7 +34,7 @@ async function Home() {
   }
 
   return (
-    <div dir="rtl" className={`${bbc.className} pt-20`}>
+    <GeneralWrapper>
       <Divider text="داهات و خەرجی" />
       <div className="flex lg:justify-between w-full flex-wrap lg:flex-row flex-col items-center">
         <AccountingBox text="داهات" money={finance?.income} color="bg-purple-700">
@@ -47,7 +48,7 @@ async function Home() {
         </AccountingBox>
       </div>
 
-      <div className="flex flex-wrap">
+      <div className="lg:flex lg:flex-wrap">
         <div className="lg:w-2/3">
           <Divider text="دوایین خوێندکاران" />
           <div className="overflow-x-scroll">
@@ -72,7 +73,7 @@ async function Home() {
           <NumberBox title="پاسی پەیمانگا" number={summary_counts?.bus_users_number} />
         </div>
       </div>
-    </div>
+    </GeneralWrapper>
   );
 }
 

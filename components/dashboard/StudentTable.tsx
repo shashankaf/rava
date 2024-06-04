@@ -1,6 +1,7 @@
 //@ts-nocheck
 
 import React from "react";
+import GeneralWrapper from "./GeneralWrapper";
 
 interface StudentTableProps {
   tableHeads: string[];
@@ -14,8 +15,7 @@ const StudentTable = ({
 }: StudentTableProps) => {
   return (
     <>
-      <div className="relative w-screen overflow-x-auto shadow-md sm:rounded-lg">
-        <div className="max-w-full overflow-x-auto">
+      <GeneralWrapper>
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -49,8 +49,7 @@ const StudentTable = ({
               })}
             </tbody>
           </table>
-        </div>
-      </div>
+      </GeneralWrapper>
     </>
   );
 };
