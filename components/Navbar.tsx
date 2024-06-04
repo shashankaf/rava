@@ -23,16 +23,16 @@ function Navbar() {
         <MenuItem text="فۆرم" link="/form" />
         <MenuItem text="پەیوەندی" link="/contact" />
       </div>
-      <div className="flex items-center justify-between w-full lg:w-auto">
+      <div className="flex items-center justify-between w-screen lg:w-auto">
         <div>
-          <Image src={rava} width={75} height={75} alt="Rava Institute Logo" />
-        </div>
-        <div className="md:hidden">
           <FaBars
-            className="text-2xl ml-4 cursor-pointer md:hidden text-black"
+            className="text-2xl lg:ml-4 mx-4 cursor-pointer md:hidden text-black"
             onClick={() => setMenuOpen(!menuOpen)}
           />
-        </div>
+          </div>
+          <div>
+            <Image src={rava} width={75} height={75} alt="Rava Institute Logo" className="w-12 w-12 mx-2 lg:w-16 lg:h-16" />
+          </div>
       </div>
       {menuOpen && (
         <div
