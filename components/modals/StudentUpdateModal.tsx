@@ -138,7 +138,13 @@ export default function StudentUpdateModal({
       try {
         const updatedData: { [key: string]: any } = {};
         for (let key in formState) {
-          const dbKey = camelToSnakeCase(key);
+          let dbKey = camelToSnakeCase(key);
+          if (dbKey === "clas") {
+            dbKey = "class";
+          }
+          if(dbKey === 'second_pay') {
+            dbKey = "secondpay"
+          }
           updatedData[dbKey] = formState[key as keyof FormState];
         }
 
@@ -157,7 +163,6 @@ export default function StudentUpdateModal({
       }
     }
   }
-
   const classOptions = classes.map((c) => (
     <option key={c.id} value={c.id}>
       {c.title}
@@ -193,10 +198,7 @@ export default function StudentUpdateModal({
     <dialog ref={modalRef} className={`${bbc.className} modal text-white`}>
       <div className="modal-box">
         <Heading text="نوێکردنەوەی خوێندکار" color="text-white" />
-        <form
-          className="form"
-          onSubmit={handleUpdate}
-        >
+        <form className="form" onSubmit={handleUpdate}>
           <div>
             <Label>ناوی خوێندکار</Label>
             <input
@@ -215,125 +217,125 @@ export default function StudentUpdateModal({
               onChange={handleChange}
             />
           </div>
-<div>
-          <Label>مۆبایل</Label>
-          <input
-            className="input input-bordered w-full m-2"
-            name="phone"
-            value={formState.phone}
-            onChange={handleChange}
-          />
+          <div>
+            <Label>مۆبایل</Label>
+            <input
+              className="input input-bordered w-full m-2"
+              name="phone"
+              value={formState.phone}
+              onChange={handleChange}
+            />
           </div>
           <div>
-          <Label>ژمارەی ماڵەوە</Label>
-          <input
-            className="input input-bordered w-full m-2"
-            name="secondPhone"
-            value={formState.secondPhone}
-            onChange={handleChange}
-          />
+            <Label>ژمارەی ماڵەوە</Label>
+            <input
+              className="input input-bordered w-full m-2"
+              name="secondPhone"
+              value={formState.secondPhone}
+              onChange={handleChange}
+            />
           </div>
           <div>
-          <Label>ناونیشان</Label>
-          <input
-            className="input input-bordered w-full m-2"
-            name="address"
-            value={formState.address}
-            onChange={handleChange}
-          />
+            <Label>ناونیشان</Label>
+            <input
+              className="input input-bordered w-full m-2"
+              name="address"
+              value={formState.address}
+              onChange={handleChange}
+            />
           </div>
           <div>
-          <Label>تەندروستی</Label>
-          <input
-            className="input input-bordered w-full m-2"
-            name="health"
-            value={formState.health}
-            onChange={handleChange}
-          />
+            <Label>تەندروستی</Label>
+            <input
+              className="input input-bordered w-full m-2"
+              name="health"
+              value={formState.health}
+              onChange={handleChange}
+            />
           </div>
           <div>
-          <Label>پارەی یەکەم</Label>
-          <input
-            className="input input-bordered w-full m-2"
-            name="pay"
-            value={formState.pay}
-            onChange={handleChange}
-          />
+            <Label>پارەی یەکەم</Label>
+            <input
+              className="input input-bordered w-full m-2"
+              name="pay"
+              value={formState.pay}
+              onChange={handleChange}
+            />
           </div>
           <div>
-          <Label>پارەی دووەم</Label>
-          <input
-            className="input input-bordered w-full m-2"
-            name="secondPay"
-            value={formState.secondPay}
-            onChange={handleChange}
-          />
+            <Label>پارەی دووەم</Label>
+            <input
+              className="input input-bordered w-full m-2"
+              name="secondPay"
+              value={formState.secondPay}
+              onChange={handleChange}
+            />
           </div>
           <div>
-          <Label>پۆل</Label>
-          <select
-            name="clas"
-            className="select input-bordered text-white m-2 w-full"
-            value={formState.clas || ""}
-            onChange={(e) => handleSelectChange("clas", e.target.value)}
-          >
-            {classOptions}
-          </select>
+            <Label>پۆل</Label>
+            <select
+              name="clas"
+              className="select input-bordered text-white m-2 w-full"
+              value={formState.clas || ""}
+              onChange={(e) => handleSelectChange("clas", e.target.value)}
+            >
+              {classOptions}
+            </select>
           </div>
           <div>
-          <Label>خوێن</Label>
-          <select
-            name="blood"
-            className="select input-bordered text-white m-2 w-full"
-            value={formState.blood || ""}
-            onChange={(e) => handleSelectChange("blood", e.target.value)}
-          >
-            {bloodOptions}
-          </select>
+            <Label>خوێن</Label>
+            <select
+              name="blood"
+              className="select input-bordered text-white m-2 w-full"
+              value={formState.blood || ""}
+              onChange={(e) => handleSelectChange("blood", e.target.value)}
+            >
+              {bloodOptions}
+            </select>
           </div>
           <div>
-          <Label>هاتووچۆ</Label>
-          <select
-            name="travel"
-            className="select input-bordered text-white m-2 w-full"
-            value={formState.travel || ""}
-            onChange={(e) => handleSelectChange("travel", e.target.value)}
-          >
-            {travelOptions}
-          </select>
+            <Label>هاتووچۆ</Label>
+            <select
+              name="travel"
+              className="select input-bordered text-white m-2 w-full"
+              value={formState.travel || ""}
+              onChange={(e) => handleSelectChange("travel", e.target.value)}
+            >
+              {travelOptions}
+            </select>
           </div>
           <div>
-          <Label>رەگەز</Label>
-          <select
-            name="ragaz"
-            className="select input-bordered text-white m-2 w-full"
-            value={formState.ragaz || ""}
-            onChange={(e) => handleSelectChange("ragaz", e.target.value)}
-          >
-            {ragazOptions}
-          </select>
+            <Label>رەگەز</Label>
+            <select
+              name="ragaz"
+              className="select input-bordered text-white m-2 w-full"
+              value={formState.ragaz || ""}
+              onChange={(e) => handleSelectChange("ragaz", e.target.value)}
+            >
+              {ragazOptions}
+            </select>
           </div>
           <div>
-          <Label>مامۆستا</Label>
-          <select
-            name="teacher"
-            className="select input-bordered text-white m-2 w-full"
-            value={formState.teacher || ""}
-            onChange={(e) => handleSelectChange("teacher", e.target.value)}
-          >
-            {teacherOptions}
-          </select>
+            <Label>مامۆستا</Label>
+            <select
+              name="teacher"
+              className="select input-bordered text-white m-2 w-full"
+              value={formState.teacher || ""}
+              onChange={(e) => handleSelectChange("teacher", e.target.value)}
+            >
+              {teacherOptions}
+            </select>
           </div>
           <div>
-          <Label>خول</Label>
-          <select
-            name="course"
-            className="select input-bordered text-white m-2 w-full"
-            value={formState.course || ""}
-            onChange={(e) => handleSelectChange("course", e.target.value)}
-          >
-            {courseOptions}
-          </select>
+            <Label>خول</Label>
+            <select
+              name="course"
+              className="select input-bordered text-white m-2 w-full"
+              value={formState.course || ""}
+              onChange={(e) => handleSelectChange("course", e.target.value)}
+            >
+              {courseOptions}
+            </select>
           </div>
           <button
             type="submit"
