@@ -2,7 +2,7 @@
 
 import { ChangeEvent, LegacyRef, useEffect, useState } from "react";
 import localFont from "next/font/local";
-import { course_fetcher, teacher_fetcher } from "@/lib/fetchers";
+import { course_fetcher, single_share_fetcher, teacher_fetcher } from "@/lib/fetchers";
 import { supabase } from "@/utils/supabase/client";
 import {Teacher, Course} from "@/lib/types";
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
@@ -17,8 +17,7 @@ export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [course, setCourse] = useState<string | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
-  const [percent, setPercent] = useState<number>(0);
-
+  const [percent, setPercent] = useState<number | null>(0);
   useEffect(() => {
     const fetchTeachers = async () => {
       const data = await teacher_fetcher();
@@ -40,6 +39,19 @@ export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
 
     fetchCourses();
   }, []);
+
+  useEffect(() => {
+    const fetchShare = async () => {
+      const data = await single_share_fetcher(id);
+      if (data) {
+        setTeacher(data.teacher.id);
+        setCourse(data.course.id);
+        setPercent(data.percentage)
+      }
+    };
+
+    fetchShare();
+  }, [id]);
 
   const handleTeacherChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setTeacher(e.target.value);

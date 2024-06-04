@@ -20,8 +20,8 @@ export default function CourseUpdateModal({
 }: QuestionModalProps) {
   const [, setCourse] = useState<Course | null>(null);
   const [title, setTitle] = useState<string | null>("");
-  const [start, setStart] = useState<Date>(new Date());
-  const [end, setEnd] = useState<Date>(new Date());
+  const [start, setStart] = useState<string | null>("");
+  const [end, setEnd] = useState<string | null>("");
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -29,8 +29,8 @@ export default function CourseUpdateModal({
       if (data) {
         setCourse(data);
         setTitle(data.title);
-        setStart(start);
-        setEnd(end);
+        setStart(data.start);
+        setEnd(data.end);
       }
     };
 
@@ -39,22 +39,19 @@ export default function CourseUpdateModal({
 
   async function handleUpdate(e: SyntheticEvent) {
     e.preventDefault();
-    const starting = start?.toISOString()
-    const ending = end?.toISOString()
     if (id !== null) {
       try {
         const { error } = await supabase
           .from("course")
           .update({
             title,
-            start: starting,
-            end: ending,
+            start,
+            end,
           })
           .eq("id", id);
         if (error) {
           console.log(error);
         }
-        setCourse(null);
       } catch (e) {
         console.log(e);
       }

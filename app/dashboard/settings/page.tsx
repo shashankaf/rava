@@ -1,16 +1,16 @@
 import React from "react";
-import SettingWrapper from "@/components/dashboard/SettingWrapper";
+import GeneralWrapper from "@/components/dashboard/GeneralWrapper";
 
 
 const Settings = () => {
   return (
-    <SettingWrapper>
+    <GeneralWrapper>
       <div dir="rtl" className={``}>
         <button className="btn btn-error btn-md text-white">
           دەرچوون لە داشبۆرد
         </button>
       </div>
-    </SettingWrapper>
+    </GeneralWrapper>
   );
 };
 

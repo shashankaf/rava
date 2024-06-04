@@ -20,14 +20,14 @@ const DatePickerComponent: React.FC<Dates> = ({ label, selectedDate, setSelected
 
   return (
     <div dir="rtl" className={`${bbc.className}`}>
-      <label htmlFor="datePicker" className="block text-xl font-bold">
+      <label htmlFor="datePicker" className="block text-xl font-bold my-2">
         بەرواری {label}
       </label>
       <DatePicker
         id="datePicker"
         selected={selectedDate}
         onChange={handleDateChange}
-        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm 
+        className="w-full text-white bg-gray-800 px-4 py-2 border border-gray-300 rounded-md shadow-sm 
                      focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
       />
       <p className="mt-2 text-sm text-gray-500">

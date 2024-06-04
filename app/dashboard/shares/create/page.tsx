@@ -5,6 +5,8 @@ import SubmitButton from "@/components/SubmitBtn";
 import { useEffect, useState, ChangeEvent } from "react";
 import { teacher_fetcher, course_fetcher } from "@/lib/fetchers";
 import { supabase } from "@/utils/supabase/client";
+import GeneralWrapper from "@/components/dashboard/GeneralWrapper";
+import Heading from "@/components/Heading";
 
 interface Teacher {
   id: string;
@@ -69,10 +71,11 @@ export default function CreateShare() {
   }
 
   return (
-    <div className="mt-24">
+    <GeneralWrapper>
+      <Heading text="زیادکردنی پشک" />
       <form
         onSubmit={handleShareSubmit}
-        className="form flex flex-row flex-wrap max-w-4xl gap-2 justify-center"
+        className="form flex flex-row flex-wrap max-w-4xl gap-2 justify-center mx-auto"
       >
         <label htmlFor="teacher" className="block text-lg font-medium text-gray-700">
           مامۆستایەک هەڵبژێرە
@@ -80,7 +83,7 @@ export default function CreateShare() {
         <select
           name="teacher"
           id="teacher"
-          className="select select-bordered w-full mt-2"
+          className="select select-bordered w-full mt-2 text-white bg-gray-800"
           value={teacher ?? ""}
           onChange={handleTeacherChange}
         >
@@ -97,7 +100,7 @@ export default function CreateShare() {
         <select
           name="course"
           id="course"
-          className="select select-bordered w-full mt-2"
+          className="select select-bordered w-full mt-2 text-white bg-gray-800"
           value={course ?? ""}
           onChange={handleCourseChange}
         >
@@ -107,17 +110,21 @@ export default function CreateShare() {
             </option>
           ))}
         </select>
-
+        <div className="flex items-center flex-col">
+        <label htmlFor="teacher" className="block text-lg font-medium text-gray-700">
+          پشکی مامۆستا چەندە؟
+        </label>
         <input
           type="number"
           name="percentage"
-          className="input input-bordered w-full max-w-sm mt-2"
+          className="input input-bordered w-full mt-2 text-white bg-gray-800"
           placeholder="پشکی مامۆستا چەندە"
           value={percent}
           onChange={handlePercentChange}
         />
+        </div>
         <SubmitButton />
       </form>
-    </div>
+    </GeneralWrapper>
   );
 }
