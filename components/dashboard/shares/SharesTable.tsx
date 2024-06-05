@@ -117,7 +117,7 @@ export default function SharesTable() {
                       <QuestionModal
                         text="پشک"
                         modalRef={modalRef}
-                        handleClick={() => handleDelete(share.id)}
+                        handleClick={(e: MouseEvent<HTMLButtonElement>) => handleDelete(share.id, e)}
                       />
                     </td>
                   </tr>
