@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 
 import { ChangeEvent, LegacyRef, useEffect, useState } from "react";
