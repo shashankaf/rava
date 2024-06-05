@@ -29,7 +29,6 @@ export default function QuestionModal({modalRef, text, handleClick}: QuestionMod
             </button>
             <button 
               className="btn btn-info text-white mx-[2px] w-24"
-              onClick={() => (modalRef.current as HTMLDialogElement).close()}
             >
               نەخێر
             </button>

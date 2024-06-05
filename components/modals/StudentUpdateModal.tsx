@@ -151,20 +151,32 @@ export default function StudentUpdateModal({
         const { error, data } = await supabase
           .from("student")
           .update(updatedData)
-          .eq("id", id);
+          .eq("id", id).select().single();
 
         if (error) {
           console.log(error);
         } else {
-          console.log("Data updated successfully:", data);
+          console.log(data.pay)
+          if(Number(data.pay) > 0) {
+            const amount = Number(data.pay) + Number(data.secondpay);
+            const {error} = await supabase.from("income").insert({
+              amount,
+              teacher: data.teacher,
+              student: data.id,
+              course: data.course
+            })
+            if(error) {
+              console.log(error)
+            }
+          }
           modalRef.current.close()
-          fetchAll()
         }
       } catch (e) {
         console.log(e);
       }
     }
   }
+
   const classOptions = classes.map((c) => (
     <option key={c.id} value={c.id}>
       {c.title}
