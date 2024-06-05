@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, MouseEventHandler } from "react";
+import { useRef, useState, useEffect } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import { FaBookOpenReader } from "react-icons/fa6";
@@ -43,14 +43,14 @@ export default function StudentsTable() {
   const modalRef = useRef<HTMLDialogElement>(null);
   const updateRef = useRef<HTMLDialogElement>(null);
   
-  const [studentToUpdate, setStudentToUpdate] = useState<string>("");
+  const [studentToUpdate, setStudentToUpdate] = useState<string | null>("");
   const handleUpdate = (id: string) => {
     setStudentToUpdate(id);
     if (updateRef.current) {
       updateRef.current.showModal();
     }
   };
-  const [studentToDelete, setStudentToDelete] = useState(null)
+  const [studentToDelete, setStudentToDelete] = useState<string | null>(null)
   const openModal = (id: string) => {
     setStudentToDelete(id);
     if (modalRef.current) {

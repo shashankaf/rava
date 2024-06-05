@@ -8,8 +8,6 @@ import {
   student_fetcher,
   teacher_fetcher,
 } from "@/lib/fetchers";
-import SelectName from "../SelectName";
-import SelectTitle from "../SelectTitle";
 import { supabase } from "@/utils/supabase/client";
 import { Course, StudentRaw, Teacher } from "@/lib/types";
 import Label from "../form/Label";
@@ -79,17 +77,6 @@ export default function IncomeUpdateModal({
 
     fetchStudents();
   }, []);
-
-  function changeTeacher(value: string) {
-    setTeacher(value);
-  }
-
-  function changeCourse(value: string) {
-    setCourse(value);
-  }
-  function changeStudent(value: string) {
-    setStudent(value);
-  }
 
   async function handleIncome() {
     if (id !== null) {

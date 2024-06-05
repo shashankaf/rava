@@ -93,7 +93,7 @@ export default function ExpenseUpdateModal({
         console.log(error);
       }
       setCourse(null);
-      setTeacher([]);
+      setTeacher(null);
       setAmount(0);
       setStudent(null);
     }
