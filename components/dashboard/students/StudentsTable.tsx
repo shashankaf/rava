@@ -110,7 +110,7 @@ export default function StudentsTable() {
                     className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
                     data-tip="خوێندنەوە"
                     onClick={() =>
-                      router.push(`/dashboard/students/read/${student.id}`)
+                      router.push(`/dashboard/students/read/${item.id}`)
                     }
                   >
                     <FaBookOpenReader />
