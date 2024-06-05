@@ -2,12 +2,11 @@
 "use client";
 
 import React, { LegacyRef } from "react";
-import { useRouter } from "next/navigation";
 import AddBtn from "@/components/AddBtn";
 import DashboardTitle from "@/components/DashboardTitle";
 import LoadNumber from "@/components/LoadNumber";
 import Search from "@/components/Search";
-import { Income } from "@/lib/types";
+import { Expense } from "@/lib/types";
 
 export default function ExpenseTableWrapper({
   children,
@@ -15,11 +14,11 @@ export default function ExpenseTableWrapper({
   expenseRef,
 }: {
   children: React.ReactNode;
-  expense: Income[];
+  expense: Expense[];
   expenseRef: LegacyRef<HTMLInputElement>;
 }) {
   const [text, setText] = React.useState<string>("");
-  const [, setFilteredExpense] = React.useState<Income[]>([]);
+  const [, setFilteredExpense] = React.useState<Expense[]>([]);
 
   const openExpenseModal = () => {
     if (expenseRef.current) {
@@ -37,12 +36,11 @@ export default function ExpenseTableWrapper({
     setFilteredExpense(filtered);
   };
 
-  const router = useRouter();
   return (
     <div dir="rtl" className="text-black pt-20 xs:w-screen">
       <div className="flex flex-wrap justify-between items-center">
         <DashboardTitle text=" بەڕێوەبردنی خەرجی" />
-        <AddBtn handleAdd={() => router.push(openExpenseModal)} />
+        <AddBtn handleAdd={openExpenseModal} />
         <div className="flex flex-wrap flex-row items-center justify-center gap-2">
           <Search text={text} setText={setText} handleSearch={handleSearch} />
           <LoadNumber />

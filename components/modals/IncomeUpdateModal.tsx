@@ -12,15 +12,19 @@ import SelectName from "../SelectName";
 import SelectTitle from "../SelectTitle";
 import { supabase } from "@/utils/supabase/client";
 import { Course, StudentRaw, Teacher } from "@/lib/types";
+import Label from "../form/Label";
 
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
 interface QuestionModalProps {
   modalRef: LegacyRef<HTMLDialogElement>;
-  id: string | null,
+  id: string | null;
 }
 
-export default function IncomeUpdateModal({ modalRef, id }: QuestionModalProps) {
+export default function IncomeUpdateModal({
+  modalRef,
+  id,
+}: QuestionModalProps) {
   const [amount, setAmount] = useState<number | null>(0);
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [teacher, setTeacher] = useState<any>([]);
@@ -44,17 +48,15 @@ export default function IncomeUpdateModal({ modalRef, id }: QuestionModalProps) 
     const fetchTeacher = async () => {
       const data = await single_income_fecther(id);
       if (data && data.student && data.course && data.teacher) {
-        setAmount(data.amount)
-        setStudent(data.student.id)
-        setCourse(data.course.id)
-        setTeacher(data.teacher)
+        setAmount(data.amount);
+        setStudent(data.student.id);
+        setCourse(data.course.id);
+        setTeacher(data.teacher);
       }
     };
 
     fetchTeacher();
   }, [id]);
-
-
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -90,20 +92,23 @@ export default function IncomeUpdateModal({ modalRef, id }: QuestionModalProps) 
   }
 
   async function handleIncome() {
-    if(id !== null) {
-    const { error } = await supabase.from("income").update({
-      amount,
-      teacher,
-      student,
-      course,
-    }).eq("id", id);
-    if (error) {
-      console.log(error);
-    }
-    setCourse(null);
-    setTeacher([]);
-    setAmount(0);
-    setStudent(null);
+    if (id !== null) {
+      const { error } = await supabase
+        .from("income")
+        .update({
+          amount,
+          teacher,
+          student,
+          course,
+        })
+        .eq("id", id);
+      if (error) {
+        console.log(error);
+      }
+      setCourse(null);
+      setTeacher([]);
+      setAmount(0);
+      setStudent(null);
     }
   }
 
@@ -112,30 +117,57 @@ export default function IncomeUpdateModal({ modalRef, id }: QuestionModalProps) 
       <div className="modal-box">
         <h2 className="font-bold text-xl text-white">نوێکردنەوەی داهات</h2>
         <div className="modal-action">
-          <form method="dialog form flex flex-row flex-wrap max-w-4xl gap-2 justify-center">
-            <input
-              type="text"
-              name="name"
-              value={amount ?? 0}
-              onChange={(e) => setAmount(Number(e.target.value))}
-              className="input input-bordered w-full m-2 text-white"
-              placeholder={"بڕی داهات"}
-            />
-            <SelectName
-              options={teachers}
-              text="مامۆستای پەیوەندیدار"
-              onSelectChange={changeTeacher}
-            />
-            <SelectTitle
-              options={courses}
-              text="خولی پەیوەندیدار"
-              onSelectChange={changeCourse}
-            />
-            <SelectName
-              options={students}
-              text="مامۆستای پەیوەندیدار"
-              onSelectChange={changeStudent}
-            />
+          <form method="dialog flex flex-row flex-wrap justify-center">
+            <div className="my-4">
+              <Label>بڕ</Label>
+              <input
+                type="text"
+                name="name"
+                value={amount ?? 0}
+                onChange={(e) => setAmount(Number(e.target.value))}
+                className="input input-bordered w-full text-white"
+                placeholder={"بڕی داهات"}
+              />
+            </div>
+            <div className="my-4">
+              <Label>مامۆستا</Label>
+              <select
+                name="teacher"
+                className="select input-bordered text-white w-full"
+                value={teacher || ""}
+                onChange={(e) => setTeacher(e.target.value)}
+              >
+                {teachers.map((item) => (
+                  <option value={item.id}>{item.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="my-4">
+              <Label>خول</Label>
+              <select
+                name="course"
+                className="select input-bordered text-white w-full"
+                value={course || ""}
+                onChange={(e) => setCourse(e.target.value)}
+              >
+                {courses.map((item) => (
+                  <option value={item.id}>{item.title}</option>
+                ))}
+              </select>
+            </div>
+            <div className="my-4">
+              <Label>خوێندکار</Label>
+              <select
+                name="student"
+                className="select input-bordered text-white w-full"
+                value={student || ""}
+                onChange={(e) => setStudent(e.target.value)}
+              >
+                {students.map((item) => (
+                  <option value={item.id}>{item.name}</option>
+                ))}
+              </select>
+            </div>
             <button
               onClick={handleIncome}
               className="btn btn-error text-white mx-[2px] w-24"

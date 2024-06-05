@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+.modal-action {
+  justify-content: center;
+}
+
 .main {
   z-index: 2;
 }

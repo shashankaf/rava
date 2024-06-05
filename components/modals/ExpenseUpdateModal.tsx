@@ -8,10 +8,9 @@ import {
   student_fetcher,
   teacher_fetcher,
 } from "@/lib/fetchers";
-import SelectName from "../SelectName";
-import SelectTitle from "../SelectTitle";
 import { supabase } from "@/utils/supabase/client";
 import { Course, StudentRaw, Teacher } from "@/lib/types";
+import Label from "../form/Label";
 
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
@@ -44,18 +43,17 @@ export default function ExpenseUpdateModal({
   }, []);
 
   useEffect(() => {
-    const fetchExpense = async () => {
+    const fetchTeacher = async () => {
       const data = await single_expense_fecther(id);
-      if (data && data.student && data.course) {
-        const num = Number(data.amount)
-        setAmount(num);
+      if (data && data.student && data.course && data.teacher) {
+        setAmount(data.amount);
         setStudent(data.student.id);
         setCourse(data.course.id);
-        setTeacher(data.teacher);
+        setTeacher(data.teacher.id);
       }
     };
 
-    fetchExpense();
+    fetchTeacher();
   }, [id]);
 
   useEffect(() => {
@@ -80,17 +78,6 @@ export default function ExpenseUpdateModal({
     fetchStudents();
   }, []);
 
-  function changeTeacher(value: string) {
-    setTeacher(value);
-  }
-
-  function changeCourse(value: string) {
-    setCourse(value);
-  }
-  function changeStudent(value: string) {
-    setStudent(value);
-  }
-
   async function handleExpense() {
     if (id !== null) {
       const { error } = await supabase
@@ -106,7 +93,7 @@ export default function ExpenseUpdateModal({
         console.log(error);
       }
       setCourse(null);
-      setTeacher(null);
+      setTeacher([]);
       setAmount(0);
       setStudent(null);
     }
@@ -117,30 +104,57 @@ export default function ExpenseUpdateModal({
       <div className="modal-box">
         <h2 className="font-bold text-xl text-white">نوێکردنەوەی داهات</h2>
         <div className="modal-action">
-          <form method="dialog form flex flex-row flex-wrap max-w-4xl gap-2 justify-center">
-            <input
-              type="number"
-              name="name"
-              value={amount ?? 0}
-              onChange={(e) => setAmount(Number(e.target.value))}
-              className="input input-bordered w-full m-2 text-white"
-              placeholder={"بڕی داهات"}
-            />
-            <SelectName
-              options={teachers}
-              text="مامۆستای پەیوەندیدار"
-              onSelectChange={changeTeacher}
-            />
-            <SelectTitle
-              text="خولی پەیوەندیدار"
-              options={courses}
-              onSelectChange={changeCourse}
-            />
-            <SelectName
-              options={students}
-              text="مامۆستای پەیوەندیدار"
-              onSelectChange={changeStudent}
-            />
+          <form method="dialog flex flex-row flex-wrap justify-center">
+            <div className="my-4">
+              <Label>بڕ</Label>
+              <input
+                type="text"
+                name="name"
+                value={amount ?? 0}
+                onChange={(e) => setAmount(Number(e.target.value))}
+                className="input input-bordered w-full text-white"
+                placeholder={"بڕی داهات"}
+              />
+            </div>
+            <div className="my-4">
+              <Label>مامۆستا</Label>
+              <select
+                name="teacher"
+                className="select input-bordered text-white w-full"
+                value={teacher || ""}
+                onChange={(e) => setTeacher(e.target.value)}
+              >
+                {teachers.map((item) => (
+                  <option value={item.id}>{item.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="my-4">
+              <Label>خول</Label>
+              <select
+                name="course"
+                className="select input-bordered text-white w-full"
+                value={course || ""}
+                onChange={(e) => setCourse(e.target.value)}
+              >
+                {courses.map((item) => (
+                  <option value={item.id}>{item.title}</option>
+                ))}
+              </select>
+            </div>
+            <div className="my-4">
+              <Label>خوێندکار</Label>
+              <select
+                name="student"
+                className="select input-bordered text-white w-full"
+                value={student || ""}
+                onChange={(e) => setStudent(e.target.value)}
+              >
+                {students.map((item) => (
+                  <option value={item.id}>{item.name}</option>
+                ))}
+              </select>
+            </div>
             <button
               onClick={handleExpense}
               className="btn btn-error text-white mx-[2px] w-24"

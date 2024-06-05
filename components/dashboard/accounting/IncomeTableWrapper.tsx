@@ -2,7 +2,6 @@
 "use client";
 
 import React, { LegacyRef } from "react";
-import { useRouter } from "next/navigation";
 import AddBtn from "@/components/AddBtn";
 import DashboardTitle from "@/components/DashboardTitle";
 import LoadNumber from "@/components/LoadNumber";
@@ -38,12 +37,11 @@ export default function IncomeTableWrapper({
     setFilteredIncome(filtered);
   };
 
-  const router = useRouter();
   return (
     <div dir="rtl" className="text-black pt-20 xs:w-screen">
       <div className="flex flex-wrap justify-between items-center">
         <DashboardTitle text=" بەڕێوەبردنی داهات" />
-        <AddBtn handleAdd={() => router.push(openIncomeModal)} />
+        <AddBtn handleAdd={openIncomeModal} />
         <div className="flex flex-wrap flex-row items-center justify-center gap-2">
           <Search text={text} setText={setText} handleSearch={handleSearch} />
           <LoadNumber />
