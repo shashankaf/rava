@@ -2,7 +2,7 @@
 "use client";
 
 import SubmitButton from "@/components/SubmitBtn";
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState, ChangeEvent, MouseEvent } from "react";
 import { teacher_fetcher, course_fetcher } from "@/lib/fetchers";
 import { supabase } from "@/utils/supabase/client";
 import GeneralWrapper from "@/components/dashboard/GeneralWrapper";
@@ -59,8 +59,9 @@ export default function CreateShare() {
     setPercent(Number(e.target.value));
   };
 
-  const handleShareSubmit = async() => {
-    const {error, data} = await supabase.from("share").insert({
+  const handleShareSubmit = async(e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    const {error} = await supabase.from("share").insert({
       teacher,
       course,
       percentage: percent
@@ -68,6 +69,9 @@ export default function CreateShare() {
     if(error) {
       console.log(error)
     }
+    setTeacher(null)
+    setCourse(null)
+    setPercent(0)
   }
 
   return (

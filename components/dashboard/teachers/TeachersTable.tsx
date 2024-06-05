@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import { FaBookOpenReader } from "react-icons/fa6";
@@ -69,7 +69,8 @@ export default function TeachersTable() {
   const [filteredTeachers, setFilteredTeachers] = useState<Teacher[]>([]);
   const [teacherToDelete, setTeacherToDelete] = useState<string | null>(null);
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (teacherToDelete) {
       try {
         const { error } = await supabase
@@ -81,7 +82,7 @@ export default function TeachersTable() {
           console.log(error);
         }
         setTeacherToDelete(null);
-        fetcher(); // Refresh the teachers list
+        fetcher();
       } catch (error: any) {
         console.error("Error deleting teacher:", error.message);
       }

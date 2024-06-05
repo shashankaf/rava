@@ -1,7 +1,7 @@
-//@ts-nocheck
+@ts-nocheck
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import QuestionModal from "@/components/QuestionModal";
@@ -60,7 +60,8 @@ export default function IncomeTable() {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     if (incomeToDelete) {
       try {
         const { error } = await supabase
@@ -72,7 +73,7 @@ export default function IncomeTable() {
           console.log(error);
         }
         setIncomeToDelete(null);
-        incomeFetcher(); // Refresh the data after deletion
+        incomeFetcher(); 
       } catch (error: any) {
         console.error("Error deleting income:", error.message);
       }

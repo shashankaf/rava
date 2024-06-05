@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, MouseEvent } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import { FaBookOpenReader } from "react-icons/fa6";
@@ -57,7 +57,9 @@ export default function StudentsTable() {
       modalRef.current.showModal();
     }
   };
-  const handleDelete = async () => {
+
+  const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     if (studentToDelete) {
       try {
         const { error } = await supabase
@@ -69,12 +71,13 @@ export default function StudentsTable() {
           console.log(error);
         }
         setStudentToDelete(null);
-        fetcher(); // Refresh the data after deletion
+        fetcher(); 
       } catch (error: any) {
         console.error("Error deleting student:", error.message);
       }
     }
   };
+
   const [filteredStudents, setFilteredStudents] = useState<Student[]>([]);
 
   const router = useRouter();

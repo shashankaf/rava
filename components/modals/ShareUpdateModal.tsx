@@ -1,15 +1,19 @@
 //@ts-nocheck
 "use client";
 
-import { ChangeEvent, LegacyRef, useEffect, useState } from "react";
+import { ChangeEvent, RefObject, useEffect, useState } from "react";
 import localFont from "next/font/local";
-import { course_fetcher, single_share_fetcher, teacher_fetcher } from "@/lib/fetchers";
+import {
+  course_fetcher,
+  single_share_fetcher,
+  teacher_fetcher,
+} from "@/lib/fetchers";
 import { supabase } from "@/utils/supabase/client";
-import {Teacher, Course} from "@/lib/types";
+import { Teacher, Course } from "@/lib/types";
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
 interface QuestionModalProps {
-  modalRef: LegacyRef<HTMLDialogElement>;
+  modalRef: RefObject<HTMLDialogElement>;
   id: string | null;
 }
 
@@ -19,6 +23,7 @@ export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
   const [course, setCourse] = useState<string | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
   const [percent, setPercent] = useState<number | null>(0);
+
   useEffect(() => {
     const fetchTeachers = async () => {
       const data = await teacher_fetcher();
@@ -47,7 +52,7 @@ export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
       if (data) {
         setTeacher(data.teacher.id);
         setCourse(data.course.id);
-        setPercent(data.percentage)
+        setPercent(data.percentage);
       }
     };
 
@@ -69,22 +74,23 @@ export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
   async function handleUpdate() {
     if (id !== null) {
       try {
-      const { error } = await supabase
-        .from("share")
-        .update({
-          percentage: percent,
-          teacher,
-          course,
-        })
-        .eq("id", id);
-      if (error) {
-        console.log(error);
-      }
-      setCourse(null);
-      setTeacher(null);
-      setPercent(0)
-      } catch(e) {
-        console.log(e)
+        const { error } = await supabase
+          .from("share")
+          .update({
+            percentage: percent,
+            teacher,
+            course,
+          })
+          .eq("id", id);
+        if (error) {
+          console.log(error);
+        }
+        setCourse(null);
+        setTeacher(null);
+        setPercent(0);
+        modalRef.current.close()
+      } catch (e) {
+        console.log(e);
       }
     }
   }
@@ -93,17 +99,14 @@ export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
     <dialog ref={modalRef} className={`${bbc.className} modal text-white`}>
       <div className="modal-box">
         <h2 className="font-bold text-xl text-white">نوێکردنەوەی پشک</h2>
-        <form className="form flex flex-row flex-wrap max-w-4xl gap-2 justify-center">
-          <label
-            htmlFor="teacher"
-            className="block text-lg font-medium"
-          >
+        <form className="form flex flex-row flex-wrap max-w-4xl gap-2 justify-center" onSubmit={(e) => e.preventDefault()}>
+          <label htmlFor="teacher" className="block text-lg font-medium">
             مامۆستایەک هەڵبژێرە
           </label>
           <select
             name="teacher"
             id="teacher"
-            className="select select-bordered w-full mt-2"
+            className="select select-bordered w-full"
             value={teacher ?? ""}
             onChange={handleTeacherChange}
           >
@@ -113,16 +116,13 @@ export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
               </option>
             ))}
           </select>
-          <label
-            htmlFor="course"
-            className="block text-lg font-medium"
-          >
+          <label htmlFor="course" className="block text-lg font-medium">
             خولێک هەڵبژێرە
           </label>
           <select
             name="course"
             id="course"
-            className="select select-bordered w-full mt-2"
+            className="select select-bordered w-full"
             value={course ?? ""}
             onChange={handleCourseChange}
           >
@@ -132,14 +132,13 @@ export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
               </option>
             ))}
           </select>
-          <label
-            htmlFor="course"
-            className="block text-lg font-medium"
-          >رێژەی سەددی پشکی مامۆستا</label> 
+          <label htmlFor="course" className="block text-lg font-medium">
+            رێژەی سەددی پشکی مامۆستا
+          </label>
           <input
             type="number"
             name="percentage"
-            className="input input-bordered w-full mt-2"
+            className="input input-bordered w-full"
             placeholder="پشکی مامۆستا چەندە"
             value={percent}
             onChange={handlePercentChange}
@@ -150,7 +149,10 @@ export default function ShareUpdateModal({ modalRef, id }: QuestionModalProps) {
           >
             بەڵێ
           </button>
-          <button className="btn btn-info text-white mx-[2px] w-24">
+          <button
+            className="btn btn-info text-white mx-[2px] w-24"
+            onClick={() => (modalRef?.current as HTMLDialogElement).close()}
+          >
             نەخێر
           </button>
         </form>

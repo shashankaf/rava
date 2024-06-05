@@ -1,3 +1,4 @@
+import GeneralWrapper from "@/components/dashboard/GeneralWrapper";
 import { supabase } from "@/utils/supabase/client";
 import localFont from "next/font/local";
 
@@ -25,6 +26,7 @@ export default async function ReadStudent({
   }
 
   return (
+    <GeneralWrapper>
     <div
       className={`${bbc.className} max-w-full mx-auto p-8 bg-white shadow-lg rounded-lg text-black`}
     >
@@ -86,5 +88,6 @@ export default async function ReadStudent({
         </div>
       </div>
     </div>
+    </GeneralWrapper>
   );
 }

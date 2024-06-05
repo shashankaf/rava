@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client"
 
 import { LegacyRef } from "react";
@@ -26,7 +27,10 @@ export default function QuestionModal({modalRef, text, handleClick}: QuestionMod
             <button onClick={handleClick} className="btn btn-error text-white mx-[2px] w-24">
               بەڵێ
             </button>
-            <button className="btn btn-info text-white mx-[2px] w-24">
+            <button 
+              className="btn btn-info text-white mx-[2px] w-24"
+              onClick={() => (modalRef.current as HTMLDialogElement).close()}
+            >
               نەخێر
             </button>
           </form>

@@ -1,6 +1,6 @@
 "use client";
 
-import { LegacyRef, SyntheticEvent, useEffect, useState } from "react";
+import { RefObject, SyntheticEvent, useEffect, useState } from "react";
 import localFont from "next/font/local";
 import { supabase } from "@/utils/supabase/client";
 import InputState from "../InputState";
@@ -10,7 +10,7 @@ import { Teacher } from "@/lib/types";
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
 interface QuestionModalProps {
-  modalRef: LegacyRef<HTMLDialogElement>;
+  modalRef: RefObject<HTMLDialogElement>;
   id: string | null;
 }
 
@@ -53,6 +53,7 @@ export default function TeacherUpdateModal({
         setName("");
         setSpecialty("");
         setPhoto("");
+        modalRef?.current?.close()
       } catch (e) {
         console.log(e);
       }
@@ -63,7 +64,7 @@ export default function TeacherUpdateModal({
     <dialog ref={modalRef} className={`${bbc.className} modal text-white`}>
       <div className="modal-box">
         <h2 className="font-bold text-xl text-white">نوێکردنەوەی مامۆستا</h2>
-        <form className="form flex flex-row flex-wrap max-w-4xl gap-2 justify-center">
+        <form className="form flex flex-row flex-wrap max-w-4xl gap-2 justify-center" onSubmit={(e) => e.preventDefault()}>
           <InputState
             name="teacher"
             placeholder="ناوی مامۆستا"
@@ -83,7 +84,10 @@ export default function TeacherUpdateModal({
           >
             بەڵێ
           </button>
-          <button className="btn btn-info text-white mx-[2px] w-24">
+          <button 
+            className="btn btn-info text-white mx-[2px] w-24"
+            onClick={() => (modalRef?.current as HTMLDialogElement).close()}
+          >
             نەخێر
           </button>
         </form>

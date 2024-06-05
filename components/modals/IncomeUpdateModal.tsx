@@ -1,6 +1,6 @@
 "use client";
 
-import { LegacyRef, useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import localFont from "next/font/local";
 import {
   course_fetcher,
@@ -15,7 +15,7 @@ import Label from "../form/Label";
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
 interface QuestionModalProps {
-  modalRef: LegacyRef<HTMLDialogElement>;
+  modalRef: RefObject<HTMLDialogElement>;
   id: string | null;
 }
 
@@ -96,6 +96,7 @@ export default function IncomeUpdateModal({
       setTeacher([]);
       setAmount(0);
       setStudent(null);
+      modalRef?.current?.close()
     }
   }
 
@@ -104,7 +105,7 @@ export default function IncomeUpdateModal({
       <div className="modal-box">
         <h2 className="font-bold text-xl text-white">نوێکردنەوەی داهات</h2>
         <div className="modal-action">
-          <form method="dialog flex flex-row flex-wrap justify-center">
+          <form className="dialog" onSubmit={(e) => e.preventDefault()}>
             <div className="my-4">
               <Label>بڕ</Label>
               <input
@@ -155,15 +156,20 @@ export default function IncomeUpdateModal({
                 ))}
               </select>
             </div>
+            <div>
             <button
               onClick={handleIncome}
               className="btn btn-error text-white mx-[2px] w-24"
             >
               بەڵێ
             </button>
-            <button className="btn btn-info text-white mx-[2px] w-24">
+            <button 
+              className="btn btn-info text-white mx-[2px] w-24"
+              onClick={() => (modalRef?.current as HTMLDialogElement).close()}
+            >
               نەخێر
             </button>
+            </div>
           </form>
         </div>
       </div>

@@ -1,7 +1,7 @@
 //@ts-nocheck
 "use client";
 
-import { LegacyRef, useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import localFont from "next/font/local";
 import { single_course_fetcher } from "@/lib/fetchers";
 import { supabase } from "@/utils/supabase/client";
@@ -11,7 +11,7 @@ import { Course } from "@/lib/types";
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
 interface QuestionModalProps {
-  modalRef: LegacyRef<HTMLDialogElement>;
+  modalRef: RefObject<HTMLDialogElement>;
   id: string | null;
 }
 
@@ -55,6 +55,8 @@ export default function CourseUpdateModal({
         }
       } catch (e) {
         console.log(e);
+        modalRef.current.close();
+        fetchCourse()
       }
     }
   }
@@ -63,7 +65,7 @@ export default function CourseUpdateModal({
     <dialog ref={modalRef} className={`${bbc.className} modal text-white`}>
       <div className="modal-box">
         <h2 className="font-bold text-xl text-white">نوێکردنەوەی پشک</h2>
-        <form className="form flex flex-row flex-wrap max-w-4xl gap-2 justify-center">
+        <form className="form flex flex-row flex-wrap max-w-4xl gap-2 justify-center" onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="course" className="block text-lg font-medium">
             خولێک هەڵبژێرە
           </label>
@@ -92,7 +94,10 @@ export default function CourseUpdateModal({
           >
             بەڵێ
           </button>
-          <button className="btn btn-info text-white mx-[2px] w-24">
+          <button 
+            className="btn btn-info text-white mx-[2px] w-24"
+            onClick={() => (modalRef.current as HTMLDialogElement).close()}
+          >
             نەخێر
           </button>
         </form>

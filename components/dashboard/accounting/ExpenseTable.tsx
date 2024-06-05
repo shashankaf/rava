@@ -1,7 +1,7 @@
 //@ts-nocheck
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import QuestionModal from "@/components/QuestionModal";
@@ -62,7 +62,8 @@ export default function ExpenseTable() {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     if (expenseToDelete) {
       try {
         const { error } = await supabase

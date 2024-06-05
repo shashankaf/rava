@@ -1,6 +1,6 @@
 "use client";
 
-import { LegacyRef, useEffect, useState } from "react";
+import { LegacyRef, MouseEvent, useEffect, useState } from "react";
 import localFont from "next/font/local";
 import {
   course_fetcher,
@@ -71,7 +71,8 @@ export default function ExpenseModal({ modalRef }: QuestionModalProps) {
     setStudent(value);
   }
 
-  async function handleExpense() {
+  async function handleExpense(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
     const numAmount = Number(amount)
     const { error } = await supabase.from("expense").insert({
       amount: numAmount,

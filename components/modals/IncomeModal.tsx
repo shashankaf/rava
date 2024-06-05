@@ -1,6 +1,6 @@
 "use client";
 
-import { LegacyRef, useEffect, useState } from "react";
+import { LegacyRef, MouseEvent, useEffect, useState } from "react";
 import localFont from "next/font/local";
 import { course_fetcher, student_fetcher, teacher_fetcher } from "@/lib/fetchers";
 import SelectName from "../SelectName";
@@ -68,7 +68,8 @@ export default function IncomeModal({ modalRef }: QuestionModalProps) {
     setStudent(value);
   }
 
-  async function handleIncome() {
+  async function handleIncome(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
     const numAmount = Number(amount)
     const {error} = await supabase.from("income").insert({
       amount: numAmount,
@@ -90,7 +91,7 @@ export default function IncomeModal({ modalRef }: QuestionModalProps) {
       <div className="modal-box">
         <h2 className="font-bold text-xl text-white">زیادکردنی داهات</h2>
         <div className="modal-action">
-          <form method="dialog form flex flex-row flex-wrap max-w-4xl gap-2 justify-center">
+          <form className="dialog form flex flex-row flex-wrap max-w-4xl gap-2 justify-center">
             <input
               type="text"
               name="name"
@@ -120,7 +121,9 @@ export default function IncomeModal({ modalRef }: QuestionModalProps) {
             >
               بەڵێ
             </button>
-            <button className="btn btn-info text-white mx-[2px] w-24">
+            <button 
+              className="btn btn-info text-white mx-[2px] w-24"
+            >
               نەخێر
             </button>
           </form>

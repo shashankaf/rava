@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import QuestionModal from "@/components/QuestionModal";
@@ -56,13 +56,16 @@ export default function SharesTable() {
 
   const [isDeleted, setIsDeleted] = useState(false);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     try {
       const { error } = await supabase.from("share").delete().eq("id", id);
 
       if (error) {
         throw error;
       }
+      modalRef?.current?.close()
+      shareFetcher()
       setIsDeleted(true);
     } catch (error) {
       console.error(error);

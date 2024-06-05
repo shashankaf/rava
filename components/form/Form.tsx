@@ -87,8 +87,8 @@ export default function Form({ ragazakan, classes, bloods, travels, courses }: D
   };
 
   const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    setLoading(true);
     e.preventDefault();
+    setLoading(true);
     if (name.length < 2) {
       const msg = "تکایە ناوێکی گونجاو هەڵبژێرە";
       handleError(msg);

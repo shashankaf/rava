@@ -142,8 +142,8 @@ export default function StudentUpdateModal({
           if (dbKey === "clas") {
             dbKey = "class";
           }
-          if(dbKey === 'second_pay') {
-            dbKey = "secondpay"
+          if (dbKey === "second_pay") {
+            dbKey = "secondpay";
           }
           updatedData[dbKey] = formState[key as keyof FormState];
         }
@@ -157,6 +157,8 @@ export default function StudentUpdateModal({
           console.log(error);
         } else {
           console.log("Data updated successfully:", data);
+          modalRef.current.close()
+          fetchAll()
         }
       } catch (e) {
         console.log(e);
@@ -346,6 +348,7 @@ export default function StudentUpdateModal({
           <button
             type="button"
             className="btn btn-info text-white mx-[2px] w-24"
+            onClick={() => (modalRef.current as HTMLDialogElement).close()}
           >
             نەخێر
           </button>
