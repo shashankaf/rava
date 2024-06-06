@@ -13,7 +13,9 @@ async function TeachersPage() {
 
   return (
     <GeneralWrapper>
+      <div className="py-6">
       <Heading text="مامۆستایانی راڤە" />
+      </div>
       <div className="flex flex-row justify-center flex-wrap gap-4">
         {data?.map((item) => {
           return (
