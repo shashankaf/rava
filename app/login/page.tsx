@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "./submit-button";
+import GeneralWrapper from "@/components/dashboard/GeneralWrapper";
 
 export default function Login({
   searchParams,
@@ -52,6 +53,7 @@ export default function Login({
   };
 
   return (
+    <GeneralWrapper>
     <div dir="rtl" className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
       <Link
         href="/"
@@ -115,5 +117,6 @@ export default function Login({
         )}
       </form>
     </div>
+    </GeneralWrapper>
   );
 }
