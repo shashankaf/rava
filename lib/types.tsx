@@ -64,6 +64,14 @@ export interface Share {
   percentage: number | null;
 }
 
+export interface ShareBare {
+  created_at: string;
+  id: string;
+  course: string | null;
+  teacher: string | null;
+  percentage: number | null;
+}
+
 export interface Item {
   id: string;
   created_at: string;
@@ -77,7 +85,7 @@ export interface Income {
   course: string & Course | null;
   student: string & Student | null;
   teacher: string[] | null;
-  spent_share: string[] | null;
+  spent_shares: string[] | null;
 }
 
 export interface Expense {

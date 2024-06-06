@@ -20,29 +20,45 @@ const bbc = localFont({ src: "/../../../app/sarkar_bbc.ttf" });
 export default function StudentsTable() {
   const [students, setStudents] = useState<Student[]>([]);
   const [pageLimit] = useAtom(pageLimitAtom);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const fetcher = async () => {
+  const fetcher = async (page: number, limit: number) => {
     try {
-      const { data, error } = await supabase
+      const from = (page - 1) * limit;
+      const to = page * limit - 1;
+      const { data, error, count } = await supabase
         .from("student")
-        .select(`*, class(*), blood(*), travel(*), ragaz(*), course(*)`)
+        .select(`*, class(*), blood(*), travel(*), ragaz(*), course(*)`, {
+          count: "exact",
+        })
         .order("created_at", { ascending: false })
-        .limit(pageLimit);
+        .range(from, to);
       if (error) throw Error;
       setStudents(data);
       setFilteredStudents(data);
+
+      if (count !== null) {
+        const calculatedTotalPages = Math.ceil(count / limit);
+        if (calculatedTotalPages > 0 && currentPage <= calculatedTotalPages) {
+          setTotalPages(calculatedTotalPages);
+        } else {
+          setCurrentPage(calculatedTotalPages > 0 ? calculatedTotalPages : 1);
+        }
+      }
+
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    fetcher();
+    fetcher(currentPage, pageLimit);
   }, [pageLimit]);
 
   const modalRef = useRef<HTMLDialogElement>(null);
   const updateRef = useRef<HTMLDialogElement>(null);
-  
+
   const [studentToUpdate, setStudentToUpdate] = useState<string | null>("");
   const handleUpdate = (id: string) => {
     setStudentToUpdate(id);
@@ -50,7 +66,7 @@ export default function StudentsTable() {
       updateRef.current.showModal();
     }
   };
-  const [studentToDelete, setStudentToDelete] = useState<string | null>(null)
+  const [studentToDelete, setStudentToDelete] = useState<string | null>(null);
   const openModal = (id: string) => {
     setStudentToDelete(id);
     if (modalRef.current) {
@@ -59,7 +75,7 @@ export default function StudentsTable() {
   };
 
   const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (studentToDelete) {
       try {
         const { error } = await supabase
@@ -71,7 +87,7 @@ export default function StudentsTable() {
           console.log(error);
         }
         setStudentToDelete(null);
-        fetcher(); 
+        fetcher(currentPage, pageLimit);
       } catch (error: any) {
         console.error("Error deleting student:", error.message);
       }
@@ -85,67 +101,74 @@ export default function StudentsTable() {
   return (
     <StudentTableWrapper students={students}>
       <div className="overflow-x-auto">
-      <table
-        dir="rtl"
-        className={`${bbc.className} table text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400`}
-      >
-        <thead className="text-black text-md bg-gray-100">
-          <tr>
-            <th>ناو</th>
-            <th>پۆل</th>
-            <th>خوێن</th>
-            <th>هاتووچۆ</th>
-            <th>رەگەز</th>
-            <th className="text-center">دەستکاریی</th>
-          </tr>
-        </thead>
-        <tbody className="text-md border-b-2 border-gray-100">
-          {filteredStudents.map((item) => {
-            return (
-              <tr key={item.id} className="text-md border-b-2 border-gray-100">
-                <td>{item.name}</td>
-                <td>{item.class?.title}</td>
-                <td>{item.blood?.title}</td>
-                <td>{item.travel?.title}</td>
-                <td>{item.ragaz?.title}</td>
-                <td className="flex gap-x-6 justify-center text-2xl">
-                  <div
-                    className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
-                    data-tip="خوێندنەوە"
-                    onClick={() =>
-                      router.push(`/dashboard/students/read/${item.id}`)
-                    }
-                  >
-                    <FaBookOpenReader />
-                  </div>
-                  <div
-                    className="tooltip tooltip-warning text-indigo-500 cursor-pointer hover:text-indigo-900 transition-all duration-400"
-                    data-tip="نوێکردنەوە"
-                    onClick={() => handleUpdate(item.id)}
-                  >
-                    <FaEdit />
-                  </div>
-                  <div
-                    className="tooltip tooltip-warning text-red-500 cursor-pointer hover:text-red-900 transition-all duration-400"
-                    data-tip="سڕینەوە"
-                    onClick={() => openModal(item.id)}
-                  >
-                    <RiDeleteBin5Fill />
-                  </div>
-                  <QuestionModal
-                    text="خوێندکار"
-                    modalRef={modalRef}
-                    handleClick={handleDelete}
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+        <table
+          dir="rtl"
+          className={`${bbc.className} table text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400`}
+        >
+          <thead className="text-black text-md bg-gray-100">
+            <tr>
+              <th>ناو</th>
+              <th>پۆل</th>
+              <th>خوێن</th>
+              <th>هاتووچۆ</th>
+              <th>رەگەز</th>
+              <th className="text-center">دەستکاریی</th>
+            </tr>
+          </thead>
+          <tbody className="text-md border-b-2 border-gray-100">
+            {filteredStudents.map((item) => {
+              return (
+                <tr
+                  key={item.id}
+                  className="text-md border-b-2 border-gray-100"
+                >
+                  <td>{item.name}</td>
+                  <td>{item.class?.title}</td>
+                  <td>{item.blood?.title}</td>
+                  <td>{item.travel?.title}</td>
+                  <td>{item.ragaz?.title}</td>
+                  <td className="flex gap-x-6 justify-center text-2xl">
+                    <div
+                      className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
+                      data-tip="خوێندنەوە"
+                      onClick={() =>
+                        router.push(`/dashboard/students/read/${item.id}`)
+                      }
+                    >
+                      <FaBookOpenReader />
+                    </div>
+                    <div
+                      className="tooltip tooltip-warning text-indigo-500 cursor-pointer hover:text-indigo-900 transition-all duration-400"
+                      data-tip="نوێکردنەوە"
+                      onClick={() => handleUpdate(item.id)}
+                    >
+                      <FaEdit />
+                    </div>
+                    <div
+                      className="tooltip tooltip-warning text-red-500 cursor-pointer hover:text-red-900 transition-all duration-400"
+                      data-tip="سڕینەوە"
+                      onClick={() => openModal(item.id)}
+                    >
+                      <RiDeleteBin5Fill />
+                    </div>
+                    <QuestionModal
+                      text="خوێندکار"
+                      modalRef={modalRef}
+                      handleClick={handleDelete}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
       <StudentUpdateModal modalRef={updateRef} id={studentToUpdate} />
-      <Pagination />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </StudentTableWrapper>
   );
 }

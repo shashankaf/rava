@@ -17,23 +17,37 @@ const bbc = localFont({ src: "/../../../app/sarkar_bbc.ttf" });
 export default function SharesTable() {
   const [shares, setShares] = useState<Share[]>([]);
   const [pageLimit] = useAtom(pageLimitAtom);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const shareFetcher = async () => {
+  const shareFetcher = async (page: number, limit: number) => {
     try {
-      const { data, error } = await supabase
+      const from = (page - 1) * limit;
+      const to = page * limit - 1;
+      const { data, error, count } = await supabase
         .from("share")
-        .select(`*, teacher(*), course(*)`);
-      if (error) throw Error;
+        .select(`*, teacher(*), course(*)`, { count: "exact" })
+        .range(from, to);
+      if (error) throw error;
       setShares(data);
       setFilteredShares(data);
+      if (count !== null) {
+        const calculatedTotalPages = Math.ceil(count / limit);
+        if (calculatedTotalPages > 0 && currentPage <= calculatedTotalPages) {
+          setTotalPages(calculatedTotalPages);
+        } else {
+          setCurrentPage(calculatedTotalPages > 0 ? calculatedTotalPages : 1);
+        }
+      }
+
     } catch (e) {
       console.log(e);
     }
   };
 
   useEffect(() => {
-    shareFetcher();
-  }, [pageLimit]);
+    shareFetcher(currentPage, pageLimit);
+  }, [currentPage, pageLimit]);
 
   const modalRef = useRef<HTMLDialogElement>(null);
   const updateRef = useRef<HTMLDialogElement>(null);
@@ -57,15 +71,15 @@ export default function SharesTable() {
   const [isDeleted, setIsDeleted] = useState(false);
 
   const handleDelete = async (id: string, e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const { error } = await supabase.from("share").delete().eq("id", id);
 
       if (error) {
         throw error;
       }
-      modalRef?.current?.close()
-      shareFetcher()
+      modalRef?.current?.close();
+      shareFetcher(currentPage, pageLimit);
       setIsDeleted(true);
     } catch (error) {
       console.error(error);
@@ -117,7 +131,9 @@ export default function SharesTable() {
                       <QuestionModal
                         text="پشک"
                         modalRef={modalRef}
-                        handleClick={(e: MouseEvent<HTMLButtonElement>) => handleDelete(share.id, e)}
+                        handleClick={(e: MouseEvent<HTMLButtonElement>) =>
+                          handleDelete(share.id, e)
+                        }
                       />
                     </td>
                   </tr>
@@ -128,7 +144,11 @@ export default function SharesTable() {
         </div>
       </SharesTableWrapper>
       <ShareUpdateModal id={shareToUpdate} modalRef={updateRef} />
-      <Pagination />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </>
   );
 }

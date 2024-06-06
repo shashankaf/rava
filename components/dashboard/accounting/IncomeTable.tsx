@@ -8,7 +8,7 @@ import QuestionModal from "@/components/QuestionModal";
 import Pagination from "@/components/Pagination";
 import localFont from "next/font/local";
 import { useAtom } from "jotai";
-import { pageLimitAtom } from "@/lib/store";
+import { pageLimitAtom, pageNumberAtom } from "@/lib/store"; // Import pageNumberAtom
 import { supabase } from "@/utils/supabase/client";
 import IncomeModal from "@/components/modals/IncomeModal";
 import IncomeUpdateModal from "@/components/modals/IncomeUpdateModal";
@@ -19,20 +19,26 @@ const bbc = localFont({ src: "/../../../app/sarkar_bbc.ttf" });
 
 export default function IncomeTable() {
   const [income, setIncome] = useState<Income[]>([]);
-  const [pageLimit] = useAtom(pageLimitAtom);
-  const [incomeToDelete, setIncomeToDelete] = useState(null);
   const [filteredIncome, setFilteredIncome] = useState<Income[]>([]);
+  const [pageLimit] = useAtom(pageLimitAtom);
+  const [pageNumber, setPageNumber] = useAtom(pageNumberAtom); // Add pageNumber atom
+  const [totalIncome, setTotalIncome] = useState(0); // Add totalIncome state
+  const [incomeToDelete, setIncomeToDelete] = useState(null);
+  const [incomeToUpdate, setIncomeToUpdate] = useState(null);
 
   const incomeFetcher = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error, count } = await supabase
         .from("income")
-        .select(`*, student(*), course(*)`);
+        .select(`*, student(*), course(*)`, { count: "exact" })
+        .range((pageNumber - 1) * pageLimit, pageNumber * pageLimit - 1);
       if (error) {
         console.log(error);
+      } else {
+        setIncome(data);
+        setFilteredIncome(data);
+        setTotalIncome(count ?? 0); // Fallback to 0 if count is null
       }
-      setIncome(data);
-      setFilteredIncome(data);
     } catch (e) {
       console.log(e);
     }
@@ -40,7 +46,7 @@ export default function IncomeTable() {
 
   useEffect(() => {
     incomeFetcher();
-  }, [pageLimit]);
+  }, [pageLimit, pageNumber]);
 
   const modalRef = useRef<HTMLDialogElement>(null);
   const incomeRef = useRef<HTMLDialogElement>(null);
@@ -61,7 +67,7 @@ export default function IncomeTable() {
   };
 
   const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (incomeToDelete) {
       try {
         const { error } = await supabase
@@ -73,14 +79,12 @@ export default function IncomeTable() {
           console.log(error);
         }
         setIncomeToDelete(null);
-        incomeFetcher(); 
+        incomeFetcher();
       } catch (error: any) {
         console.error("Error deleting income:", error.message);
       }
     }
   };
-
-  const [incomeToUpdate, setIncomeToUpdate] = useState(null);
 
   return (
     <>
@@ -98,7 +102,10 @@ export default function IncomeTable() {
             <tbody className="text-md border-b-2 border-gray-100">
               {filteredIncome.map((item) => {
                 return (
-                  <tr className="text-md border-b-2 border-gray-100">
+                  <tr
+                    className="text-md border-b-2 border-gray-100"
+                    key={item.id}
+                  >
                     <td>${item.amount}</td>
                     <td>{item.student?.name}</td>
                     <td>{item.course?.title}</td>
@@ -132,7 +139,12 @@ export default function IncomeTable() {
       </IncomeTableWrapper>
       <IncomeUpdateModal modalRef={updateRef} id={incomeToUpdate} />
       <IncomeModal modalRef={incomeRef} />
-      <Pagination />
+      <Pagination
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
+        totalItems={totalIncome}
+        pageLimit={pageLimit}
+      />
     </>
   );
 }

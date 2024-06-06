@@ -25,15 +25,28 @@ interface ModalElement extends HTMLDialogElement {
 export default function TeachersTable() {
   const [pageLimit] = useAtom(pageLimitAtom);
   const [teachers, setTeachers] = useState<Teacher[]>([]);
-  const fetcher = async () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const fetcher = async (page: number, limit: number) => {
     try {
-      const { error, data } = await supabase
+      const from = (page - 1) * limit;
+      const to = page * limit - 1;
+      const { error, data, count } = await supabase
         .from("teacher")
-        .select()
-        .limit(pageLimit)
-        .order("created_at", { ascending: false });
+        .select(`*`, { count: "exact" })
+        .order("created_at", { ascending: false })
+        .range(from, to);
       if (error) {
         throw Error;
+      }
+      if (count !== null) {
+        const calculatedTotalPages = Math.ceil(count / limit);
+        if (calculatedTotalPages > 0 && currentPage <= calculatedTotalPages) {
+          setTotalPages(calculatedTotalPages);
+        } else {
+          setCurrentPage(calculatedTotalPages > 0 ? calculatedTotalPages : 1);
+        }
       }
       setTeachers(data);
       setFilteredTeachers(data);
@@ -43,8 +56,8 @@ export default function TeachersTable() {
   };
 
   useEffect(() => {
-    fetcher();
-  }, [pageLimit]);
+    fetcher(currentPage, pageLimit);
+  }, [pageLimit, currentPage]);
 
   const modalRef = useRef<ModalElement>(null);
   const updateRef = useRef<ModalElement>(null);
@@ -82,7 +95,7 @@ export default function TeachersTable() {
           console.log(error);
         }
         setTeacherToDelete(null);
-        fetcher();
+        fetcher(currentPage, pageLimit);
       } catch (error: any) {
         console.error("Error deleting teacher:", error.message);
       }
@@ -92,62 +105,65 @@ export default function TeachersTable() {
   return (
     <>
       <TeachersTableWrapper teachers={teachers}>
-      <div className="overflow-x-auto">
-        <table dir="rtl" className={`${bbc.className} table text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400`}>
-          <thead className="text-black text-md bg-gray-100">
-            <tr>
-              <th>ناو</th>
-              <th>پسپۆڕیی</th>
-              <th>وێنە</th>
-              <th className="text-center">دەستکاریی</th>
-            </tr>
-          </thead>
-          <tbody className="text-md border-b-2 border-gray-100">
-            {filteredTeachers.map((teacher) => (
-              <tr
-                key={teacher.id}
-                className="text-md border-b-2 border-gray-100"
-              >
-                <td>{teacher.name}</td>
-                <td>{teacher.specialty}</td>
-                <td>
-                  <Image
-                    src={teacher.photo ?? ""}
-                    alt={teacher.name ?? ""}
-                    height={100}
-                    width={100}
-                    className="rounded-full border-2 border-indigo-600 w-10 h-10 object-cover"
-                  />
-                </td>
-                <td className="flex gap-x-6 justify-center text-2xl">
-                  <div
-                    className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
-                    data-tip="خوێندنەوە"
-                    onClick={() =>
-                      router.push(`/dashboard/teachers/read/${teacher.id}`)
-                    }
-                  >
-                    <FaBookOpenReader />
-                  </div>
-                  <div
-                    className="tooltip tooltip-warning text-indigo-500 cursor-pointer hover:text-indigo-900 transition-all duration-400"
-                    data-tip="نوێکردنەوە"
-                    onClick={() => handleUpdate(teacher.id)}
-                  >
-                    <FaEdit />
-                  </div>
-                  <div
-                    className="tooltip tooltip-warning text-red-500 cursor-pointer hover:text-red-900 transition-all duration-400"
-                    data-tip="سڕینەوە"
-                    onClick={() => openModal(teacher.id)}
-                  >
-                    <RiDeleteBin5Fill />
-                  </div>
-                </td>
+        <div className="overflow-x-auto">
+          <table
+            dir="rtl"
+            className={`${bbc.className} table text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400`}
+          >
+            <thead className="text-black text-md bg-gray-100">
+              <tr>
+                <th>ناو</th>
+                <th>پسپۆڕیی</th>
+                <th>وێنە</th>
+                <th className="text-center">دەستکاریی</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="text-md border-b-2 border-gray-100">
+              {filteredTeachers.map((teacher) => (
+                <tr
+                  key={teacher.id}
+                  className="text-md border-b-2 border-gray-100"
+                >
+                  <td>{teacher.name}</td>
+                  <td>{teacher.specialty}</td>
+                  <td>
+                    <Image
+                      src={teacher.photo ?? ""}
+                      alt={teacher.name ?? ""}
+                      height={100}
+                      width={100}
+                      className="rounded-full border-2 border-indigo-600 w-10 h-10 object-cover"
+                    />
+                  </td>
+                  <td className="flex gap-x-6 justify-center text-2xl">
+                    <div
+                      className="tooltip tooltip-warning text-green-500 cursor-pointer hover:text-green-900 transition-all duration-400"
+                      data-tip="خوێندنەوە"
+                      onClick={() =>
+                        router.push(`/dashboard/teachers/read/${teacher.id}`)
+                      }
+                    >
+                      <FaBookOpenReader />
+                    </div>
+                    <div
+                      className="tooltip tooltip-warning text-indigo-500 cursor-pointer hover:text-indigo-900 transition-all duration-400"
+                      data-tip="نوێکردنەوە"
+                      onClick={() => handleUpdate(teacher.id)}
+                    >
+                      <FaEdit />
+                    </div>
+                    <div
+                      className="tooltip tooltip-warning text-red-500 cursor-pointer hover:text-red-900 transition-all duration-400"
+                      data-tip="سڕینەوە"
+                      onClick={() => openModal(teacher.id)}
+                    >
+                      <RiDeleteBin5Fill />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </TeachersTableWrapper>
       <TeacherUpdateModal modalRef={updateRef} id={teacherToUpdate} />
@@ -156,7 +172,11 @@ export default function TeachersTable() {
         modalRef={modalRef}
         handleClick={handleDelete}
       />
-      <Pagination />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </>
   );
 }

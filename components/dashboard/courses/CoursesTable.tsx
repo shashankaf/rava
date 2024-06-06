@@ -20,24 +20,37 @@ export default function CoursesTable() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
   const [pageLimit] = useAtom(pageLimitAtom);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const fetcher = async () => {
+  const fetcher = async (page: number, limit: number) => {
     try {
-      const { data, error } = await supabase
+      const from = (page - 1) * limit;
+      const to = page * limit - 1;
+      const { data, error, count } = await supabase
         .from("course")
-        .select()
-        .order("created_at", { ascending: false });
+        .select(`*`, { count: "exact" })
+        .order("created_at", { ascending: false })
+        .range(from, to);
       if (error) throw Error;
       setCourses(data);
       setFilteredCourses(data);
+      if (count !== null) {
+        const calculatedTotalPages = Math.ceil(count / limit);
+        if (calculatedTotalPages > 0 && currentPage <= calculatedTotalPages) {
+          setTotalPages(calculatedTotalPages);
+        } else {
+          setCurrentPage(calculatedTotalPages > 0 ? calculatedTotalPages : 1);
+        }
+      }
     } catch (e) {
       console.log(e);
     }
   };
 
   useEffect(() => {
-    fetcher();
-  }, [pageLimit]);
+    fetcher(currentPage, pageLimit);
+  }, [pageLimit, currentPage]);
 
   const modalRef = useRef<HTMLDialogElement>(null);
   const [courseToDelete, setCourseToDelete] = useState<string | null>(null);
@@ -60,7 +73,7 @@ export default function CoursesTable() {
   };
 
   const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (courseToDelete) {
       try {
         const { error } = await supabase
@@ -72,7 +85,7 @@ export default function CoursesTable() {
           console.log(error);
         }
         setCourseToDelete(null);
-        fetcher(); // Refresh the data after deletion
+        fetcher(pageLimit, currentPage); // Refresh the data after deletion
       } catch (error: any) {
         console.error("Error deleting course:", error.message);
       }
@@ -129,7 +142,11 @@ export default function CoursesTable() {
         </div>
       </CoursesTableWrapper>
       <CourseUpdateModal modalRef={updateRef} id={courseToUpdate} />
-      <Pagination />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </>
   );
 }

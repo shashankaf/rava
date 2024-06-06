@@ -8,7 +8,7 @@ import QuestionModal from "@/components/QuestionModal";
 import Pagination from "@/components/Pagination";
 import localFont from "next/font/local";
 import { useAtom } from "jotai";
-import { pageLimitAtom } from "@/lib/store";
+import { pageLimitAtom, pageNumberAtom } from "@/lib/store"; // Import pageNumberAtom
 import { supabase } from "@/utils/supabase/client";
 import { formatDate } from "@/lib/formatDate";
 import ExpenseModal from "@/components/modals/ExpenseModal";
@@ -20,21 +20,26 @@ const bbc = localFont({ src: "/../../../app/sarkar_bbc.ttf" });
 
 export default function ExpenseTable() {
   const [expense, setExpense] = useState<Expense[]>([]);
-  const [pageLimit] = useAtom(pageLimitAtom);
-  const [expenseToUpdate, setExpenseToUpdate] = useState<string>("");
   const [filteredExpense, setFilteredExpense] = useState<Expense[]>([]);
+  const [pageLimit] = useAtom(pageLimitAtom);
+  const [pageNumber, setPageNumber] = useAtom(pageNumberAtom); // Add pageNumber atom
+  const [totalExpense, setTotalExpense] = useState(0); // Add totalExpense state
+  const [expenseToUpdate, setExpenseToUpdate] = useState<string>("");
   const [expenseToDelete, setExpenseToDelete] = useState<string>("");
 
   const expenseFetcher = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error, count } = await supabase
         .from("expense")
-        .select(`*, teacher(*), student(*), course(*), items(*)`);
+        .select(`*, teacher(*), student(*), course(*), items(*)`, { count: "exact" })
+        .range((pageNumber - 1) * pageLimit, pageNumber * pageLimit - 1);
       if (error) {
         console.log(error);
+      } else {
+        setExpense(data);
+        setFilteredExpense(data);
+        setTotalExpense(count ?? 0); // Fallback to 0 if count is null
       }
-      setExpense(data);
-      setFilteredExpense(data);
     } catch (e) {
       console.log(e);
     }
@@ -42,7 +47,7 @@ export default function ExpenseTable() {
 
   useEffect(() => {
     expenseFetcher();
-  }, [pageLimit]);
+  }, [pageLimit, pageNumber]);
 
   const modalRef = useRef<HTMLDialogElement>(null);
   const expenseRef = useRef<HTMLDialogElement>(null);
@@ -63,7 +68,7 @@ export default function ExpenseTable() {
   };
 
   const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (expenseToDelete) {
       try {
         const { error } = await supabase
@@ -77,7 +82,7 @@ export default function ExpenseTable() {
         setExpenseToDelete(null);
         expenseFetcher();
       } catch (error: any) {
-        console.error("Error deleting income:", error.message);
+        console.error("Error deleting expense:", error.message);
       }
     }
   };
@@ -98,7 +103,7 @@ export default function ExpenseTable() {
             <tbody className="text-md border-b-2 border-gray-100">
               {filteredExpense.map((item) => {
                 return (
-                  <tr className="text-md border-b-2 border-gray-100">
+                  <tr className="text-md border-b-2 border-gray-100" key={item.id}>
                     <td>${item.amount}</td>
                     <td>{item.expense_type === "course" ? "خول" : "شتومەک"}</td>
                     <td>{formatDate(item.created_at)}</td>
@@ -132,7 +137,12 @@ export default function ExpenseTable() {
       </ExpenseTableWrapper>
       <ExpenseUpdateModal modalRef={updateRef} id={expenseToUpdate} />
       <ExpenseModal modalRef={expenseRef} />
-      <Pagination />
+      <Pagination
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
+        totalItems={totalExpense}
+        pageLimit={pageLimit}
+      />
     </>
   );
 }
