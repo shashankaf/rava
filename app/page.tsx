@@ -12,7 +12,7 @@ export default function Index() {
     <>
       <div className="flex-1 w-full flex flex-col items-center overflow-hidden mx-auto">
         <div className="animate-in flex-1 flex flex-col px-3">
-          <main className="flex-1 flex flex-col gap-6 main mt-[80px]">
+          <main className="flex-1 flex flex-col gap-6 main">
             <Hero />
             <Reklam />
             <div className="flex flex-col justify-cente items-center my-6">

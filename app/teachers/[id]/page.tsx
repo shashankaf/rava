@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import localFont from "next/font/local";
 import { supabase } from "@/utils/supabase/client";
+import GeneralWrapper from "@/components/dashboard/GeneralWrapper";
 
 const shasenem = localFont({ src: "../../shasenem.ttf" });
 
@@ -14,7 +15,8 @@ const Teacher = async({params}:any) => {
 
   return (
     <>
-      <section dir="rtl" className="pt-10 overflow-hidden text-right mt-24">
+      <GeneralWrapper>
+      <section dir="rtl" className="pt-10 overflow-hidden text-right">
         <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl ">
           <div className="grid items-center grid-cols-1 md:grid-cols-2">
             <div className="m-4">
@@ -61,6 +63,7 @@ const Teacher = async({params}:any) => {
           </div>
         </div>
       </section>{" "}
+    </GeneralWrapper>
     </>
   );
 }
