@@ -34,7 +34,7 @@ export default function HomeSwiper({ options }: HomeSwiperProps) {
         }}
         pagination={true}
         modules={[EffectCoverflow, Pagination]}
-        className="anotherSwiper my-24"
+        className="anotherSwiper my-6"
       >
         {options.map((item) => (
           <SwiperSlide key={item.id}>

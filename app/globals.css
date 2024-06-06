@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -40,12 +42,12 @@
 }
 
 .hero-image {
-    user-drag: none;
-    -webkit-user-drag: none;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 /* Hide the default checkbox */
@@ -119,9 +121,7 @@
 
 .active {
   background-color: rgba(255, 255, 255, 0.1);
-
 }
-
 
 .firstSwiper {
   width: 480px;
@@ -199,10 +199,19 @@
 .anotherSwiper .swiper-slide {
   background-position: center;
   background-size: cover;
-  width: 300px;
-  height: 300px;
+  width: 44rem;
+  height: 44rem;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+@media (max-width: 768px) {
+  .anotherSwiper .swiper-slide {
+    width: 20rem;
+    height: 20rem;
+  }
+}
 .anotherSwiper .swiper-slide img {
   display: block;
   width: 100%;
