@@ -3,15 +3,16 @@
 import { supabase } from "@/utils/supabase/client";
 import SingleTeacher from "@/components/teachers/SingleTeacher";
 import Heading from "@/components/Heading";
+import GeneralWrapper from "@/components/dashboard/GeneralWrapper";
 
 async function TeachersPage() {
-    const { error, data } = await supabase.from("teacher").select();
-    if (error) {
-      throw Error;
-    }
+  const { error, data } = await supabase.from("teacher").select();
+  if (error) {
+    throw Error;
+  }
 
   return (
-    <div className="my-24">
+    <GeneralWrapper>
       <Heading text="مامۆستایانی راڤە" />
       <div className="flex flex-row justify-center flex-wrap gap-4">
         {data?.map((item) => {
@@ -28,7 +29,7 @@ async function TeachersPage() {
           );
         })}
       </div>
-    </div>
+    </GeneralWrapper>
   );
 }
 
