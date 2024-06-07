@@ -9,7 +9,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+.react-datepicker {
+  width: 100% !important;
+}
 .modal-action {
   justify-content: center;
 }

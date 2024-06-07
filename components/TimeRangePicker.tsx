@@ -1,7 +1,27 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+// Custom Locale Setup for AM/PM
+const customLocale = {
+  localize: {
+    day: (n: number) => ['١ شەمە', '٢ شەمە', '٣ شەمە', '٤ شەمە', '٥ شەمە', 'هەینی', 'شەمە'][n],
+    month: (n: number) => ['کانونی دووەم', 'شوبات', 'ئازار', 'نیسان', 'ئایار', 'حوزەیران', 'تەمموز', 'ئاب', 'ئەیلول', 'تشرینی یەکەم', 'تشرینی دووەم', 'کانونی یەکەم'][n],
+    ordinalNumber: (n: number, options?: { unit?: string }) => String(n),
+    era: (n: number) => (n === 0 ? 'پش زایین' : 'زاینیی'),
+    quarter: (n: number) => `Q${n}`,
+    dayPeriod: (n: string) => (n === 'am' ? 'بەیانی' : 'ئێوارە')
+  },
+  formatLong: {
+    date: () => 'MM/dd/yyyy',
+    time: () => 'HH:mm',
+    dateTime: () => 'MM/dd/yyyy HH:mm'
+  }
+};
+//@ts-ignore
+registerLocale('custom', customLocale);
+setDefaultLocale('custom');
 
 interface TimeRangePickerProps {
   onSelect: (startTime: Date | null, endTime: Date | null) => void;
@@ -29,9 +49,9 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({ onSelect }) => {
   maxTime.setHours(21, 0, 0);
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 w-full">
       <DatePicker
-        className="input input-md input-bordered"
+        className="input input-md input-bordered text-white"
         selected={startTime}
         onChange={handleStartTimeChange}
         showTimeSelect
@@ -44,7 +64,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({ onSelect }) => {
         placeholderText="کاتی دەستپێک"
       />
       <DatePicker
-        className="input input-md input-bordered"
+        className="input input-md input-bordered text-white"
         selected={endTime}
         onChange={handleEndTimeChange}
         showTimeSelect
