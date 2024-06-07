@@ -20,6 +20,7 @@ function Navbar() {
       <div className="hidden md:flex flex-row items-center gap-x-2 text-lg text-gray-800 mx-6">
         <MenuItem text="ماڵەوە" link="/" />
         <MenuItem text="مامۆستایان" link="/teachers" />
+        <MenuItem text="وانەی تایبەت" link="/booking" />
         <MenuItem text="فۆرم" link="/form" />
         <MenuItem text="پەیوەندی" link="/contact" />
       </div>
@@ -44,6 +45,11 @@ function Navbar() {
             link="/teachers"
             onClick={() => setMenuOpen(false)}
           />
+          <MenuItem
+            text="وانەی تایبەت"
+            link="/booking"
+            onClick={() => setMenuOpen(false)}
+            />
           <MenuItem
             text="فۆرم"
             link="/form"
