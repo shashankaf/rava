@@ -6,6 +6,17 @@ export interface Course {
   end: string | null;
 }
 
+export interface PrivateLecture {
+  id: string; 
+  created_at: string;
+  name: string;
+  phone: string;
+  teacher: string & Teacher; 
+  course: string & Course;
+  dates: string[]; 
+  times: string[]; 
+}
+
 export interface Teacher {
   id: string;
   bio: string | null;

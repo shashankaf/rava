@@ -1,7 +1,6 @@
+"use client"
 
-"use client";
-
-import React, { LegacyRef, useEffect, useState } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import localFont from "next/font/local";
 import SelectName from "../SelectName";
 import SelectTitle from "../SelectTitle";
@@ -10,18 +9,19 @@ import DateRangePicker from "@/components/DateRangePicker"; // Import the DateRa
 import { Course, Teacher } from "@/lib/types";
 import Label from "../form/Label";
 import TimeRangePicker from "../TimeRangePicker";
+import { supabase } from "@/utils/supabase/client";
 
 const bbc = localFont({ src: "/../../app/sarkar_bbc.ttf" });
 
 interface QuestionModalProps {
-  modalRef: LegacyRef<HTMLDialogElement>;
+  modalRef: RefObject<HTMLDialogElement>;
 }
 
 const PrivateModal: React.FC<QuestionModalProps> = ({ modalRef }) => {
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
-  const [teacher, setTeacher] = useState<string | null>(null);
-  const [course, setCourse] = useState<string | null>(null);
+  const [teacher, setTeacher] = useState<string>("");
+  const [course, setCourse] = useState<string>("");
   const [dates, setDates] = useState<string[]>([]);
   const [times, setTimes] = useState<string[]>([]);
 
@@ -54,26 +54,51 @@ const PrivateModal: React.FC<QuestionModalProps> = ({ modalRef }) => {
     setCourse(value);
   };
 
-  const handleDateRangeSelect = (startDate: Date | null, endDate: Date | null) => {
+  const handleDateRangeSelect = (
+    startDate: Date | null,
+    endDate: Date | null,
+  ) => {
     if (startDate && endDate) {
       setDates([startDate.toISOString(), endDate.toISOString()]);
     }
   };
 
-  const handleTimeRangeSelect = (startTime: Date | null, endTime: Date | null) => {
+  const handleTimeRangeSelect = (
+    startTime: Date | null,
+    endTime: Date | null,
+  ) => {
     if (startTime && endTime) {
       setTimes([startTime.toISOString(), endTime.toISOString()]);
     }
   };
 
-  const addLecture = () => {
-    console.log(name, phone, teacher, course, dates, times);
+  const addLecture = async() => {
+    try {
+    const {data, error} = await supabase.from("private_lecture").insert({
+      name,
+      phone,
+      teacher,
+      course,
+      dates,
+      times
+    }).select()
+      if(error) {
+        console.log(error)
+      }
+      if(data && modalRef.current) {
+        modalRef?.current.close()
+      }
+    } catch(e) {
+      console.log(e)
+    }
   };
 
   return (
     <dialog ref={modalRef} className={`${bbc.className} modal`}>
       <div className="modal-box">
-        <h2 className="font-bold text-xl text-white">تۆمارکردنی وانەی تایبەت</h2>
+        <h2 className="font-bold text-xl text-white">
+          تۆمارکردنی وانەی تایبەت
+        </h2>
         <div className="modal-action lg:flex">
           <form className="dialog-form flex flex-row flex-wrap max-w-4xl gap-2 justify-center">
             <Label>ناوی خوێندکار</Label>
@@ -97,10 +122,18 @@ const PrivateModal: React.FC<QuestionModalProps> = ({ modalRef }) => {
             />
 
             <Label>مامۆستای داواکراو</Label>
-            <SelectName options={teachers} text="مامۆستای پەیوەندیدار" onSelectChange={changeTeacher} />
+            <SelectName
+              options={teachers}
+              text="مامۆستای پەیوەندیدار"
+              onSelectChange={changeTeacher}
+            />
 
             <Label>خولی داواکراو</Label>
-            <SelectTitle options={courses} text="خولی پەیوەندیدار" onSelectChange={changeCourse} />
+            <SelectTitle
+              options={courses}
+              text="خولی پەیوەندیدار"
+              onSelectChange={changeCourse}
+            />
 
             <div className="flex flex-col gap-2 justify-center items-center">
               <Label>رۆژانی وانەی تایبەت</Label>
@@ -113,10 +146,19 @@ const PrivateModal: React.FC<QuestionModalProps> = ({ modalRef }) => {
             </div>
 
             <div className="flex flex-row items-center justify-center my-4">
-              <button type="button" onClick={addLecture} className="btn btn-error text-white mx-[2px] w-24">
+              <button
+                type="button"
+                onClick={addLecture}
+                className="btn btn-error text-white mx-[2px] w-24"
+              >
                 بەڵێ
               </button>
-              <button type="button" className="btn btn-info text-white mx-[2px] w-24">نەخێر</button>
+              <button
+                type="button"
+                className="btn btn-info text-white mx-[2px] w-24"
+              >
+                نەخێر
+              </button>
             </div>
           </form>
         </div>

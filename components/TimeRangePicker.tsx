@@ -25,7 +25,7 @@ registerLocale('custom', customLocale);
 setDefaultLocale('custom');
 
 interface TimeRangePickerProps {
-  onSelect: (startTime: Date | null, endTime: Date | null) => void;
+  onSelect: (startTime: string | null, endTime: string | null) => void;
 }
 
 const TimeRangePicker: React.FC<TimeRangePickerProps> = ({ onSelect }) => {
@@ -34,12 +34,12 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({ onSelect }) => {
 
   const handleStartTimeChange = (time: Date | null) => {
     setStartTime(time);
-    onSelect(time, endTime);
+    onSelect(time ? time.toISOString().substring(11, 16) : null, endTime ? endTime.toISOString().substring(11, 16) : null);
   };
 
   const handleEndTimeChange = (time: Date | null) => {
     setEndTime(time);
-    onSelect(startTime, time);
+    onSelect(startTime ? startTime.toISOString().substring(11, 16) : null, time ? time.toISOString().substring(11, 16) : null);
   };
 
   // Define the min and max times for the time picker
@@ -59,7 +59,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({ onSelect }) => {
         showTimeSelectOnly
         timeIntervals={15}
         timeCaption="Start Time"
-        dateFormat="h:mm aa"
+        dateFormat="HH:mm"
         minTime={minTime}
         maxTime={maxTime}
         placeholderText="کاتی دەستپێک"
@@ -72,7 +72,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({ onSelect }) => {
         showTimeSelectOnly
         timeIntervals={15}
         timeCaption="End Time"
-        dateFormat="h:mm aa"
+        dateFormat="HH:mm"
         minTime={minTime}
         maxTime={maxTime}
         placeholderText="کاتی کۆتایی"
