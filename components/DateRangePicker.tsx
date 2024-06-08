@@ -7,7 +7,6 @@ import localFont from "next/font/local";
 
 const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });
 
-// Kurdish month names
 const kurdishMonths = [
   "کانونی دووەم",
   "شوبات",
@@ -34,9 +33,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ onSelect }) => {
   return (
     <div dir="ltr" className={`${bbc.className} w-full`}>
       <DatePicker
-        locale="ku"
         selected={startDate}
-        withPortal
         onChange={(dates) => {
           const [start, end] = dates as [Date | null, Date | null];
           setStartDate(start);

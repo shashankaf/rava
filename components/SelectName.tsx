@@ -1,4 +1,4 @@
- import { Course, Student, StudentRaw, Teacher } from "@/lib/types";
+ import { StudentRaw, Teacher } from "@/lib/types";
 import localFont from "next/font/local";
 
 const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });

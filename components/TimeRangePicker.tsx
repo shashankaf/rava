@@ -19,6 +19,7 @@ const customLocale = {
     dateTime: () => 'MM/dd/yyyy HH:mm'
   }
 };
+
 //@ts-ignore
 registerLocale('custom', customLocale);
 setDefaultLocale('custom');
@@ -43,13 +44,13 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({ onSelect }) => {
 
   // Define the min and max times for the time picker
   const minTime = new Date();
-  minTime.setHours(9, 0, 0);
+  minTime.setHours(8, 0, 0);
 
   const maxTime = new Date();
-  maxTime.setHours(21, 0, 0);
+  maxTime.setHours(22, 0, 0);
 
   return (
-    <div className="flex gap-2 w-full">
+    <div className="flex gap-2 flex-wrap justify-center">
       <DatePicker
         className="input input-md input-bordered text-white"
         selected={startTime}

@@ -1,6 +1,7 @@
+
 "use client";
 
-import { LegacyRef, useEffect, useState } from "react";
+import React, { LegacyRef, useEffect, useState } from "react";
 import localFont from "next/font/local";
 import SelectName from "../SelectName";
 import SelectTitle from "../SelectTitle";
@@ -73,7 +74,7 @@ const PrivateModal: React.FC<QuestionModalProps> = ({ modalRef }) => {
     <dialog ref={modalRef} className={`${bbc.className} modal`}>
       <div className="modal-box">
         <h2 className="font-bold text-xl text-white">تۆمارکردنی وانەی تایبەت</h2>
-        <div className="modal-action">
+        <div className="modal-action lg:flex">
           <form className="dialog-form flex flex-row flex-wrap max-w-4xl gap-2 justify-center">
             <Label>ناوی خوێندکار</Label>
             <input
@@ -112,10 +113,10 @@ const PrivateModal: React.FC<QuestionModalProps> = ({ modalRef }) => {
             </div>
 
             <div className="flex flex-row items-center justify-center my-4">
-              <button onClick={addLecture} className="btn btn-error text-white mx-[2px] w-24">
+              <button type="button" onClick={addLecture} className="btn btn-error text-white mx-[2px] w-24">
                 بەڵێ
               </button>
-              <button className="btn btn-info text-white mx-[2px] w-24">نەخێر</button>
+              <button type="button" className="btn btn-info text-white mx-[2px] w-24">نەخێر</button>
             </div>
           </form>
         </div>

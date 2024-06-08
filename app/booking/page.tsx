@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import PrivateModal from "@/components/modals/PrivateModal";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import GeneralWrapper from "@/components/dashboard/GeneralWrapper";
+import CalendarComponent from "@/components/Calendar";
 
 export default function Booking() {
   const modalRef = useRef<HTMLDialogElement>(null);
@@ -25,9 +26,10 @@ export default function Booking() {
             تۆمارکردنی وانەی تایبەت</p>
               <IoMdAddCircleOutline size={30} color={"white"} />
             </div>
+            <PrivateModal modalRef={modalRef} />
           </div>
-          <PrivateModal modalRef={modalRef} />
           </section>
+          <CalendarComponent />
       </GeneralWrapper>
     </>
   );

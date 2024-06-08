@@ -13,7 +13,7 @@
   width: 100% !important;
 }
 .modal-action {
-  justify-content: center;
+  display: block !important;
 }
 
 .main {

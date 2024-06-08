@@ -15,6 +15,7 @@
     "next": "latest",
     "postcss": "8.4.33",
     "react": "18.2.0",
+    "react-big-calendar": "^1.12.2",
     "react-datepicker": "^6.9.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.51.3",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
+    "@types/react-big-calendar": "^1.8.9",
     "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "18.2.18",
     "autoprefixer": "^10.4.19",
