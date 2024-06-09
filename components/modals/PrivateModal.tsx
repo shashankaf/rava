@@ -39,6 +39,7 @@ const PrivateModal = ({ modalRef }: QuestionModalProps) => {
     const fetchSubjects = async () => {
       const data = await subject_fetcher();
       if (data) {
+        //@ts-ignore
         setSubjects(data);
       }
     };
