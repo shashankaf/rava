@@ -17,7 +17,7 @@ export default function SelectName({text, options, onSelectChange}: SelectNamePr
 
   return (
       <select
-        className={`${bbc.className} select input-bordered text-white m-2 w-full`}
+        className={`${bbc.className} select input-bordered text-white bg-gray-800 m-2 w-full`}
         onChange={handleSelectChange}
       >
         <option disabled value="">

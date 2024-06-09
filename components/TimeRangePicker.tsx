@@ -60,7 +60,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({ onSelect }) => {
   return (
     <div className="flex gap-2 flex-wrap justify-center">
       <DatePicker
-        className="input input-md input-bordered text-white"
+        className="input input-md input-bordered text-white bg-gray-800"
         selected={startTime}
         onChange={handleStartTimeChange}
         showTimeSelect
@@ -73,7 +73,7 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({ onSelect }) => {
         placeholderText="کاتی دەستپێک"
       />
       <DatePicker
-        className="input input-md input-bordered text-white"
+        className="input input-md input-bordered text-white bg-gray-800"
         selected={endTime}
         onChange={handleEndTimeChange}
         showTimeSelect

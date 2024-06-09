@@ -134,7 +134,7 @@ const PrivateModal = ({ modalRef }: QuestionModalProps) => {
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="input input-bordered w-full m-2 text-white"
+              className="input input-bordered w-full m-2 text-white bg-gray-800"
               placeholder="ناو"
             />
 
@@ -144,7 +144,7 @@ const PrivateModal = ({ modalRef }: QuestionModalProps) => {
               name="phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="input input-bordered w-full m-2 text-white"
+              className="input input-bordered w-full m-2 text-white bg-gray-800"
               placeholder="ژمارەی تەلەفۆن"
             />
 
