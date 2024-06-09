@@ -4,7 +4,7 @@ import React, { RefObject, useEffect, useState } from "react";
 import localFont from "next/font/local";
 import SelectName from "../SelectName";
 import SelectTitle from "../SelectTitle";
-import { course_fetcher, teacher_fetcher } from "@/lib/fetchers";
+import { subject_fetcher, teacher_fetcher } from "@/lib/fetchers";
 import DateRangePicker from "@/components/DateRangePicker";
 import { Course, Teacher } from "@/lib/types";
 import Label from "../form/Label";
@@ -21,12 +21,12 @@ const PrivateModal = ({ modalRef }: QuestionModalProps) => {
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [teacher, setTeacher] = useState<string>("");
-  const [course, setCourse] = useState<string>("");
+  const [subject, setSubject] = useState<string>("");
   const [dates, setDates] = useState<string[]>([]);
   const [times, setTimes] = useState<string[]>([]);
 
   const [teachers, setTeachers] = useState<Teacher[]>([]);
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [subjects, setSubjects] = useState<Course[]>([]);
 
   useEffect(() => {
     const fetchTeachers = async () => {
@@ -36,22 +36,22 @@ const PrivateModal = ({ modalRef }: QuestionModalProps) => {
       }
     };
 
-    const fetchCourses = async () => {
-      const data = await course_fetcher();
+    const fetchSubjects = async () => {
+      const data = await subject_fetcher();
       if (data) {
-        setCourses(data);
+        setSubjects(data);
       }
     };
     fetchTeachers();
-    fetchCourses();
+    fetchSubjects();
   }, []);
 
   const changeTeacher = (value: string) => {
     setTeacher(value);
   };
 
-  const changeCourse = (value: string) => {
-    setCourse(value);
+  const changeSubject = (value: string) => {
+    setSubject(value);
   };
   // Date range selection handler
   const handleDateRangeSelect = (
@@ -99,7 +99,7 @@ const PrivateModal = ({ modalRef }: QuestionModalProps) => {
           name,
           phone,
           teacher,
-          course,
+          subject,
           dates,
           times: [startTimestamp, endTimestamp],
         })
@@ -157,9 +157,9 @@ const PrivateModal = ({ modalRef }: QuestionModalProps) => {
 
             <Label>خولی داواکراو</Label>
             <SelectTitle
-              options={courses}
+              options={subjects}
               text="خولی پەیوەندیدار"
-              onSelectChange={changeCourse}
+              onSelectChange={changeSubject}
             />
 
             <div className="flex flex-col gap-2 justify-center items-center">

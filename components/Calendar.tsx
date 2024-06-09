@@ -21,13 +21,15 @@ export default function CalendarComponent() {
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState(Views.WEEK);
   const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { error, data } = await supabase
           .from("private_lecture")
-          .select(`*, course(*), teacher(*)`);
+          .select(`*, subject(*), teacher(*)`);
         if (error) {
           console.log(error);
         }
@@ -67,7 +69,7 @@ export default function CalendarComponent() {
 
         result.push({
           id: item.id,
-          title: `${item.name} - ${item.teacher.name}`,
+          title: `${item.name} - ${item.teacher.name} - ${item.subject.title}`,
           start: startDateTime,
           end: endDateTime,
         });
@@ -82,6 +84,16 @@ export default function CalendarComponent() {
     [setDate],
   );
   const onView = useCallback((newView: any) => setView(newView), [setView]);
+
+  const handleEventSelect = (event) => {
+    setSelectedEvent(event);
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setSelectedEvent(null);
+  };
 
   const formats = {
     weekdayFormat: (date: Date) => weekdayNames[moment(date).format("dddd")],
@@ -109,7 +121,24 @@ export default function CalendarComponent() {
         view={view}
         messages={cal_header}
         formats={formats}
+        onSelectEvent={handleEventSelect}
       />
+
+      {isPopupOpen && selectedEvent && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>{selectedEvent.title}</h2>
+            <p>
+              دەستپێک:{" "}
+              {moment(selectedEvent.start).format("MMMM Do YYYY, h:mm A")}
+            </p>
+            <p>
+              کۆتایی: {moment(selectedEvent.end).format("MMMM Do YYYY, h:mm A")}
+            </p>
+            <button onClick={handleClosePopup}>داخستن</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
