@@ -263,3 +263,21 @@
 .popup-content button:hover {
   background-color: #0056b3;
 }
+
+.custom-event {
+  display: flex;
+  align-items: center;
+}
+
+.teacher-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.event-details {
+  flex: 1;
+}

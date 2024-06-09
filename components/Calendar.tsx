@@ -1,5 +1,4 @@
 //@ts-nocheck
-"use client";
 import React, { useCallback, useEffect, useState } from "react";
 import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
@@ -7,17 +6,28 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import localFont from "next/font/local";
 import { cal_header, monthNames, weekdayNames } from "../lib/calendar";
 import { supabase } from "@/utils/supabase/client";
-import { PrivateLecture } from "@/lib/types";
-import { update_event } from "@/lib/updater";
 import { IoMdCloseCircle } from "react-icons/io";
+import { update_event } from "@/lib/updater";
+import Image from "next/image";
 
 const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });
 
 const localizer = momentLocalizer(moment);
 
 moment.updateLocale("en", {
-  meridiem: (hour: number) => (hour < 12 ? "بەیانی" : "ئێوارە"),
+  meridiem: (hour) => (hour < 12 ? "بەیانی" : "ئێوارە"),
 });
+
+const CustomEvent = ({ event }) => {
+  return (
+    <div className="custom-event">
+      <Image src={event.teacherPhoto} alt="Teacher" height={80} width={80} className="teacher-photo" />
+      <div className="event-details">
+        <div>{event.title}</div>
+      </div>
+    </div>
+  );
+};
 
 export default function CalendarComponent() {
   const [date, setDate] = useState(new Date());
@@ -46,9 +56,40 @@ export default function CalendarComponent() {
     fetchData();
   }, []);
 
-  // Data transformation function
-  const transformData = (data: PrivateLecture[]) => {
-    return data.flatMap((item: PrivateLecture) => {
+  const onNavigation = useCallback((newDate) => setDate(newDate), [setDate]);
+  const onView = useCallback((newView) => setView(newView), [setView]);
+
+  const handleEventSelect = (event) => {
+    setSelectedEvent(event);
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setSelectedEvent(null);
+  };
+
+  const eventPropGetter = (event) => {
+    const backgroundColor = event.approved ? "indigo" : "slategray";
+    return { style: { backgroundColor } };
+  };
+
+  const formats = {
+    weekdayFormat: (date) => weekdayNames[moment(date).format("dddd")],
+    monthHeaderFormat: (date) => monthNames[moment(date).format("MMMM")],
+    dayRangeHeaderFormat: ({ start, end }) =>
+      `${monthNames[moment(start).format("MMMM")]} ${moment(start).format("DD")} – ${monthNames[moment(end).format("MMMM")]} ${moment(end).format("DD")}`,
+    dayHeaderFormat: (date) =>
+      `${weekdayNames[moment(date).format("dddd")]} ${moment(date).format("DD")} ${monthNames[moment(date).format("MMMM")]}`,
+    timeGutterFormat: (date) => moment(date).format("h:mm A"),
+    timeRangeStartFormat: (date) =>
+      moment(date).hour(8).minute(0).format("h:mm A"),
+    timeRangeEndFormat: (date) =>
+      moment(date).hour(22).minute(0).format("h:mm A"),
+  };
+
+  const transformData = (data) => {
+    return data.flatMap((item) => {
       const [startDateStr, endDateStr] = item.dates;
       const [startTimeStr, endTimeStr] = item.times;
 
@@ -74,47 +115,13 @@ export default function CalendarComponent() {
           title: `${item.name} - ${item.teacher.name} - ${item.subject.title}`,
           start: startDateTime,
           end: endDateTime,
-          approved: item.approved, // Include the approved field
+          approved: item.approved,
+          teacherPhoto: item.teacher.photo, // Add teacher's photo to the event data
         });
       }
 
       return result;
     });
-  };
-
-  const onNavigation = useCallback(
-    (newDate: Date) => setDate(newDate),
-    [setDate],
-  );
-  const onView = useCallback((newView: any) => setView(newView), [setView]);
-
-  const handleEventSelect = (event) => {
-    setSelectedEvent(event);
-    setIsPopupOpen(true);
-  };
-
-  const handleClosePopup = () => {
-    setIsPopupOpen(false);
-    setSelectedEvent(null);
-  };
-
-  const eventPropGetter = (event) => {
-    const backgroundColor = event.approved ? "indigo" : "slategray";
-    return { style: { backgroundColor } };
-  };
-
-  const formats = {
-    weekdayFormat: (date: Date) => weekdayNames[moment(date).format("dddd")],
-    monthHeaderFormat: (date: Date) => monthNames[moment(date).format("MMMM")],
-    dayRangeHeaderFormat: ({ start, end }: { start: Date; end: Date }) =>
-      `${monthNames[moment(start).format("MMMM")]} ${moment(start).format("DD")} – ${monthNames[moment(end).format("MMMM")]} ${moment(end).format("DD")}`,
-    dayHeaderFormat: (date: Date) =>
-      `${weekdayNames[moment(date).format("dddd")]} ${moment(date).format("DD")} ${monthNames[moment(date).format("MMMM")]}`,
-    timeGutterFormat: (date: Date) => moment(date).format("h:mm A"),
-    timeRangeStartFormat: (date: Date) =>
-      moment(date).hour(8).minute(0).format("h:mm A"),
-    timeRangeEndFormat: (date: Date) =>
-      moment(date).hour(22).minute(0).format("h:mm A"),
   };
 
   return (
@@ -130,13 +137,21 @@ export default function CalendarComponent() {
         messages={cal_header}
         formats={formats}
         onSelectEvent={handleEventSelect}
-        eventPropGetter={eventPropGetter} // Add the eventPropGetter
+        eventPropGetter={eventPropGetter}
+        min={new Date(1970, 1, 1, 8, 0)} 
+        max={new Date(1970, 1, 1, 20, 0)} 
+        components={{
+          event: CustomEvent, // Use the custom event component
+        }}
       />
 
       {isPopupOpen && selectedEvent && (
         <div className="popup">
           <div onClick={handleClosePopup} className="cursor-pointer">
-          <IoMdCloseCircle size={30} className="m-4 bg-indigo-600 text-white rounded-full" />
+            <IoMdCloseCircle
+              size={30}
+              className="m-4 bg-indigo-600 text-white rounded-full"
+            />
           </div>
           <div className="popup-content">
             <h2>{selectedEvent.title}</h2>
@@ -148,8 +163,18 @@ export default function CalendarComponent() {
               کۆتایی: {moment(selectedEvent.end).format("MMMM Do YYYY, h:mm A")}
             </p>
             <div className="block flex flex-wrap flex-row justify-center items-center gap-4 my-4">
-              <p onClick={() => update_event(true, selectedEvent.id)} className="btn btn-success text-white">پەسەندکردن</p>
-              <p onClick={() => update_event(false, selectedEvent.id)} className="btn btn-warning">رەتکردنەوە</p>
+              <p
+                onClick={() => update_event(true, selectedEvent.id)}
+                className="btn btn-success text-white"
+              >
+                پەسەندکردن
+              </p>
+              <p
+                onClick={() => update_event(false, selectedEvent.id)}
+                className="btn btn-warning"
+              >
+                رەتکردنەوە
+              </p>
             </div>
           </div>
         </div>
