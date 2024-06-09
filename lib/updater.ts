@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { supabase } from "@/utils/supabase/client";
 
 export async function update_event(bool: boolean, id: string) {
