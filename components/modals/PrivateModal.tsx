@@ -6,7 +6,7 @@ import SelectName from "../SelectName";
 import SelectTitle from "../SelectTitle";
 import { subject_fetcher, teacher_fetcher } from "@/lib/fetchers";
 import DateRangePicker from "@/components/DateRangePicker";
-import { Course, Teacher } from "@/lib/types";
+import { Course, Subject, Teacher } from "@/lib/types";
 import Label from "../form/Label";
 import TimeRangePicker from "../TimeRangePicker";
 import { supabase } from "@/utils/supabase/client";
@@ -26,7 +26,7 @@ const PrivateModal = ({ modalRef }: QuestionModalProps) => {
   const [times, setTimes] = useState<string[]>([]);
 
   const [teachers, setTeachers] = useState<Teacher[]>([]);
-  const [subjects, setSubjects] = useState<Course[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
 
   useEffect(() => {
     const fetchTeachers = async () => {
