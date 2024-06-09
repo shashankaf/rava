@@ -6,7 +6,7 @@ import SelectName from "../SelectName";
 import SelectTitle from "../SelectTitle";
 import { subject_fetcher, teacher_fetcher } from "@/lib/fetchers";
 import DateRangePicker from "@/components/DateRangePicker";
-import { Course, Subject, Teacher } from "@/lib/types";
+import { Subject, Teacher } from "@/lib/types";
 import Label from "../form/Label";
 import TimeRangePicker from "../TimeRangePicker";
 import { supabase } from "@/utils/supabase/client";
@@ -156,10 +156,10 @@ const PrivateModal = ({ modalRef }: QuestionModalProps) => {
               onSelectChange={changeTeacher}
             />
 
-            <Label>خولی داواکراو</Label>
+            <Label>وانەی داواکراو</Label>
             <SelectTitle
               options={subjects}
-              text="خولی پەیوەندیدار"
+              text="وانەی پەیوەندیدار"
               onSelectChange={changeSubject}
             />
 

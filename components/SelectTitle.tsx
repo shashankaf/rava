@@ -1,11 +1,11 @@
- import { Course } from "@/lib/types";
+ import { Course, Subject } from "@/lib/types";
 import localFont from "next/font/local";
 
 const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });
 
 interface SelectTitleProps {
   text: string;
-  options: Course[];
+  options: Course[] | Subject[];
   onSelectChange: (value: string) => void; 
 }
 export default function SelectTitle({text, options, onSelectChange}: SelectTitleProps) {
