@@ -8,6 +8,8 @@ import localFont from "next/font/local";
 import { cal_header, monthNames, weekdayNames } from "../lib/calendar";
 import { supabase } from "@/utils/supabase/client";
 import { PrivateLecture } from "@/lib/types";
+import { update_event } from "@/lib/updater";
+import { IoMdCloseCircle } from "react-icons/io";
 
 const bbc = localFont({ src: "/../app/sarkar_bbc.ttf" });
 
@@ -72,6 +74,7 @@ export default function CalendarComponent() {
           title: `${item.name} - ${item.teacher.name} - ${item.subject.title}`,
           start: startDateTime,
           end: endDateTime,
+          approved: item.approved, // Include the approved field
         });
       }
 
@@ -93,6 +96,11 @@ export default function CalendarComponent() {
   const handleClosePopup = () => {
     setIsPopupOpen(false);
     setSelectedEvent(null);
+  };
+
+  const eventPropGetter = (event) => {
+    const backgroundColor = event.approved ? "indigo" : "slategray";
+    return { style: { backgroundColor } };
   };
 
   const formats = {
@@ -122,10 +130,14 @@ export default function CalendarComponent() {
         messages={cal_header}
         formats={formats}
         onSelectEvent={handleEventSelect}
+        eventPropGetter={eventPropGetter} // Add the eventPropGetter
       />
 
       {isPopupOpen && selectedEvent && (
         <div className="popup">
+          <div onClick={handleClosePopup} className="cursor-pointer">
+          <IoMdCloseCircle size={30} className="m-4 bg-indigo-600 text-white rounded-full" />
+          </div>
           <div className="popup-content">
             <h2>{selectedEvent.title}</h2>
             <p>
@@ -135,7 +147,10 @@ export default function CalendarComponent() {
             <p>
               کۆتایی: {moment(selectedEvent.end).format("MMMM Do YYYY, h:mm A")}
             </p>
-            <button onClick={handleClosePopup}>داخستن</button>
+            <div className="block flex flex-wrap flex-row justify-center items-center gap-4 my-4">
+              <p onClick={() => update_event(true, selectedEvent.id)} className="btn btn-success text-white">پەسەندکردن</p>
+              <p onClick={() => update_event(false, selectedEvent.id)} className="btn btn-warning">رەتکردنەوە</p>
+            </div>
           </div>
         </div>
       )}
