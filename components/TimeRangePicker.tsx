@@ -34,12 +34,20 @@ const TimeRangePicker: React.FC<TimeRangePickerProps> = ({ onSelect }) => {
 
   const handleStartTimeChange = (time: Date | null) => {
     setStartTime(time);
-    onSelect(time ? time.toISOString().substring(11, 16) : null, endTime ? endTime.toISOString().substring(11, 16) : null);
+    console.log("Start Time Selected:", time); // Log selected start time
+    onSelect(
+      time ? time.toISOString().substring(11, 16) : null,
+      endTime ? endTime.toISOString().substring(11, 16) : null
+    );
   };
 
   const handleEndTimeChange = (time: Date | null) => {
     setEndTime(time);
-    onSelect(startTime ? startTime.toISOString().substring(11, 16) : null, time ? time.toISOString().substring(11, 16) : null);
+    console.log("End Time Selected:", time); // Log selected end time
+    onSelect(
+      startTime ? startTime.toISOString().substring(11, 16) : null,
+      time ? time.toISOString().substring(11, 16) : null
+    );
   };
 
   // Define the min and max times for the time picker

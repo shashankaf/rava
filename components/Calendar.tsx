@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
 import { Calendar, momentLocalizer, Views } from "react-big-calendar";
@@ -25,17 +26,14 @@ export default function CalendarComponent() {
     const fetchData = async () => {
       try {
         const { error, data } = await supabase
-          //@ts-ignore
           .from("private_lecture")
           .select(`*, course(*), teacher(*)`);
         if (error) {
           console.log(error);
         }
 
-          //@ts-ignore
-        const transformedEvents = transformData(data); 
-        //@ts-ignore
-        setEvents(transformedEvents); 
+        const transformedEvents = transformData(data);
+        setEvents(transformedEvents);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -44,36 +42,55 @@ export default function CalendarComponent() {
     fetchData();
   }, []);
 
+  // Data transformation function
   const transformData = (data: PrivateLecture[]) => {
-    return data.map((item: PrivateLecture) => {
-      const start = new Date(item.dates[0]);       
-      const end = new Date(item.dates[1]);
+    return data.flatMap((item: PrivateLecture) => {
+      const [startDateStr, endDateStr] = item.dates;
+      const [startTimeStr, endTimeStr] = item.times;
 
-      const startTime = new Date(item.times[0]);
-      const endTime = new Date(item.times[1]); 
-      const durationMs = endTime.getTime() - startTime.getTime();
-      const endWithDuration = new Date(start.getTime() + durationMs);
+      const startDate = new Date(startDateStr);
+      const endDate = new Date(endDateStr);
 
-      return {
-        id: item.id,
-        title: `${item.name} - ${item.teacher.name}`,
-        start,
-        end: endWithDuration, 
-      };
+      const startTime = new Date(startTimeStr).toISOString().split("T")[1];
+      const endTime = new Date(endTimeStr).toISOString().split("T")[1];
+
+      const result = [];
+      for (
+        let date = new Date(startDate);
+        date <= endDate;
+        date.setDate(date.getDate() + 1)
+      ) {
+        const dateString = date.toISOString().split("T")[0];
+
+        const startDateTime = new Date(`${dateString}T${startTime}`);
+        const endDateTime = new Date(`${dateString}T${endTime}`);
+
+        result.push({
+          id: item.id,
+          title: `${item.name} - ${item.teacher.name}`,
+          start: startDateTime,
+          end: endDateTime,
+        });
+      }
+
+      return result;
     });
   };
 
-  const onNavigation = useCallback((newDate: Date) => setDate(newDate), [setDate]);
+  const onNavigation = useCallback(
+    (newDate: Date) => setDate(newDate),
+    [setDate],
+  );
   const onView = useCallback((newView: any) => setView(newView), [setView]);
 
   const formats = {
-    weekdayFormat: (date: Date) => weekdayNames[moment(date).format("dddd")], // Customize day format
+    weekdayFormat: (date: Date) => weekdayNames[moment(date).format("dddd")],
     monthHeaderFormat: (date: Date) => monthNames[moment(date).format("MMMM")],
     dayRangeHeaderFormat: ({ start, end }: { start: Date; end: Date }) =>
       `${monthNames[moment(start).format("MMMM")]} ${moment(start).format("DD")} – ${monthNames[moment(end).format("MMMM")]} ${moment(end).format("DD")}`,
     dayHeaderFormat: (date: Date) =>
       `${weekdayNames[moment(date).format("dddd")]} ${moment(date).format("DD")} ${monthNames[moment(date).format("MMMM")]}`,
-    timeGutterFormat: (date: Date) => moment(date).format("h:mm A"), // Custom time format to include AM/PM
+    timeGutterFormat: (date: Date) => moment(date).format("h:mm A"),
     timeRangeStartFormat: (date: Date) =>
       moment(date).hour(8).minute(0).format("h:mm A"),
     timeRangeEndFormat: (date: Date) =>

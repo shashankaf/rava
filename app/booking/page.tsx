@@ -6,12 +6,15 @@ import GeneralWrapper from "@/components/dashboard/GeneralWrapper";
 import CalendarComponent from "@/components/Calendar";
 
 export default function Booking() {
+
   const modalRef = useRef<HTMLDialogElement>(null);
+
   function openModal() {
     if (modalRef.current) {
       modalRef.current.showModal();
     }
   }
+
   return (
     <>
       <GeneralWrapper>

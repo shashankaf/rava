@@ -1,12 +1,11 @@
-//@ts-nocheck
-"use client"
+"use client";
 
 import React, { RefObject, useEffect, useState } from "react";
 import localFont from "next/font/local";
 import SelectName from "../SelectName";
 import SelectTitle from "../SelectTitle";
 import { course_fetcher, teacher_fetcher } from "@/lib/fetchers";
-import DateRangePicker from "@/components/DateRangePicker"; // Import the DateRangePicker component
+import DateRangePicker from "@/components/DateRangePicker";
 import { Course, Teacher } from "@/lib/types";
 import Label from "../form/Label";
 import TimeRangePicker from "../TimeRangePicker";
@@ -18,7 +17,7 @@ interface QuestionModalProps {
   modalRef: RefObject<HTMLDialogElement>;
 }
 
-const PrivateModal: React.FC<QuestionModalProps> = ({ modalRef }) => {
+const PrivateModal = ({ modalRef }: QuestionModalProps) => {
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [teacher, setTeacher] = useState<string>("");
@@ -54,48 +53,75 @@ const PrivateModal: React.FC<QuestionModalProps> = ({ modalRef }) => {
   const changeCourse = (value: string) => {
     setCourse(value);
   };
-
+  // Date range selection handler
   const handleDateRangeSelect = (
     startDate: Date | null,
     endDate: Date | null,
   ) => {
     if (startDate && endDate) {
-      setDates([startDate.toISOString(), endDate.toISOString()]);
+      const startDateString = startDate.toISOString().split("T")[0];
+      const endDateString = endDate.toISOString().split("T")[0];
+      setDates([startDateString, endDateString]);
     }
   };
 
+  // Time range selection handler
   const handleTimeRangeSelect = (
-    startTime: Date | null,
-    endTime: Date | null,
+    startTime: string | null,
+    endTime: string | null,
   ) => {
     if (startTime && endTime) {
-      setTimes([startTime.toISOString(), endTime.toISOString()]);
+      setTimes([startTime, endTime]);
     }
   };
-
-  const addLecture = async() => {
+  const addLecture = async () => {
     try {
-    const {data, error} = await supabase.from("private_lecture").insert({
-      name,
-      phone,
-      teacher,
-      course,
-      dates,
-      times
-    }).select()
-      if(error) {
-        console.log(error)
+      const [startDateStr, endDateStr] = dates;
+      const [startTime, endTime] = times;
+
+      // Combine the date and time for proper timestampz
+      const startDateTime = new Date(startDateStr);
+      const endDateTime = new Date(endDateStr);
+
+      const [startHour, startMinute] = startTime.split(":");
+      const [endHour, endMinute] = endTime.split(":");
+
+      startDateTime.setHours(parseInt(startHour), parseInt(startMinute));
+      endDateTime.setHours(parseInt(endHour), parseInt(endMinute));
+
+      const startTimestamp = startDateTime.toISOString();
+      const endTimestamp = endDateTime.toISOString();
+
+      const { data, error } = await supabase
+        //@ts-ignore
+        .from("private_lecture")
+        .insert({
+          name,
+          phone,
+          teacher,
+          course,
+          dates,
+          times: [startTimestamp, endTimestamp],
+        })
+        .select();
+      if (error) {
+        console.log(error);
       }
-      if(data && modalRef.current) {
-        modalRef?.current.close()
+      if (data && modalRef.current) {
+        modalRef.current.close();
       }
-    } catch(e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
   };
+  function handleClose() {
+    if (modalRef.current) {
+      modalRef.current.close();
+    }
+  }
 
   return (
-    <dialog ref={modalRef} className={`${bbc.className} modal`}>
+    <dialog ref={modalRef} className={`${bbc.className} modal`} tabIndex={-1}>
       <div className="modal-box">
         <h2 className="font-bold text-xl text-white">
           تۆمارکردنی وانەی تایبەت
@@ -155,6 +181,7 @@ const PrivateModal: React.FC<QuestionModalProps> = ({ modalRef }) => {
                 بەڵێ
               </button>
               <button
+                onClick={handleClose}
                 type="button"
                 className="btn btn-info text-white mx-[2px] w-24"
               >
