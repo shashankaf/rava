@@ -1,5 +1,5 @@
-"use client"
-import React, {useEffect} from "react";
+"use client";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Hero from "@/components/Hero";
 import Carousel from "@/components/Carousel";
@@ -29,8 +29,7 @@ export default function Index() {
         },
         (payload) => {
           if (Notification.permission === "granted") {
-          console.log('nn ', Notification.permission)
-          const name = payload.new.name
+            const name = payload.new.name;
             new Notification("وانەیەکی تایبەت تۆمارکرا", {
               body: `${name} داوای وانەیەکی تایبەتی کردووە`,
             });
@@ -43,7 +42,6 @@ export default function Index() {
     };
   }, []);
 
-
   const logo =
     "https://grocviikgcjxaxnkdvrv.supabase.co/storage/v1/object/public/general/logo2.png?t=2024-05-12T00%3A26%3A34.309Z";
   return (
@@ -54,8 +52,8 @@ export default function Index() {
             <Hero />
             <Reklam />
             <div className="flex flex-col justify-cente items-center my-6">
-            <Heading text="مامۆستایانی راڤە بناسە" />
-            <Carousel />
+              <Heading text="مامۆستایانی راڤە بناسە" />
+              <Carousel />
             </div>
           </main>
         </div>

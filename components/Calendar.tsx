@@ -131,7 +131,7 @@ export default function CalendarComponent() {
 
         result.push({
           id: item.id,
-          title: `${item.name} - ${item.teacher.name} - ${item.subject.title}`,
+          title: `${item.teacher.name} - ${item.subject.title}`,
           start: startDateTime,
           end: endDateTime,
           approved: item.approved,
