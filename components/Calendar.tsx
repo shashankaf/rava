@@ -1,4 +1,5 @@
 //@ts-nocheck
+"use client";
 import React, { useCallback, useEffect, useState } from "react";
 import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
@@ -21,7 +22,13 @@ moment.updateLocale("en", {
 const CustomEvent = ({ event }) => {
   return (
     <div className="custom-event">
-      <Image src={event.teacherPhoto} alt="Teacher" height={80} width={80} className="teacher-photo" />
+      <Image
+        src={event.teacherPhoto}
+        alt="Teacher"
+        height={80}
+        width={80}
+        className="teacher-photo"
+      />
       <div className="event-details">
         <div>{event.title}</div>
       </div>
@@ -30,6 +37,18 @@ const CustomEvent = ({ event }) => {
 };
 
 export default function CalendarComponent() {
+  const [user, setUser] = useState(null);
+  const fetcherUser = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    setUser(user);
+  };
+
+  useEffect(() => {
+    fetcherUser();
+  }, []);
+
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState(Views.WEEK);
   const [events, setEvents] = useState([]);
@@ -138,8 +157,8 @@ export default function CalendarComponent() {
         formats={formats}
         onSelectEvent={handleEventSelect}
         eventPropGetter={eventPropGetter}
-        min={new Date(1970, 1, 1, 8, 0)} 
-        max={new Date(1970, 1, 1, 20, 0)} 
+        min={new Date(1970, 1, 1, 8, 0)}
+        max={new Date(1970, 1, 1, 20, 0)}
         components={{
           event: CustomEvent, // Use the custom event component
         }}
@@ -162,20 +181,22 @@ export default function CalendarComponent() {
             <p>
               کۆتایی: {moment(selectedEvent.end).format("MMMM Do YYYY, h:mm A")}
             </p>
-            <div className="block flex flex-wrap flex-row justify-center items-center gap-4 my-4">
-              <p
-                onClick={() => update_event(true, selectedEvent.id)}
-                className="btn btn-success text-white"
-              >
-                پەسەندکردن
-              </p>
-              <p
-                onClick={() => update_event(false, selectedEvent.id)}
-                className="btn btn-warning"
-              >
-                رەتکردنەوە
-              </p>
-            </div>
+            {user.email === "shalaw.fatah@gmail.com" ? (
+              <div className="block flex flex-wrap flex-row justify-center items-center gap-4 my-4">
+                <p
+                  onClick={() => update_event(true, selectedEvent.id)}
+                  className="btn btn-success text-white"
+                >
+                  پەسەندکردن
+                </p>
+                <p
+                  onClick={() => update_event(false, selectedEvent.id)}
+                  className="btn btn-warning"
+                >
+                  رەتکردنەوە
+                </p>
+              </div>
+            ) : null}
           </div>
         </div>
       )}
