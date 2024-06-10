@@ -143,41 +143,6 @@ export default function CalendarComponent() {
     });
   };
 
-  useEffect(() => {
-    async function requestNotificationPermission() {
-      if (Notification.permission === "default") {
-        await Notification.requestPermission();
-      }
-    }
-    requestNotificationPermission();
-  });
-
-  useEffect(() => {
-    const channel = supabase
-      .channel("insert lectures")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "private_lecture",
-        },
-        (payload) => {
-          if (Notification.permission === "granted") {
-          console.log('nn ', Notification.permission)
-          const name = payload.new.name
-            new Notification("وانەیەکی تایبەت تۆمارکرا", {
-              body: `${name} داوای وانەیەکی تایبەتی کردووە`,
-            });
-          }
-        },
-      )
-      .subscribe();
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
   return (
     <div className={`${bbc.className} height600`}>
       <Calendar
